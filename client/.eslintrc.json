@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+    // "plugin:@typescript-eslint/stylistic-type-checked",
+    // "plugin:tailwindcss/recommended"
+    // "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "root": true,
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "max-len": ["error", { "code": 100 }],
+    // "no-unused-vars": "warn",
+    "curly": ["warn", "multi-line"],
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-empty-interface": [
+      "warn",
+      { "allowSingleExtends": true }
+    ],
+    "@typescript-eslint/no-explicit-any": "warn"
+  }
+}
