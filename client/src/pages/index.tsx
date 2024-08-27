@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 
+interface ToDo {
+  _id: string;
+  user: string;
+  todo: string;
+  status: string;
+  dateCreated: Date;
+  dateDeleted: string;
+  dateUpdated: string;
+}
+
 export default function Home() {
   console.log("Hello");
 
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<ToDo[]>([]);
 
   useEffect(() => {
     const fetchTodos = async () => {
