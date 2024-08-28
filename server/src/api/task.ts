@@ -6,18 +6,20 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// Get all
 router.route("/api").get(async (req, res) => {
   const db = connect.getDb();
   const data = await db.collection("todos").find({}).toArray();
 
   if (!data.length) {
-    console.log("❌ No todos found.");
-    return res.status(404).json({ message: "No todos found." });
+    console.log("❌ No tasks found.");
+    return res.status(404).json({ message: "No tasks found." });
   }
 
-  res.json(data);
+  return res.json(data);
 });
 
+// Get by ID
 router.route("/api/:id").get(async (req, res) => {
   const db = connect.getDb();
 
@@ -25,10 +27,10 @@ router.route("/api/:id").get(async (req, res) => {
   const data = await db.collection("todos").findOne({ _id: new ObjectId(id) });
 
   if (!data.length) {
-    throw new Error(`Todo with ID: ${id} was not found.`);
+    throw new Error(`Task with ID: ${id} was not found.`);
   }
 
-  res.json(data);
+  return res.json(data);
 });
 
-export { router as todosRouter };
+export { router as taskRouter };
