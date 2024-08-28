@@ -3,8 +3,8 @@ import cors from "cors";
 // import mongoose from "mongoose";
 import "dotenv/config";
 
-import * as connect from "./mongodb/connect.ts";
-import { taskRouter } from "./api/tasks.ts";
+import * as connect from "./mongodb/connect.js";
+import { taskRouter } from "./api/task.js";
 
 const PORT = process.env.PORT || 5050;
 
