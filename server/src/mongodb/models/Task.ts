@@ -1,7 +1,5 @@
 import mongoose, { InferSchemaType } from "mongoose";
-
-type StatusType = "0" | "10" | "20" | "30" | "40" | "50" | "60" | "70" | "80" | "90" | "100";
-const STATUS: StatusType[] = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
+import { STATUS } from "~/utils/constants";
 
 export const TaskSchema = new mongoose.Schema({
   user: {
@@ -19,4 +17,4 @@ export const TaskSchema = new mongoose.Schema({
 
 type TaskType = InferSchemaType<typeof TaskSchema>;
 
-export default mongoose.model<TaskType>("User", TaskSchema);
+export const Task = mongoose.model<TaskType>("Task", TaskSchema);
