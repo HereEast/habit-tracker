@@ -6,6 +6,7 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// Get all tasks
 router.route("/api").get(async (req, res) => {
   const db = connect.getDb();
   const data = await db.collection("todos").find({}).toArray();
@@ -18,6 +19,7 @@ router.route("/api").get(async (req, res) => {
   res.json(data);
 });
 
+// Get a task by ID
 router.route("/api/:id").get(async (req, res) => {
   const db = connect.getDb();
 
@@ -31,4 +33,4 @@ router.route("/api/:id").get(async (req, res) => {
   res.json(data);
 });
 
-export { router as todosRouter };
+export { router as taskRouter };
