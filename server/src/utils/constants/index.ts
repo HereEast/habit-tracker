@@ -1,4 +1,4 @@
-import { StatusType } from "../types";
+import { StatusType } from "../types/index.ts";
 
 export const STATUS: StatusType[] = [
   "0",
