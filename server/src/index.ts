@@ -1,12 +1,14 @@
 import express from "express";
+
 import cors from "cors";
-// import mongoose from "mongoose";
-import "dotenv/config";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-import * as connect from "./mongodb/connect.js";
+import { SERVER } from "./config/config.js";
+
+dotenv.config();
+
 import { taskRouter } from "./api/task.js";
-
-const PORT = process.env.PORT || 5050;
 
 const app = express();
 
@@ -14,24 +16,16 @@ app.use(cors());
 app.use(express.json());
 app.use(taskRouter);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is listening on port ${PORT}.`);
+async function start() {
+  try {
+    await mongoose.connect(process.env.MONGODB_CONNECTION_STRING || "");
 
-  connect.connectToServer();
-});
+    app.listen(SERVER.PORT, () => {
+      console.log(`🚀 Server is listening on port ${SERVER.PORT}.`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-// async function start() {
-//   try {
-//     await mongoose.connect(process.env.MONGODB_CONNECTION_STRING || "");
-
-//     app.listen(PORT, () => {
-//       console.log(`🚀 Server is listening on port ${PORT}.`);
-
-//       connect.connectToServer();
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-// start();
+start();
