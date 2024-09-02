@@ -1,20 +1,33 @@
 import express from "express";
+
 import cors from "cors";
-import "dotenv/config";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-import * as connect from "./mongodb/connect.js";
-import { taskRouter } from "./api/task.js";
+import { SERVER, CONNECTION_STRING } from "./config.js";
 
-const PORT = process.env.PORT || 5050;
+dotenv.config();
+
+import { tasksRouter } from "./api/tasks.js";
+import { usersRouter } from "./api/users.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(taskRouter);
+app.use("/api/tasks", tasksRouter);
+app.use("/api/users", usersRouter);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is listening on port ${PORT}.`);
+async function start() {
+  try {
+    await mongoose.connect(CONNECTION_STRING);
 
-  connect.connectToServer();
-});
+    app.listen(SERVER.PORT, () => {
+      console.log(`🚀 Server is listening on port ${SERVER.PORT}.`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+start();
