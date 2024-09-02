@@ -8,9 +8,7 @@ const ID = "66d0db0c810e60d1f8a7c9d8";
 export default function Home() {
   const { data, isLoading, error } = UseTasks(ID);
 
-  function handleCreateTask() {
-    
-  }
+  function handleCreateTask() {}
 
   if (isLoading) {
     return <div className="w-full rounded-md border p-3">Loading...</div>;
