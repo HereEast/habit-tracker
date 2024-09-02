@@ -5,8 +5,8 @@ import { Task } from "../models/Task.js";
 const router = express.Router();
 
 // Get all
-router.route("/").get(async (req, res) => {
-  const tasks = await Task.find({ userId: req.body.userId });
+router.route("/:userId").get(async (req, res) => {
+  const tasks = await Task.find({ userId: req.params.userId });
 
   if (!tasks) {
     throw new Error("Failed to get tasks from the DB.");
@@ -17,28 +17,19 @@ router.route("/").get(async (req, res) => {
 
 // Create
 router.route("/create").post(async (req, res) => {
-  const task = new Task({ title: req.body.title });
-  await task.save();
+  if (!req.body.title) {
+    throw new Error("Title is missing when creating a new task.");
+  }
 
-  return res.json(task);
-});
-
-router.post("/create", async (req, res) => {
-  const taskData = {
-    userId: req.body.userId,
-    title: req.body.title,
-    data: [{ status: "0", date: new Date() }],
-    createdAt: new Date(),
-    updatedAt: null,
-  };
+  if (!req.body.userId) {
+    throw new Error("UserId is missing when creating a new task.");
+  }
 
   try {
-    const newTask = new Task(taskData);
-    await newTask.save();
+    const task = new Task({ title: req.body.title, userId: req.body.userId });
+    await task.save();
 
-    console.log("New Task", newTask);
-
-    return res.status(201).json(newTask);
+    return res.status(201).json(task);
   } catch (err) {
     console.log("Error", err);
   }

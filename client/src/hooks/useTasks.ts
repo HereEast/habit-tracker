@@ -18,8 +18,9 @@ export function UseTasks(userId: string) {
 
         setData(userTasks);
         setIsLoading(false);
-      } catch {
+      } catch (err) {
         setError(true);
+        console.log("Error", err);
       } finally {
         setIsLoading(false);
       }

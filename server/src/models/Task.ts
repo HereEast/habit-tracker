@@ -12,12 +12,12 @@ export const TaskSchema = new Schema(
     title: { type: String, required: true },
     data: [
       {
-        status: { type: String, enum: STATUS, required: true },
-        date: Date,
+        status: { type: String, enum: STATUS, default: "0" },
+        date: { type: Date, default: new Date() },
       },
     ],
-    createdAt: { type: Date, default: new Date(), required: true },
-    updatedAt: { type: Date, required: false },
+    // createdAt: { type: Date, default: new Date(), required: true },
+    // updatedAt: { type: Date, required: false },
   },
   { timestamps: true, collection: COLLECTION.tasks },
 );
