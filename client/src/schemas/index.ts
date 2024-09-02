@@ -8,7 +8,6 @@ export const taskSchema = z.object({
   status: z.string(),
   createdAt: z.date(),
   updatedAt: z.date().nullable(),
-  deletedAt: z.date().nullable(),
 });
 
 export type TaskType = z.infer<typeof taskSchema>;

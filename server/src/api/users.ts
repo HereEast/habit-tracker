@@ -1,45 +1,41 @@
 import express from "express";
-import mongoose, { Schema } from "mongoose";
 
 import { User } from "../models/User.js";
 import { type UserType } from "../schemas/index.js";
 
 const router = express.Router();
 
+// Get all
+router.get("/", async (req, res) => {
+  const users = await User.find({});
+
+  if (!users) {
+    throw new Error("Failed to get users from the DB.");
+  }
+
+  return res.json(users);
+});
+
 // Create
 router.post("/create", async (req, res) => {
   const userData: UserType = {
-    username: "hereeast",
-    email: "test@test.com",
-    password: "123",
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
     tasks: [],
+    createdAt: new Date(),
   };
 
-  return res.json(userData);
+  try {
+    const newUser = new User(userData);
+    await newUser.save();
 
-  // try {
-  //   const newUser = new User(userData);
-  //   await newUser.save();
+    console.log("New User", newUser);
 
-  //   res.status(201).json(newUser);
-  // } catch (err) {
-  //   console.error("Error creating user:", err);
-  //   res.status(500).json({ message: "Error creating user", error: err });
-  // }
-});
-
-// Get all
-router.get("/", async (req, res) => {
-  const db = mongoose.connection.db;
-
-  if (!db) {
-    throw new Error("No DB found at route: /api/users.");
+    return res.status(201).json(newUser);
+  } catch (err) {
+    console.log("Error", err);
   }
-
-  const collections = await db.listCollections().toArray();
-  const collectionNames = collections.map((collection) => collection.name);
-
-  return res.json(collectionNames);
 });
 
 export { router as usersRouter };

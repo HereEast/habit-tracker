@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 
 import { Task } from "../models/Task.js";
 
@@ -7,26 +6,42 @@ const router = express.Router();
 
 // Get all
 router.route("/").get(async (req, res) => {
-  const db = mongoose.connection.db;
+  const tasks = await Task.find({ userId: req.body.userId });
 
-  if (!db) {
-    throw new Error("No DB found at route: /api/tasks.");
+  if (!tasks) {
+    throw new Error("Failed to get tasks from the DB.");
   }
 
-  const collections = await db.listCollections().toArray();
-  const collectionNames = collections.map((collection) => collection.name);
-
-  console.log(collections);
-
-  return res.json(collectionNames);
+  return res.json(tasks);
 });
 
 // Create
 router.route("/create").post(async (req, res) => {
-  const task = new Task({ title: "New task 1" });
+  const task = new Task({ title: req.body.title });
   await task.save();
 
-  // res.json(task);
+  return res.json(task);
+});
+
+router.post("/create", async (req, res) => {
+  const taskData = {
+    userId: req.body.userId,
+    title: req.body.title,
+    data: [{ status: "0", date: new Date() }],
+    createdAt: new Date(),
+    updatedAt: null,
+  };
+
+  try {
+    const newTask = new Task(taskData);
+    await newTask.save();
+
+    console.log("New Task", newTask);
+
+    return res.status(201).json(newTask);
+  } catch (err) {
+    console.log("Error", err);
+  }
 });
 
 // Get by ID

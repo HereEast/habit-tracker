@@ -2,18 +2,18 @@ import { cn } from "~/utils";
 
 interface ButtonProps {
   name: string;
-  callback?: () => void;
+  onClick?: () => void;
   classes?: string;
 }
 
 export function Button(props: ButtonProps) {
-  const { name, callback, classes } = props;
+  const { name, onClick, classes } = props;
 
   function noop() {}
 
   return (
     <button
-      onClick={callback || noop}
+      onClick={onClick || noop}
       className={cn(
         "h-10 rounded-md bg-zinc-800 px-5 text-zinc-50",
         classes || "",
