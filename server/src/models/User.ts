@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 import { COLLECTION } from "../utils/constants.js";
 
 const UserSchema = new Schema(
@@ -9,7 +8,7 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
   },
-  { timestamps: true, collection: COLLECTION.users },
+  { timestamps: true, collection: "users" },
 );
 
-export const User = model("User", UserSchema);
+export const User = model("User", UserSchema, COLLECTION.users);
