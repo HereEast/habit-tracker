@@ -11,8 +11,8 @@
   "plugins": ["@typescript-eslint"],
   "root": true,
   "rules": {
-    "indent": ["error", 2, { "SwitchCase": 1 }],
-    "max-len": ["error", { "code": 80 }],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    // "max-len": ["warn", { "code": 80 }],
     // "no-unused-vars": "warn",
     "curly": ["warn", "multi-line"],
     "import/prefer-default-export": "off",

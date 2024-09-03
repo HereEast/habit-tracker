@@ -1,19 +1,26 @@
+import axios from "axios";
+
 import { TaskType } from "~/schemas";
+import { BASE_URL } from "~/utils";
 
-export async function getTasks(userId: string): Promise<TaskType[]> {
+export async function getTasks(
+  userId: string,
+): Promise<TaskType[] | undefined> {
   try {
-    const response = await fetch(`http://localhost:5050/api/tasks/${userId}`);
+    const response = await axios.get(`${BASE_URL}/tasks`, {
+      params: {
+        userId,
+      },
+    });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error(`${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
-    console.log(data);
+    const data = response.data;
 
     return data;
   } catch (err) {
     console.log(err);
-    return [];
   }
 }

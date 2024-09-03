@@ -1,9 +1,9 @@
-import { Layout, HomeLayout } from "~/components/layouts";
+import { Layout } from "~/components/layouts";
 
-export default function Home() {
+export default function IndexPage() {
   return (
     <Layout>
-      <HomeLayout />
+      <div>Hello there 👋</div>
     </Layout>
   );
 }

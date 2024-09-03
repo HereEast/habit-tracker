@@ -7,16 +7,20 @@ export type StatusType = z.infer<typeof statusSchema>;
 
 export const schemaStatusData = z.object({
   status: statusSchema,
-  date: z.date(),
+  day: z.number(),
+  month: z.string(),
+  year: z.number(),
+  invalid: z.boolean(),
+  disabled: z.boolean(),
 });
 
 export const taskSchema = z.object({
   _id: z.instanceof(ObjectId),
-  // username: z.string(),
+  userId: z.instanceof(ObjectId),
   title: z.string().email(),
   data: z.array(schemaStatusData),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
+  // createdAt: z.date(),
+  // updatedAt: z.date().nullable(),
 });
 
 export type TaskType = z.infer<typeof taskSchema>;

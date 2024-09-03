@@ -5,18 +5,26 @@ import { Button } from "~/components/Button";
 import { Input } from "~/components/Input";
 
 import { UseTasks } from "~/hooks";
+import { TaskItem } from "./TaskItem";
 
 const ID = "66d0db0c810e60d1f8a7c9d8";
 
-export function HomeLayout() {
+export function Dashboard() {
   const { data, isLoading, error } = UseTasks(ID);
+
+  console.log(data);
 
   const [taskTitle, setTaskTitle] = useState("");
 
   function handleCreateTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    if (!taskTitle.length) {
+      return;
+    }
+
     createTask(ID, taskTitle);
+    setTaskTitle("");
   }
 
   if (isLoading) {
@@ -32,9 +40,17 @@ export function HomeLayout() {
   return (
     <>
       <div className="mb-10 w-full">
-        {data.length === 0 && (
+        {data?.length === 0 && (
           <div className="flex w-full justify-center rounded-md border p-4">
             You haven't created any tasks yet.
+          </div>
+        )}
+
+        {data && data?.length > 0 && (
+          <div className="flex flex-col gap-1">
+            {data.map((task) => (
+              <TaskItem task={task} key={String(task._id)} />
+            ))}
           </div>
         )}
       </div>

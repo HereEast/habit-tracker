@@ -4,7 +4,7 @@ import { getTasks } from "~/api";
 import { TaskType } from "~/schemas";
 
 export function UseTasks(userId: string) {
-  const [data, setData] = useState<TaskType[]>([]);
+  const [data, setData] = useState<TaskType[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 

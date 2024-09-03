@@ -1,2 +1,2 @@
-export * from "./HomeLayout";
+export * from "./Dashboard";
 export * from "./Layout";
