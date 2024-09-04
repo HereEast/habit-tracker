@@ -1,5 +1,7 @@
+import { MonthType } from "./types.js";
+
 export function getMonthFromIndex(index: number) {
-  const months = [
+  const months: MonthType[] = [
     "january",
     "february",
     "march",

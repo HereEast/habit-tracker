@@ -3,31 +3,31 @@ import { getTasks } from "~/api";
 
 import { TaskType } from "~/schemas";
 
-export function UseTasks(userId: string) {
-  const [data, setData] = useState<TaskType[] | undefined>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+// export function useTasks(userId: string) {
+//   const [data, setData] = useState<TaskType[] | undefined>([]);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    async function fetchTasks() {
-      setIsLoading(true);
-      setError(false);
+//   useEffect(() => {
+//     async function fetchTasks() {
+//       setIsLoading(true);
+//       setError(false);
 
-      try {
-        const userTasks = await getTasks(userId);
+//       try {
+//         const userTasks = await getTasks(userId);
 
-        setData(userTasks);
-        setIsLoading(false);
-      } catch (err) {
-        setError(true);
-        console.log("Error", err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+//         setData(userTasks);
+//         setIsLoading(false);
+//       } catch (err) {
+//         setError(true);
+//         console.log("Error", err);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     }
 
-    fetchTasks();
-  }, [userId]);
+//     fetchTasks();
+//   }, [userId]);
 
-  return { data, isLoading, error };
-}
+//   return { data, isLoading, error };
+// }

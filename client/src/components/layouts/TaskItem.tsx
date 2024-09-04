@@ -1,8 +1,8 @@
-import { TaskType } from "~/schemas";
 import { cn } from "~/utils";
+import { ITask } from "~/~/models/Task";
 
 interface TaskItemProps {
-  task: TaskType;
+  task: ITask;
 }
 
 export function TaskItem({ task }: TaskItemProps) {
@@ -10,8 +10,8 @@ export function TaskItem({ task }: TaskItemProps) {
     <div className="flex w-full gap-6">
       <div className="w-28">{task.title}</div>
 
-      <div className="flex gap-1">
-        {task.data.map((item) => (
+      {/* <div className="flex gap-1">
+        {task..map((item) => (
           <div
             key={item.day}
             className={cn(
@@ -22,7 +22,7 @@ export function TaskItem({ task }: TaskItemProps) {
             {item.day}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

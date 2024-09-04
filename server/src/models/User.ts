@@ -1,5 +1,14 @@
 import { Schema, model } from "mongoose";
 import { COLLECTION } from "../utils/constants.js";
+import { ITask } from "./Task.js";
+
+export interface IUser {
+  username: string;
+  email: string;
+  password: string;
+  // tasks: mongoose.Types.ObjectId[];
+  tasks: ITask[];
+}
 
 const UserSchema = new Schema(
   {
@@ -11,4 +20,4 @@ const UserSchema = new Schema(
   { timestamps: true, collection: "users" },
 );
 
-export const User = model("User", UserSchema, COLLECTION.users);
+export const User = model<IUser>("User", UserSchema, COLLECTION.users);

@@ -1,16 +1,24 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { createTask } from "~/api/createTask";
 
 import { Button } from "~/components/Button";
 import { Input } from "~/components/Input";
-
-import { UseTasks } from "~/hooks";
 import { TaskItem } from "./TaskItem";
+
+import { useUser } from "~/hooks/useUser";
+import { getMonthFromIndex } from "~/utils";
 
 const ID = "66d0db0c810e60d1f8a7c9d8";
 
 export function Dashboard() {
-  const { data, isLoading, error } = UseTasks(ID);
+  const { data, isLoading, error } = useUser(ID);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const monthIndex = currentDate.getMonth();
+    const month = getMonthFromIndex(monthIndex);
+  }, []);
 
   console.log(data);
 
@@ -40,15 +48,15 @@ export function Dashboard() {
   return (
     <>
       <div className="mb-10 w-full">
-        {data?.length === 0 && (
+        {data?.tasks.length === 0 && (
           <div className="flex w-full justify-center rounded-md border p-4">
             You haven't created any tasks yet.
           </div>
         )}
 
-        {data && data?.length > 0 && (
+        {data && data?.tasks.length > 0 && (
           <div className="flex flex-col gap-1">
-            {data.map((task) => (
+            {data.tasks.map((task) => (
               <TaskItem task={task} key={String(task._id)} />
             ))}
           </div>

@@ -1,7 +1,9 @@
 import express from "express";
 
-import { Task } from "../models/Task.js";
+import { DayStatus, ITask, Task } from "../models/Task.js";
 import { getDaysInMonth, getMonthFromIndex } from "../utils/handlers.js";
+import { StatusType } from "../utils/types.js";
+import { User } from "../models/User.js";
 
 const router = express.Router();
 
@@ -9,7 +11,6 @@ const router = express.Router();
 router.route("/").get(async (req, res) => {
   try {
     const userId = req.query.userId as string;
-    // const userId = "66d0db0c810e60d1f8a7c9d8";
 
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
@@ -30,46 +31,105 @@ router.route("/").get(async (req, res) => {
 
 // Create
 router.route("/create").post(async (req, res) => {
-  if (!req.body.title) {
+  const { title, userId } = req.body;
+
+  if (!title) {
     throw new Error("Title is missing when creating a new task.");
   }
 
-  if (!req.body.userId) {
+  if (!userId) {
     throw new Error("UserId is missing when creating a new task.");
   }
 
   try {
     const date = new Date();
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const monthIndex = date.getMonth();
 
-    const daysInMonth = getDaysInMonth(month + 1, year);
-    const dailyData = [];
+    const daysInMonth = getDaysInMonth(monthIndex + 1, year);
+    const month = getMonthFromIndex(monthIndex);
+
+    const daysData = new Map();
 
     for (let i = 0; i < daysInMonth; i++) {
-      const data = {
-        status: "0",
-        day: i + 1,
-        month: getMonthFromIndex(month),
-        year: date.getFullYear(),
+      const data: DayStatus = {
+        status: 0 as StatusType,
         invalid: i < date.getDay(),
         disabled: i < date.getDay(),
       };
 
-      dailyData.push(data);
+      const day = String(i + 1);
+      daysData.set(day, data);
     }
 
-    const task = new Task({
-      title: req.body.title,
-      userId: req.body.userId,
-      data: dailyData,
-    });
+    const monthsData = new Map();
+    monthsData.set(month, { days: daysData });
 
+    const timeline = new Map();
+    timeline.set(String(year), { months: monthsData });
+
+    const taskData: ITask = {
+      title,
+      userId,
+      timeline,
+    };
+
+    console.log("✅ New task created:", taskData);
+
+    const task = new Task(taskData);
     await task.save();
+
+    // Save to User tasks[]
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    user.tasks.push(task);
+    await user.save();
 
     return res.status(201).json(task);
   } catch (err) {
     console.log("Error", err);
+  }
+});
+
+// Get User's month tasks
+router.get("/:userId/:year/:month", async (req, res) => {
+  const { userId, year, month } = req.params;
+
+  try {
+    const user = await User.findById(userId).populate("tasks").exec();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // const yearData = user.timeline.get(year);
+
+    const yearData = user.tasks.map((task) => task.timeline.get(year));
+
+    console.log(yearData);
+
+    if (!yearData) {
+      return res.status(404).json({ message: `No data for the year ${year}` });
+    }
+
+    // const monthData = yearData..map((data) => data);
+
+    // console.log(monthData);
+
+    // if (!monthData) {
+    //   return res.status(404).json({
+    //     message: `No tasks found for the month ${month} of ${year}`,
+    //   });
+    // }
+
+    // res.json({ tasks: monthData.days });
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
