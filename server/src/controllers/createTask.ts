@@ -55,7 +55,7 @@ export async function createTask(req: Request, res: Response) {
       const entry = new Entry(dailyEntry);
       await entry.save();
 
-      task.entries.push(dailyEntry);
+      task.entries.push(entry._id);
       await task.save();
     }
 

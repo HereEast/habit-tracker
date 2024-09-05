@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route("/").get(getAllTasks);
 router.route("/:userId").get(getAllTasksByUserId);
-router.route("/:userId/:year/:month").get(getMonthTasks);
+router.route("/:userId/:year").get(getMonthTasks);
 
 router.route("/create").post(createTask);
 

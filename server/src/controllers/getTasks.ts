@@ -12,6 +12,12 @@ export async function getMonthTasks(req: Request, res: Response) {
 
   const tasks = await Task.find({ userId }).exec();
 
+  // const t = tasks.forEach((task) => {
+  //   task.entries.filter((entry) => {
+  //     return entry.date.getFullYear() === Number(year);
+  //   });
+  // });
+
   return res.json(tasks);
 }
 
