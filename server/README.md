@@ -1,4 +1,5 @@
-timeline: {
+const user = {
+  timeline: {
   [year]: {
     [month]: {
       [day]: {
@@ -8,4 +9,5 @@ timeline: {
       }
     }
   }
+}
 }

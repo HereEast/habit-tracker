@@ -1,13 +1,13 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
+
 import { COLLECTION } from "../utils/constants.js";
-import { ITask } from "./Task.js";
 
 export interface IUser {
+  _id?: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;
-  // tasks: mongoose.Types.ObjectId[];
-  tasks: ITask[];
+  tasks: mongoose.Types.ObjectId[];
 }
 
 const UserSchema = new Schema(

@@ -23,7 +23,8 @@ router.get("/:userId", async (req, res) => {
     throw new Error("User ID is required.");
   }
 
-  const user = await User.findById(userId).populate("tasks").exec();
+  // const user = await User.findById(userId).populate("tasks").exec();
+  const user = await User.findById(userId);
 
   if (!user) {
     throw new Error(`User with ID ${userId} doesn't exist in the DB.`);

@@ -54,13 +54,13 @@ export function Dashboard() {
           </div>
         )}
 
-        {data && data?.tasks.length > 0 && (
+        {/* {data && data?.tasks.length > 0 && (
           <div className="flex flex-col gap-1">
             {data.tasks.map((task) => (
               <TaskItem task={task} key={String(task._id)} />
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
       <form onSubmit={handleCreateTask}>
