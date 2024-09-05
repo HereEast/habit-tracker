@@ -45,17 +45,18 @@ export async function createTask(req: Request, res: Response) {
     for (let i = todayDate; i <= daysInMonth; i++) {
       const entryDate = new Date(Date.UTC(year, monthIndex, i));
 
-      const dailyEntry: IEntry = {
+      const entryData: IEntry = {
         userId,
         taskId: task._id,
         date: entryDate,
         status: 0,
       };
 
-      const entry = new Entry(dailyEntry);
-      await entry.save();
+      // const entry = new Entry(dailyEntry);
+      // await entry.save();
 
-      task.entries.push(entry._id);
+      // task.entries.push(entry._id);
+      task.entries.push(entryData);
       await task.save();
     }
 

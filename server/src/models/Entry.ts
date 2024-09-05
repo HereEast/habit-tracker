@@ -11,7 +11,7 @@ export interface IEntry {
   notes?: string;
 }
 
-export const entrySchema = new mongoose.Schema(
+export const EntrySchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     taskId: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
@@ -19,8 +19,7 @@ export const entrySchema = new mongoose.Schema(
     status: { type: Number, enum: STATUS, default: 0, required: true },
     notes: String,
   },
-  // { _id: false },
   { timestamps: true, collection: COLLECTION.entries },
 );
 
-export const Entry = mongoose.model<IEntry>("Entry", entrySchema);
+export const Entry = mongoose.model<IEntry>("Entry", EntrySchema);
