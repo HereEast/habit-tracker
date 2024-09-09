@@ -1,26 +1,23 @@
-import { ReactNode } from "react";
 import mongoose from "mongoose";
 
 import { EntryBox } from "./EntryBox";
-
-import { useEntries } from "~/hooks/useEntries";
+import { useAppContext, useEntries } from "~/hooks";
 import { getDaysInMonth } from "~/utils";
+
 import { ITask } from "~/~/models/Task";
 
 // Task List
 interface TaskListProps {
-  userId: string;
   tasks: ITask[];
   year: number;
   month: number;
 }
 
-export function TaskList({ userId, tasks, year, month }: TaskListProps) {
+export function TaskList({ tasks, year, month }: TaskListProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="space-y-1">
       {tasks.map((task) => (
-        <Task
-          userId={userId}
+        <TaskListItem
           taskId={task._id}
           title={task.title}
           year={year}
@@ -33,16 +30,17 @@ export function TaskList({ userId, tasks, year, month }: TaskListProps) {
 }
 
 // Task
-interface TaskProps {
-  userId: string;
+interface TaskListItemProps {
   taskId?: mongoose.Types.ObjectId;
   title: string;
   year: number;
   month: number;
 }
 
-export function Task(props: TaskProps) {
-  const { userId, taskId, title, year, month } = props;
+export function TaskListItem(props: TaskListItemProps) {
+  const { userId } = useAppContext();
+
+  const { taskId, title, year, month } = props;
 
   const {
     data: entries,
@@ -51,11 +49,13 @@ export function Task(props: TaskProps) {
   } = useEntries(userId, taskId, year, month);
 
   const daysInMonth = getDaysInMonth(month, year);
-  const invalidEntries = daysInMonth - entries?.length;
+  const invalidEntries = entries ? daysInMonth - entries?.length : 0;
 
   return (
-    <TaskLayout title={title}>
-      <>
+    <div className="flex w-full items-center gap-6">
+      <div className="w-28">{title}</div>
+
+      <div className="flex gap-1">
         {invalidEntries > 0 &&
           new Array(invalidEntries)
             .fill(0)
@@ -63,23 +63,7 @@ export function Task(props: TaskProps) {
 
         {entries &&
           entries.map((entry) => <EntryBox key={String(entry._id)} />)}
-      </>
-    </TaskLayout>
-  );
-}
-
-// Task Layout (title + entries)
-interface TaskLayoutProps {
-  children: ReactNode;
-  title?: string;
-}
-
-export function TaskLayout({ children, title = "" }: TaskLayoutProps) {
-  return (
-    <div className="flex w-full gap-6">
-      <div className="w-28">{title}</div>
-
-      <div className="flex gap-1">{children}</div>
+      </div>
     </div>
   );
 }

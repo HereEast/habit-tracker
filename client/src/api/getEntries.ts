@@ -9,7 +9,7 @@ export async function getEntries(
   taskId: mongoose.Types.ObjectId | undefined,
   year: number,
   month: number,
-): Promise<IEntry[]> {
+): Promise<IEntry[] | undefined> {
   try {
     const response = await axios.get(
       `${BASE_URL}/entries/${userId}/${taskId}/${year}/${month}`,
@@ -23,7 +23,6 @@ export async function getEntries(
 
     return data;
   } catch (err) {
-    console.log(err);
-    return [];
+    console.log(err); // Handle
   }
 }
