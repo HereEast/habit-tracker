@@ -10,6 +10,7 @@ dotenv.config();
 
 import { tasksRouter } from "./api/tasks.js";
 import { usersRouter } from "./api/users.js";
+import { entriesRouter } from "./api/entries.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/tasks", tasksRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/entries", entriesRouter);
 
 async function start() {
   try {

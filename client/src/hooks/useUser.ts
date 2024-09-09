@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
+import { getUserById } from "~/api";
 
-import { getTasks } from "~/api";
-import { ITask } from "~/~/models/Task";
+import { IUser } from "~/~/models/User";
 
-export function useTasks(userId: string) {
-  const [data, setData] = useState<ITask[] | undefined>([]);
+export function useUser(userId: string) {
+  const [data, setData] = useState<IUser | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function fetchTasks() {
+    async function fetchUser() {
       setIsLoading(true);
       setError(false);
 
       try {
-        const userTasks = await getTasks(userId);
+        const user = await getUserById(userId);
 
-        setData(userTasks);
+        setData(user);
         setIsLoading(false);
       } catch (err) {
         setError(true);
@@ -26,7 +26,7 @@ export function useTasks(userId: string) {
       }
     }
 
-    fetchTasks();
+    fetchUser();
   }, [userId]);
 
   return { data, isLoading, error };

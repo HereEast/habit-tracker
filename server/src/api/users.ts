@@ -1,11 +1,10 @@
 import express from "express";
 
-import { User } from "../models/User.js";
-import { type UserType } from "../schemas/index.js";
+import { IUser, User } from "../models/User.js";
 
 const router = express.Router();
 
-// Get all
+// Get all users
 router.get("/", async (req, res) => {
   const users = await User.find({});
 
@@ -16,21 +15,40 @@ router.get("/", async (req, res) => {
   return res.json(users);
 });
 
-// Create
+// Get user by ID
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    throw new Error("User ID is required.");
+  }
+
+  // const user = await User.findById(userId).populate("tasks").exec();
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error(`User with ID ${userId} doesn't exist in the DB.`);
+  }
+
+  return res.json(user);
+});
+
+// Create user
 router.post("/create", async (req, res) => {
-  const userData: UserType = {
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
+  const { username, email, password } = req.body;
+
+  const userData: IUser = {
+    username,
+    email,
+    password,
     tasks: [],
-    createdAt: new Date(),
   };
 
   try {
     const newUser = new User(userData);
     await newUser.save();
 
-    console.log("New User", newUser);
+    console.log("New user:", newUser);
 
     return res.status(201).json(newUser);
   } catch (err) {
