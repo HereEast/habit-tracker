@@ -31,14 +31,14 @@ export async function getMonthTasks(req: Request, res: Response) {
 }
 
 // Get all tasks by UserId
-export async function getAllTasksByUserId(req: Request, res: Response) {
+export async function getTasksByUserId(req: Request, res: Response) {
   const { userId } = req.params;
 
   if (!userId) {
     throw new Error("User ID is required.");
   }
 
-  const tasks = await Task.find({ userId }).populate("entries").exec();
+  const tasks = await Task.find({ userId }).exec();
 
   return res.json(tasks);
 }

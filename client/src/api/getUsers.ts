@@ -20,7 +20,9 @@ export async function getUsers() {
 // User by ID
 export async function getUserById(userId: string) {
   try {
-    const response = await axios.get(`${BASE_URL}/users/${userId}`);
+    const response = await axios.get(`${BASE_URL}/users`, {
+      params: userId,
+    });
 
     if (response.status !== 200) {
       throw new Error(`${response.status} ${response.statusText}`);
@@ -32,6 +34,40 @@ export async function getUserById(userId: string) {
     console.log(err);
   }
 }
+
+// User by ID
+// export async function getUserById(userId: string) {
+//   try {
+//     const response = await axios.get(`${BASE_URL}/users`, {
+//       params: userId,
+//     });
+
+//     if (response.status !== 200) {
+//       throw new Error(`${response.status} ${response.statusText}`);
+//     }
+
+//     const data = response.data;
+//     return data;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
+// User by ID
+// export async function getUserBySlug(slug: string) {
+//   try {
+//     const response = await axios.get(`${BASE_URL}/users/${userId}`);
+
+//     if (response.status !== 200) {
+//       throw new Error(`${response.status} ${response.statusText}`);
+//     }
+
+//     const data = response.data;
+//     return data;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
 // Get user tasks
 // export async function getUserTasks(userId: string): ITask {

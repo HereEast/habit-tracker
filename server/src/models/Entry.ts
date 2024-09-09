@@ -4,6 +4,7 @@ import { COLLECTION, STATUS } from "../utils/constants.js";
 import { StatusType } from "../utils/types.js";
 
 export interface IEntry {
+  _id?: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
   taskId: mongoose.Types.ObjectId;
   entryDate: Date;

@@ -7,6 +7,7 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
+// Get a month name from index
 export function getMonthFromIndex(index: number) {
   const months: MonthType[] = [
     "january",
@@ -26,3 +27,7 @@ export function getMonthFromIndex(index: number) {
   return months[index];
 }
 
+// Get number of ays in a month
+export function getDaysInMonth(month: number, year: number) {
+  return new Date(year, month, 0).getDate();
+}

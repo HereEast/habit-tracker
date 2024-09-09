@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 
 import { COLLECTION } from "../utils/constants.js";
-import { EntrySchema, IEntry } from "./Entry.js";
+// import { EntrySchema, IEntry } from "./Entry.js";
 
 export interface ITask {
   _id?: mongoose.Types.ObjectId;

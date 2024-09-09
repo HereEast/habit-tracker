@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 
 import { Entry } from "../models/Entry.js";
 
-// Get Entries by TaskId
+// Get Entries by year, month, taskId
 export async function getTaskEntriesByMonth(req: Request, res: Response) {
   const { userId, taskId, year, month } = req.params;
 
-  if (!taskId || !userId || !year) {
-    throw new Error("Some parameters are missing: userId, taskId, year.");
+  if (!taskId || !userId || !year || !month) {
+    throw new Error("Some parameters are missing: userId, taskId, year, month.");
   }
 
   const startOfMonth = new Date(Number(year), Number(month) - 1, 1);
