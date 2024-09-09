@@ -7,8 +7,8 @@ export interface ITask {
   _id?: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
   title: string;
-  // entries: mongoose.Types.ObjectId[];
-  entries: IEntry[];
+  entries: mongoose.Types.ObjectId[];
+  // entries: IEntry[];
   paused: boolean;
   pausedAt?: Date;
   resumedAt?: Date;
@@ -20,8 +20,8 @@ export const TaskSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true },
-    // entries: [{ type: Schema.Types.ObjectId, ref: "Entry" }],
-    entries: [EntrySchema],
+    entries: [{ type: Schema.Types.ObjectId, ref: "Entry" }],
+    // entries: [EntrySchema],
     paused: { type: Boolean, required: true },
     pausedAt: Date,
     resumedAt: Date,

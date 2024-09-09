@@ -48,15 +48,15 @@ export async function createTask(req: Request, res: Response) {
       const entryData: IEntry = {
         userId,
         taskId: task._id,
-        date: entryDate,
+        entryDate,
         status: 0,
       };
 
-      // const entry = new Entry(dailyEntry);
-      // await entry.save();
+      const entry = new Entry(entryData);
+      await entry.save();
 
-      // task.entries.push(entry._id);
-      task.entries.push(entryData);
+      task.entries.push(entry._id);
+      // task.entries.push(entryData);
       await task.save();
     }
 

@@ -6,16 +6,18 @@ import { StatusType } from "../utils/types.js";
 export interface IEntry {
   userId: mongoose.Types.ObjectId;
   taskId: mongoose.Types.ObjectId;
-  date: Date;
+  entryDate: Date;
   status: StatusType;
   notes?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const EntrySchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     taskId: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
-    date: { type: Date, required: true },
+    entryDate: { type: Date, required: true },
     status: { type: Number, enum: STATUS, default: 0, required: true },
     notes: String,
   },
