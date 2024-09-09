@@ -28,7 +28,7 @@ export function MonthCard({ tasks, year, month, daysInMonth }: MonthCardProps) {
         )}
 
         {tasks && tasks?.length > 0 && (
-          <div className="space-y-1">
+          <div className="space-y-2">
             <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
             <TaskList tasks={tasks} year={year} month={month} />
           </div>
