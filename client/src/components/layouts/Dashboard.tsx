@@ -7,11 +7,11 @@ import { TaskList } from "../TaskList";
 
 import { getDaysInMonth } from "~/utils";
 import { useTasks } from "~/hooks";
-import { MonthDaysRow } from "../MonthTasks";
-
-const userId = "66d0db0c810e60d1f8a7c9d8";
+import { useAppContext } from "~/hooks/useContext";
+import { MonthCard } from "../MonthCard";
 
 export function Dashboard() {
+  const { userId } = useAppContext();
   const { data: tasks, isLoading, error } = useTasks(userId);
 
   const year = new Date().getFullYear();
@@ -33,20 +33,12 @@ export function Dashboard() {
 
   return (
     <>
-      <div className="mb-10 flex w-full justify-center">
-        {tasks?.length === 0 && (
-          <div className="flex w-full justify-center rounded-md border p-4">
-            You haven't created any tasks yet.
-          </div>
-        )}
-
-        {tasks && tasks?.length > 0 && (
-          <div className="space-y-3">
-            <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
-            <TaskList userId={userId} tasks={tasks} year={year} month={month} />
-          </div>
-        )}
-      </div>
+      <MonthCard
+        tasks={tasks}
+        year={year}
+        month={month}
+        daysInMonth={daysInMonth}
+      />
 
       <form onSubmit={handleCreateTask}>
         <div className="flex gap-2">

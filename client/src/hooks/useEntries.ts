@@ -10,7 +10,7 @@ export function useEntries(
   year: number,
   month: number,
 ) {
-  const [data, setData] = useState<IEntry[]>([]);
+  const [data, setData] = useState<IEntry[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 

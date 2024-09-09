@@ -1,11 +1,4 @@
 import { cn } from "~/utils";
-import { TaskLayout } from "./TaskList";
-
-export function MonthTasks() {
-  return;
-}
-
-// Month days row
 
 interface MonthDaysRowProps {
   year: number;
@@ -23,20 +16,24 @@ export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
   const isCurrentYearAndMonth = year === currentYear && month === currentMonth;
 
   return (
-    <TaskLayout>
-      <>
+    <div className="flex w-full items-center gap-6">
+      <div className="w-28" />
+
+      <div className="flex gap-1">
         {new Array(daysInMonth).fill(0).map((_, i) => (
           <div
             key={i}
             className={cn(
-              "flex size-6 shrink-0 items-center justify-center rounded-sm bg-transparent text-sm",
-              isCurrentYearAndMonth && currentDate === i + 1 && "text-red-500",
+              "flex size-6 shrink-0 items-center justify-center rounded-sm bg-transparent text-xs text-stone-400",
+              isCurrentYearAndMonth &&
+                currentDate === i + 1 &&
+                "rounded-full bg-stone-50 text-stone-800",
             )}
           >
             {i + 1}
           </div>
         ))}
-      </>
-    </TaskLayout>
+      </div>
+    </div>
   );
 }

@@ -19,6 +19,6 @@ export async function getTasks(userId: string): Promise<ITask[] | undefined> {
 
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(err); // Handle
   }
 }
