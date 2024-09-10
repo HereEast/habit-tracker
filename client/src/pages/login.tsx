@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { Layout } from "~/components/layouts";
-
 export default function LoginPage() {
   const router = useRouter();
 
@@ -15,9 +13,5 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router]);
 
-  return (
-    <Layout>
-      <div>Login</div>
-    </Layout>
-  );
+  return <div>Login</div>;
 }
