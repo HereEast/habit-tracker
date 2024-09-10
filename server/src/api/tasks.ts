@@ -2,14 +2,14 @@ import express from "express";
 
 import { createTask } from "../controllers/createTask.js";
 
-import { getAllTasks, getTasksByUserId, getMonthTasks } from "../controllers/getTasks.js";
+import { getTasksByUserId } from "../controllers/getTasks.js";
+import { deleteTaskById } from "../controllers/deleteTask.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllTasks);
 router.route("/:userId").get(getTasksByUserId);
-router.route("/:userId/:year").get(getMonthTasks);
 
 router.route("/create").post(createTask);
+router.route("/delete/:userId/:taskId").delete(deleteTaskById);
 
 export { router as tasksRouter };
