@@ -17,7 +17,7 @@ export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
 
   return (
     <div className="flex w-full items-center gap-6">
-      <div className="w-28" />
+      <div className="w-32" />
 
       <div className="flex gap-1">
         {new Array(daysInMonth).fill(0).map((_, i) => (

@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { createTask } from "~/api";
-import { Input } from "./Input";
-import { Button } from "./Button";
+import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
 import { useAppContext } from "~/hooks";
 
 export function CreateTaskForm() {

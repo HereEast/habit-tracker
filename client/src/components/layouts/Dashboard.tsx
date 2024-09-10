@@ -1,11 +1,12 @@
 import { TaskList } from "../TaskList";
+import { MonthDaysRow } from "../MonthDaysRow";
+import { CreateTaskForm } from "../CreateTaskForm";
+import { MonthCardHeader } from "../MonthCardHeader";
 
 import { cn, getDaysInMonth, getMonthFromIndex } from "~/utils";
 import { useTasks } from "~/hooks";
 import { useAppContext } from "~/hooks/useContext";
-import { MonthDaysRow } from "../MonthDaysRow";
-import { CreateTaskForm } from "../CreateTaskForm";
-import { MonthCardHeader } from "../MonthCardHeader";
+import { Notice } from "../Notice";
 
 export function Dashboard() {
   const { userId } = useAppContext();
@@ -18,14 +19,17 @@ export function Dashboard() {
 
   return (
     <>
-      <div className="rounded-xl bg-stone-100/75 p-6">
+      <div className="w-fit rounded-xl bg-stone-100/75 p-6">
         <MonthCardHeader
           title={`${getMonthFromIndex(month - 1)} ${year}`}
           classes="mb-6"
         />
 
-        <div className="mb-6">
-          {tasks?.length === 0 && <Notion />}
+        <div className="mb-4">
+          {tasks?.length === 0 && (
+            <Notice text="You haven't created any tasks yet." />
+          )}
+
           {tasks && tasks?.length > 0 && (
             <div className="flex w-full flex-col justify-center gap-2">
               <MonthDaysRow
@@ -41,15 +45,5 @@ export function Dashboard() {
         <CreateTaskForm />
       </div>
     </>
-  );
-}
-
-//
-
-function Notion() {
-  return (
-    <div className="flex w-full justify-center rounded-md border p-4">
-      You haven't created any tasks yet.
-    </div>
   );
 }
