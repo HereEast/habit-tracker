@@ -1,56 +1,49 @@
-import { FormEvent, useState } from "react";
-import { createTask } from "~/api/createTask";
-
-import { Button } from "~/components/Button";
-import { Input } from "~/components/Input";
 import { TaskList } from "../TaskList";
+import { MonthDaysRow } from "../MonthDaysRow";
+import { CreateTaskForm } from "../CreateTaskForm";
+import { MonthCardHeader } from "../MonthCardHeader";
 
-import { getDaysInMonth } from "~/utils";
+import { cn, getDaysInMonth, getMonthFromIndex } from "~/utils";
 import { useTasks } from "~/hooks";
 import { useAppContext } from "~/hooks/useContext";
-import { MonthCard } from "../MonthCard";
+import { Notice } from "../Notice";
 
 export function Dashboard() {
   const { userId } = useAppContext();
+
   const { data: tasks, isLoading, error } = useTasks(userId);
 
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
   const daysInMonth = getDaysInMonth(month, year);
 
-  const [taskTitle, setTaskTitle] = useState("");
-
-  async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!taskTitle.length) {
-      return;
-    }
-
-    await createTask(userId, taskTitle);
-    setTaskTitle("");
-  }
-
   return (
     <>
-      <MonthCard
-        tasks={tasks}
-        year={year}
-        month={month}
-        daysInMonth={daysInMonth}
-      />
+      <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
+        <MonthCardHeader
+          title={`${getMonthFromIndex(month - 1)} ${year}`}
+          classes="mb-6"
+        />
 
-      <form onSubmit={handleCreateTask}>
-        <div className="flex gap-2">
-          <Input
-            name="new-task"
-            placeholder="New task..."
-            onChange={(e) => setTaskTitle(e.target.value)}
-          />
+        <div className="mb-4">
+          {tasks?.length === 0 && (
+            <Notice text="You haven't created any tasks yet." />
+          )}
 
-          <Button name="Create" />
+          {tasks && tasks?.length > 0 && (
+            <div className="flex w-full flex-col justify-center gap-2">
+              <MonthDaysRow
+                year={year}
+                month={month}
+                daysInMonth={daysInMonth}
+              />
+              <TaskList tasks={tasks} year={year} month={month} />
+            </div>
+          )}
         </div>
-      </form>
+
+        <CreateTaskForm />
+      </div>
     </>
   );
 }

@@ -53,7 +53,7 @@ export function TaskListItem(props: TaskListItemProps) {
 
   return (
     <div className="flex w-full items-center gap-6">
-      <div className="w-28">{title}</div>
+      <div className="w-32 truncate">{title}</div>
 
       <div className="flex gap-1">
         {invalidEntries > 0 &&

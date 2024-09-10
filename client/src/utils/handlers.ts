@@ -1,11 +1,31 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { MonthType } from "~/~/utils/types";
+import { MonthType, StatusType } from "~/~/utils/types";
 
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
+// Calculate % of accomplishment
+export function calculateStatusPercentage(statuses: StatusType[] | undefined) {
+  if (!statuses || statuses.length === 0) {
+    return 0;
+  }
+
+  const maxStatusValue: StatusType = 5;
+  const totalPossibleScore = statuses.length * maxStatusValue;
+
+  const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);
+  const percentage = (totalScore / totalPossibleScore) * 100;
+
+  return percentage;
+}
+
+// Get date details
+export function getDateDetails(date: Date) {
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+  };
+}
 
 // Get a month name from index
 export function getMonthFromIndex(index: number) {
@@ -31,3 +51,8 @@ export function getMonthFromIndex(index: number) {
 export function getDaysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
+
+// Tw
+export const cn = (...inputs: ClassValue[]) => {
+  return twMerge(clsx(inputs));
+};
