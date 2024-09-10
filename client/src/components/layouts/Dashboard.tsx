@@ -24,14 +24,19 @@ export function Dashboard() {
           classes="mb-6"
         />
 
-        {tasks?.length === 0 && <Notion />}
-
-        {tasks && tasks?.length > 0 && (
-          <div className="flex w-full flex-col justify-center gap-2">
-            <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
-            <TaskList tasks={tasks} year={year} month={month} />
-          </div>
-        )}
+        <div className="mb-6">
+          {tasks?.length === 0 && <Notion />}
+          {tasks && tasks?.length > 0 && (
+            <div className="flex w-full flex-col justify-center gap-2">
+              <MonthDaysRow
+                year={year}
+                month={month}
+                daysInMonth={daysInMonth}
+              />
+              <TaskList tasks={tasks} year={year} month={month} />
+            </div>
+          )}
+        </div>
 
         <CreateTaskForm />
       </div>
