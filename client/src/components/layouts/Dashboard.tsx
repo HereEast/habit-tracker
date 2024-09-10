@@ -19,7 +19,7 @@ export function Dashboard() {
 
   return (
     <>
-      <div className="w-fit rounded-xl bg-stone-100/75 p-6">
+      <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
         <MonthCardHeader
           title={`${getMonthFromIndex(month - 1)} ${year}`}
           classes="mb-6"
