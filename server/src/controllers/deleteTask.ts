@@ -29,7 +29,9 @@ export async function deleteTaskById(req: Request, res: Response) {
     user.tasks = updatedTasks;
     await user.save();
 
-    return res.json(updatedTasks);
+    return res.status(201).json({
+      message: `Task with ID ${taskId} is deleted.`,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while deleting the task.");

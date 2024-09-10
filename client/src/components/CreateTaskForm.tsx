@@ -29,7 +29,7 @@ export function CreateTaskForm() {
           onChange={(e) => setTaskTitle(e.target.value)}
         />
 
-        <Button name="Create" />
+        <Button>Create</Button>
       </div>
     </form>
   );
