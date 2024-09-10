@@ -3,7 +3,7 @@ import { MonthDaysRow } from "../MonthDaysRow";
 import { CreateTaskForm } from "../CreateTaskForm";
 import { MonthCardHeader } from "../MonthCardHeader";
 
-import { cn, getDaysInMonth, getMonthFromIndex } from "~/utils";
+import { getDaysInMonth, getMonthFromIndex } from "~/utils";
 import { useTasks } from "~/hooks";
 import { useAppContext } from "~/hooks/useContext";
 import { Notice } from "../Notice";

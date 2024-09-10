@@ -1,13 +1,15 @@
+import { ReactNode } from "react";
+
 import { cn } from "~/utils";
 
 interface ButtonProps {
-  name: string;
-  onClick?: () => void;
+  children: ReactNode;
   classes?: string;
+  onClick?: () => void;
 }
 
 export function Button(props: ButtonProps) {
-  const { name, onClick, classes } = props;
+  const { children, onClick, classes } = props;
 
   function noop() {}
 
@@ -19,7 +21,7 @@ export function Button(props: ButtonProps) {
         classes || "",
       )}
     >
-      {name}
+      {children}
     </button>
   );
 }
