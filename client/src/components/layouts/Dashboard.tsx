@@ -5,10 +5,11 @@ import { useTasks } from "~/hooks";
 import { useAppContext } from "~/hooks/useContext";
 import { MonthDaysRow } from "../MonthDaysRow";
 import { CreateTaskForm } from "../CreateTaskForm";
+import { MonthCardHeader } from "../MonthCardHeader";
 
 export function Dashboard() {
   const { userId } = useAppContext();
-  
+
   const { data: tasks, isLoading, error } = useTasks(userId);
 
   const year = new Date().getFullYear();
@@ -18,25 +19,19 @@ export function Dashboard() {
   return (
     <>
       <div className="rounded-xl bg-stone-100/75 p-6">
-        <MonthHeader
+        <MonthCardHeader
           title={`${getMonthFromIndex(month - 1)} ${year}`}
           classes="mb-6"
         />
 
         {tasks?.length === 0 && <Notion />}
 
-        <div className="flex w-full justify-center">
-          {tasks && tasks?.length > 0 && (
-            <div className="space-y-2">
-              <MonthDaysRow
-                year={year}
-                month={month}
-                daysInMonth={daysInMonth}
-              />
-              <TaskList tasks={tasks} year={year} month={month} />
-            </div>
-          )}
-        </div>
+        {tasks && tasks?.length > 0 && (
+          <div className="flex w-full flex-col justify-center gap-2">
+            <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
+            <TaskList tasks={tasks} year={year} month={month} />
+          </div>
+        )}
 
         <CreateTaskForm />
       </div>
@@ -45,19 +40,6 @@ export function Dashboard() {
 }
 
 //
-
-interface MonthHeaderProps {
-  title: string;
-  classes?: string;
-}
-
-function MonthHeader({ title, classes }: MonthHeaderProps) {
-  return (
-    <div className={cn(classes)}>
-      <h2 className="text-xl font-semibold capitalize">{title}</h2>
-    </div>
-  );
-}
 
 function Notion() {
   return (

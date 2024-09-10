@@ -3,9 +3,14 @@ import { twMerge } from "tailwind-merge";
 
 import { MonthType } from "~/~/utils/types";
 
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
+// Get date details
+export function getDateDetails(date: Date) {
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    day: date.getDate(),
+  };
+}
 
 // Get a month name from index
 export function getMonthFromIndex(index: number) {
@@ -31,3 +36,8 @@ export function getMonthFromIndex(index: number) {
 export function getDaysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
+
+// Tw
+export const cn = (...inputs: ClassValue[]) => {
+  return twMerge(clsx(inputs));
+};
