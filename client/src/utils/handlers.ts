@@ -1,13 +1,28 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { MonthType } from "~/~/utils/types";
+import { MonthType, StatusType } from "~/~/utils/types";
+
+// Calculate % of accomplishment
+export function calculateStatusPercentage(statuses: StatusType[] | undefined) {
+  if (!statuses || statuses.length === 0) {
+    return 0;
+  }
+
+  const maxStatusValue: StatusType = 5;
+  const totalPossibleScore = statuses.length * maxStatusValue;
+
+  const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);
+  const percentage = (totalScore / totalPossibleScore) * 100;
+
+  return percentage;
+}
 
 // Get date details
 export function getDateDetails(date: Date) {
   return {
     year: date.getFullYear(),
-    month: date.getMonth(),
+    month: date.getMonth() + 1,
     day: date.getDate(),
   };
 }
