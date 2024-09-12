@@ -23,7 +23,7 @@ export function TaskListItem(props: TaskListItemProps) {
     data: entries,
     isLoading,
     error,
-  } = useEntries(userId, taskId, year, month);
+  } = useEntries({ userId, taskId, year, month });
 
   const daysInMonth = getDaysInMonth(month, year);
   const invalidEntries = entries ? daysInMonth - entries?.length : 0;

@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import mongoose from "mongoose";
 
-import { getMonthEntriesByTaskId } from "~/api/entries";
+import { getMonthEntriesByTaskId, getUserEntriesByDay } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
-export function useEntries(
-  userId: string,
-  taskId: mongoose.Types.ObjectId | undefined,
-  year: number,
-  month: number,
-) {
+interface IUseEntriesProps {
+  userId: string;
+  taskId?: mongoose.Types.ObjectId | undefined;
+  year: number;
+  month: number;
+  day?: number;
+}
+
+export function useEntries(props: IUseEntriesProps) {
+  const { userId, taskId, year, month, day } = props;
+
   const [data, setData] = useState<IEntry[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -20,12 +25,9 @@ export function useEntries(
       setError(false);
 
       try {
-        const entries = await getMonthEntriesByTaskId(
-          userId,
-          taskId,
-          year,
-          month,
-        );
+        const entries = day
+          ? await getUserEntriesByDay(userId, year, month, day)
+          : await getMonthEntriesByTaskId(userId, taskId, year, month);
 
         setData(entries);
         setIsLoading(false);
@@ -37,7 +39,7 @@ export function useEntries(
     }
 
     fetchEntries();
-  }, [userId, taskId, year, month]);
+  }, [userId, taskId, year, month, day]);
 
   return { data, isLoading, error };
 }
