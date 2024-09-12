@@ -1,7 +1,17 @@
+import { AxiosError } from "axios";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import { MonthType, StatusType } from "~/~/utils/types";
+
+// Handle request error
+export function handleRequestError(err: Error) {
+  if (err instanceof AxiosError && err.response) {
+    console.log("🔴 Error:", err.response.data.message);
+
+    throw new Error(err.response.data.message);
+  }
+}
 
 // Calculate % of accomplishment
 export function calculateStatusPercentage(statuses: StatusType[] | undefined) {

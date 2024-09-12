@@ -29,9 +29,8 @@ export function useEntries(
 
         setData(entries);
         setIsLoading(false);
-      } catch (err) {
+      } catch {
         setError(true);
-        console.log("Error", err);
       } finally {
         setIsLoading(false);
       }

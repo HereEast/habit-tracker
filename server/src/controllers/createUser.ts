@@ -16,10 +16,14 @@ export async function createUser(req: Request, res: Response) {
     const newUser = new User(userData);
     await newUser.save();
 
-    console.log("New user:", newUser);
-
     return res.status(201).json(newUser);
   } catch (err) {
-    console.log("Error", err);
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to create the user.",
+      });
+    }
   }
 }

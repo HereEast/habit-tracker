@@ -7,8 +7,10 @@ export async function getMonthEntriesByTaskId(req: Request, res: Response) {
   const { userId, taskId } = req.params;
   const { year, month } = req.query;
 
-  if (!taskId || !userId || !year || !month) {
-    throw new Error("Some parameters are missing: userId, taskId, year, month.");
+  if (!year || !month) {
+    return res.status(500).json({
+      message: "Some parameters are missing: year, month.",
+    });
   }
 
   const parsedYear = Number(year);
@@ -17,13 +19,23 @@ export async function getMonthEntriesByTaskId(req: Request, res: Response) {
   const startOfMonth = new Date(parsedYear, parsedMonth - 1, 1);
   const endOfMonth = new Date(parsedYear, parsedMonth, 0, 23, 59, 59, 999);
 
-  const entries = await Entry.find({
-    userId,
-    taskId,
-    createdAt: { $gte: startOfMonth, $lte: endOfMonth },
-  }).exec();
+  try {
+    const entries = await Entry.find({
+      userId,
+      taskId,
+      createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+    }).exec();
 
-  return res.json(entries);
+    return res.json(entries);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to fetch month entries by task ID.",
+      });
+    }
+  }
 }
 
 // Get all daily entries
@@ -31,8 +43,10 @@ export async function getUserEntriesByDay(req: Request, res: Response) {
   const { userId } = req.params;
   const { year, month, day } = req.query;
 
-  if (!userId || !year || !month || !day) {
-    throw new Error("Some parameters are missing: userId, year, month, day.");
+  if (!year || !month || !day) {
+    return res.status(500).json({
+      message: "Some parameters are missing: year, month, day.",
+    });
   }
 
   const parsedYear = Number(year);
@@ -48,12 +62,14 @@ export async function getUserEntriesByDay(req: Request, res: Response) {
       entryDate: { $gte: startOfDay, $lt: endOfDay },
     }).exec();
 
-    return res.json(entries);
+    return res.status(200).json(entries);
   } catch (err) {
-    console.error("Error fetching daily entries:", err);
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
 
-    return res.status(500).json({
-      message: "Internal server error in getAllDailyEntries().",
-    });
+      return res.status(500).json({
+        message: "Failed to fetch user's entries by day.",
+      });
+    }
   }
 }

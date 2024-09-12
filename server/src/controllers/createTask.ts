@@ -14,16 +14,8 @@ interface CreateTaskRequestProps {
 export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body as CreateTaskRequestProps;
 
-  if (!title) {
-    throw new Error("Title is required, and it should be a string.");
-  }
-
-  if (!userId) {
-    throw new Error("UserId is missing when creating a new task.");
-  }
-
   try {
-    // Create Task
+    // New Task
     const taskData: ITask = {
       userId,
       title,
@@ -61,10 +53,10 @@ export async function createTask(req: Request, res: Response) {
     }
 
     // Push TaskID to User's tasks[]
-    const user = await User.findById(userId);
+    const user = await User.findById("123");
 
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: "User not found while creating new task." });
     }
 
     user.tasks.push(task._id);
@@ -72,6 +64,12 @@ export async function createTask(req: Request, res: Response) {
 
     return res.status(201).json(task);
   } catch (err) {
-    console.log("Error", err);
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to create new task.",
+      });
+    }
   }
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { BASE_URL } from "~/utils";
+import { BASE_URL, handleRequestError } from "~/utils";
 
 // Get user by ID
 export async function getUserById(userId: string) {
@@ -13,7 +13,9 @@ export async function getUserById(userId: string) {
 
     return data;
   } catch (err) {
-    console.log(err);
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }
 
@@ -39,9 +41,11 @@ export async function createUser(
     );
 
     const data = response.data;
-    
-    console.log(data);
+
+    return data;
   } catch (err) {
-    console.log(err);
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }

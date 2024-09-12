@@ -1,8 +1,7 @@
 import axios from "axios";
 import mongoose from "mongoose";
 
-import { BASE_URL } from "~/utils";
-// import { ITask } from "~/~/models/Task";
+import { BASE_URL, handleRequestError } from "~/utils";
 
 // Get user's tasks
 export async function getTasksByUserId(userId: string) {
@@ -12,7 +11,9 @@ export async function getTasksByUserId(userId: string) {
 
     return data;
   } catch (err) {
-    console.log(err); // Handle
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }
 
@@ -36,7 +37,9 @@ export async function createTask(userId: string, title: string) {
 
     return data;
   } catch (err) {
-    console.log(err); // Handle
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }
 
@@ -54,6 +57,8 @@ export async function deleteTaskById(
 
     return data;
   } catch (err) {
-    console.log(err); // Handle
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }

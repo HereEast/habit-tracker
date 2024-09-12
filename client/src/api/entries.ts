@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import axios from "axios";
 
-import { BASE_URL } from "~/utils";
+import { BASE_URL, handleRequestError } from "~/utils";
 import { IEntry } from "~/~/models/Entry";
 
 // Get month entries by task ID
@@ -26,7 +26,9 @@ export async function getMonthEntriesByTaskId(
 
     return data;
   } catch (err) {
-    console.log(err); // Handle
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }
 
@@ -50,6 +52,8 @@ export async function getUserEntriesByDay(
 
     return data;
   } catch (err) {
-    console.log(err); // Handle
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
   }
 }

@@ -26,7 +26,9 @@ export function Dashboard() {
         />
 
         <div className="mb-4">
-          {tasks?.length === 0 && (
+          {error && <Notice isError text="Something went wrong." />}
+
+          {tasks?.length === 0 && !error && (
             <Notice text="You haven't created any tasks yet." />
           )}
 
