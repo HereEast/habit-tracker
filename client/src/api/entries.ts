@@ -15,13 +15,12 @@ export async function getMonthEntriesByTaskId(
     const response = await axios.get(
       `${BASE_URL}/entries/${userId}/${taskId}`,
       {
-        params: { year, month },
+        params: {
+          year,
+          month,
+        },
       },
     );
-
-    if (response.status !== 200) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
 
     const data = response.data;
 
@@ -46,10 +45,6 @@ export async function getUserEntriesByDay(
         day,
       },
     });
-
-    if (response.status !== 200) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
 
     const data = response.data;
 

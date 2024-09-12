@@ -8,11 +8,6 @@ import { BASE_URL } from "~/utils";
 export async function getTasksByUserId(userId: string) {
   try {
     const response = await axios.get(`${BASE_URL}/tasks/${userId}`);
-
-    if (response.status !== 200) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
-
     const data = response.data;
 
     return data;
@@ -24,26 +19,24 @@ export async function getTasksByUserId(userId: string) {
 // Create
 export async function createTask(userId: string, title: string) {
   try {
-    const response = await fetch("http://localhost:5050/api/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const response = await axios.post(
+      `${BASE_URL}/tasks`,
+      {
         userId,
         title,
-      }),
-    });
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
+    const data = response.data;
 
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(err); // Handle
   }
 }
 
@@ -57,13 +50,7 @@ export async function deleteTaskById(
       `${BASE_URL}/tasks/${userId}/${taskId}`,
     );
 
-    if (response.status !== 200) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
-
     const data = response.data;
-
-    console.log(data);
 
     return data;
   } catch (err) {

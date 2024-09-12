@@ -9,11 +9,8 @@ export async function getUserById(userId: string) {
       params: userId,
     });
 
-    if (response.status !== 200) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
-
     const data = response.data;
+
     return data;
   } catch (err) {
     console.log(err);
@@ -27,26 +24,24 @@ export async function createUser(
   password: string,
 ) {
   try {
-    const response = await fetch(`${BASE_URL}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const response = await axios.post(
+      `${BASE_URL}/users`,
+      {
         username,
         email,
         password,
-      }),
-    });
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
+    const data = response.data;
+    
     console.log(data);
   } catch (err) {
     console.log(err);
   }
 }
-
