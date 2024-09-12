@@ -4,7 +4,8 @@ import { Entry } from "../models/Entry.js";
 
 // Month entries by taskId
 export async function getMonthEntriesByTaskId(req: Request, res: Response) {
-  const { userId, taskId, year, month } = req.params;
+  const { userId, taskId } = req.params;
+  const { year, month } = req.query;
 
   if (!taskId || !userId || !year || !month) {
     throw new Error("Some parameters are missing: userId, taskId, year, month.");
@@ -26,8 +27,9 @@ export async function getMonthEntriesByTaskId(req: Request, res: Response) {
 }
 
 // Get all daily entries
-export async function getAllDailyEntries(req: Request, res: Response) {
-  const { userId, year, month, day } = req.params;
+export async function getUserEntriesByDay(req: Request, res: Response) {
+  const { userId } = req.params;
+  const { year, month, day } = req.query;
 
   if (!userId || !year || !month || !day) {
     throw new Error("Some parameters are missing: userId, year, month, day.");

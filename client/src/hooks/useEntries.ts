@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import mongoose from "mongoose";
 
-import { getMonthEntriesByTaskId } from "~/api";
+import { getMonthEntriesByTaskId } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 export function useEntries(

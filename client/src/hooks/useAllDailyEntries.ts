@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getAllDailyEntries } from "~/api";
+import { getUserEntriesByDay } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 export function useAllDailyEntries(
@@ -19,7 +19,7 @@ export function useAllDailyEntries(
       setError(false);
 
       try {
-        const entries = await getAllDailyEntries(userId, year, month, day);
+        const entries = await getUserEntriesByDay(userId, year, month, day);
 
         setData(entries);
         setIsLoading(false);

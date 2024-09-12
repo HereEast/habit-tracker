@@ -16,6 +16,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// API Endpoints
 app.use("/api/tasks", tasksRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/entries", entriesRouter);

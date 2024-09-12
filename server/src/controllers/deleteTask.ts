@@ -1,5 +1,5 @@
+import mongoose, { Error } from "mongoose";
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
@@ -14,7 +14,7 @@ export async function deleteTaskById(req: Request, res: Response) {
   }
 
   try {
-    await Task.deleteOne({ _id: taskId }).exec();
+    await Task.deleteOne({ _id: taskId }).exec(); // findByIdAndDelete
     await Entry.deleteMany({ taskId }).exec();
 
     const user = await User.findById(userId).exec();
@@ -33,7 +33,11 @@ export async function deleteTaskById(req: Request, res: Response) {
       message: `Task with ID ${taskId} is deleted.`,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).send("An error occurred while deleting the task.");
+    // console.error(error);
+    handleError(res, "Can't delete task. Something went wrong.");
   }
+}
+
+function handleError(res: Response, error: string) {
+  res.status(500).json({ error });
 }

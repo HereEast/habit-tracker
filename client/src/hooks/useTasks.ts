@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getTasksByUserId } from "~/api";
+import { getTasksByUserId } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
 
 export function useTasks(userId: string) {

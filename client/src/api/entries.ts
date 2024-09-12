@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "~/utils";
 import { IEntry } from "~/~/models/Entry";
 
+// Get month entries by task ID
 export async function getMonthEntriesByTaskId(
   userId: string,
   taskId: mongoose.Types.ObjectId | undefined,
@@ -12,7 +13,10 @@ export async function getMonthEntriesByTaskId(
 ): Promise<IEntry[] | undefined> {
   try {
     const response = await axios.get(
-      `${BASE_URL}/entries/month/task/${userId}/${taskId}/${year}/${month}`,
+      `${BASE_URL}/entries/${userId}/${taskId}`,
+      {
+        params: { year, month },
+      },
     );
 
     if (response.status !== 200) {
@@ -27,17 +31,21 @@ export async function getMonthEntriesByTaskId(
   }
 }
 
-// All daily entries
-export async function getAllDailyEntries(
+// All users entries by day
+export async function getUserEntriesByDay(
   userId: string,
   year: number,
   month: number,
   day: number,
 ): Promise<IEntry[] | undefined> {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/entries/day/${userId}/${year}/${month}/${day}`,
-    );
+    const response = await axios.get(`${BASE_URL}/entries/day/${userId}`, {
+      params: {
+        year,
+        month,
+        day,
+      },
+    });
 
     if (response.status !== 200) {
       throw new Error(`${response.status} ${response.statusText}`);

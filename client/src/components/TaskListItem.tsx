@@ -5,7 +5,7 @@ import { EntryBox } from "./EntryBox";
 
 import { useAppContext, useEntries } from "~/hooks";
 import { getDaysInMonth } from "~/utils";
-import { deleteTaskById } from "~/api";
+import { deleteTaskById } from "~/api/tasks";
 
 interface TaskListItemProps {
   taskId?: mongoose.Types.ObjectId;
