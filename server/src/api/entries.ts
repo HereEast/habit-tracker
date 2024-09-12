@@ -1,10 +1,11 @@
 import express from "express";
 
-import { getAllDailyEntries, getMonthEntriesByTaskId } from "../controllers/getEntries.js";
+import { getUserEntriesByDay, getMonthEntriesByTaskId } from "../controllers/getEntries.js";
 
 const router = express.Router();
 
-router.route("/month/task/:userId/:taskId/:year/:month").get(getMonthEntriesByTaskId);
-router.route("/day/:userId/:year/:month/:day").get(getAllDailyEntries);
+// Get
+router.route("/day/:userId").get(getUserEntriesByDay);
+router.route("/:userId/:taskId").get(getMonthEntriesByTaskId);
 
 export { router as entriesRouter };
