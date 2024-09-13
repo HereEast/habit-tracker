@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { Request, Response } from "express";
 
 import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
@@ -12,13 +12,15 @@ interface CreateTaskRequestProps {
 }
 
 type NewEntryData = Omit<IEntry, "_id">;
+type NewTaskData = Omit<ITask, "_id">;
 
+// Create Task
 export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body as CreateTaskRequestProps;
 
   try {
-    // New Task
-    const taskData: ITask = {
+    // Create Task
+    const taskData: NewTaskData = {
       userId,
       title,
       entries: [],
@@ -28,7 +30,7 @@ export async function createTask(req: Request, res: Response) {
     const task = new Task(taskData);
     await task.save();
 
-    // Create month's entries
+    // Create Entries for the current month
     const today = new Date();
     const year = today.getFullYear();
     const monthIndex = today.getMonth();
@@ -50,11 +52,10 @@ export async function createTask(req: Request, res: Response) {
       await entry.save();
 
       task.entries.push(entry._id);
-      // task.entries.push(entryData);
       await task.save();
     }
 
-    // Push TaskID to User's tasks[]
+    // Add task ID to User's tasks[]
     const user = await User.findById(userId);
 
     if (!user) {
