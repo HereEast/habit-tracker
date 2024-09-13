@@ -7,45 +7,40 @@ import { getDaysInMonth, getMonthFromIndex } from "~/utils";
 import { useTasks } from "~/hooks";
 import { useAppContext } from "~/hooks/useContext";
 import { Notice } from "../Notice";
+import { MonthCard } from "../MonthCard";
+import { Button } from "../ui/Button";
+import { StatusType } from "~/~/utils/types";
+
+const ratingRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export function Dashboard() {
-  const { userId } = useAppContext();
-
-  const { data: tasks, isLoading, error } = useTasks(userId);
-
   const year = new Date().getFullYear();
   const month = new Date().getMonth();
-  const daysInMonth = getDaysInMonth(month, year);
 
   return (
-    <>
-      <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
-        <MonthCardHeader
-          title={`${getMonthFromIndex(month)} ${year}`}
-          classes="mb-6"
-        />
+    <div className="flex flex-col items-center gap-6">
+      <Rating />
+      <MonthCard year={year} month={month} />
+    </div>
+  );
+}
 
-        <div className="mb-4">
-          {error && <Notice isError text="Something went wrong." />}
+export function Rating() {
+  function handleSetRating(option: number) {
+    console.log("Rate:", option);
+  }
 
-          {tasks?.length === 0 && !error && (
-            <Notice text="You haven't created any tasks yet." />
-          )}
-
-          {tasks && tasks?.length > 0 && (
-            <div className="flex w-full flex-col justify-center gap-2">
-              <MonthDaysRow
-                year={year}
-                month={month}
-                daysInMonth={daysInMonth}
-              />
-              <TaskList tasks={tasks} year={year} month={month} />
-            </div>
-          )}
-        </div>
-
-        <CreateTaskForm />
-      </div>
-    </>
+  return (
+    <div className="flex gap-2 rounded-lg bg-brown-100/20 p-4">
+      {ratingRange.map((option) => (
+        <Button
+          key={option}
+          classes="flex size-10 items-center justify-center rounded-md bg-brown-100 text-brown-800 hover:bg-brown-800 hover:text-brown-50"
+          onClick={() => handleSetRating(option)}
+        >
+          {option}
+        </Button>
+      ))}
+    </div>
   );
 }

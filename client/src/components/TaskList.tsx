@@ -11,7 +11,7 @@ interface TaskListProps {
 
 export function TaskList({ tasks, year, month }: TaskListProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {tasks.map((task) => (
         <TaskListItem
           taskId={task._id}

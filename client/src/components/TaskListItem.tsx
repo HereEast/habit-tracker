@@ -38,9 +38,9 @@ export function TaskListItem(props: TaskListItemProps) {
 
   return (
     <div className="flex w-full items-center gap-6">
-      <div className="w-32 truncate">{title}</div>
+      <div className="w-32 truncate text-sm">{title}</div>
 
-      <div className="flex gap-1">
+      <div className="flex gap-0.5">
         {invalidEntries > 0 &&
           new Array(invalidEntries)
             .fill(0)
@@ -50,8 +50,8 @@ export function TaskListItem(props: TaskListItemProps) {
           entries.map((entry) => <EntryBox key={String(entry._id)} />)}
       </div>
 
-      <Button onClick={handleDeleteTask} classes="size-6 p-0 rounded-[4px]">
-        D
+      <Button onClick={handleDeleteTask} classes="size-6 p-0 rounded-[4px] text-sm">
+        X
       </Button>
     </div>
   );
