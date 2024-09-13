@@ -1,15 +1,8 @@
-import { TaskList } from "../TaskList";
-import { MonthDaysRow } from "../MonthDaysRow";
-import { CreateTaskForm } from "../CreateTaskForm";
-import { MonthCardHeader } from "../MonthCardHeader";
+import { useContext, useState } from "react";
 
-import { getDaysInMonth, getMonthFromIndex } from "~/utils";
-import { useTasks } from "~/hooks";
-import { useAppContext } from "~/hooks/useContext";
-import { Notice } from "../Notice";
-import { MonthCard } from "../MonthCard";
 import { Button } from "../ui/Button";
-import { StatusType } from "~/~/utils/types";
+import { MonthCard } from "../MonthCard";
+import { useAppContext } from "~/hooks";
 
 const ratingRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -26,8 +19,13 @@ export function Dashboard() {
 }
 
 export function Rating() {
+  const { selectedEntry, setSelectedEntry } = useAppContext();
+
   function handleSetRating(option: number) {
     console.log("Rate:", option);
+
+    // Update status
+    // Set selectedEntry to null
   }
 
   return (

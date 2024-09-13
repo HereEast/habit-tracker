@@ -44,13 +44,18 @@ export function TaskListItem(props: TaskListItemProps) {
         {invalidEntries > 0 &&
           new Array(invalidEntries)
             .fill(0)
-            .map((_, i) => <EntryBox invalid={true} key={i} />)}
+            .map((_, i) => <EntryBox key={i} />)}
 
         {entries &&
-          entries.map((entry) => <EntryBox key={String(entry._id)} />)}
+          entries.map((entry) => (
+            <EntryBox id={entry._id} key={String(entry._id)} />
+          ))}
       </div>
 
-      <Button onClick={handleDeleteTask} classes="size-6 p-0 rounded-[4px] text-sm">
+      <Button
+        onClick={handleDeleteTask}
+        classes="size-6 p-0 rounded-[4px] text-sm"
+      >
         X
       </Button>
     </div>
