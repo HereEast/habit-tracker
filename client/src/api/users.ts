@@ -1,13 +1,17 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL, handleRequestError } from "~/utils";
+import { IUser } from "~/~/models/User";
 
 // Get user by ID
 export async function getUserById(userId: string) {
   try {
-    const response = await axios.get(`${BASE_URL}/users`, {
-      params: userId,
-    });
+    const response: AxiosResponse<IUser> = await axios.get(
+      `${BASE_URL}/users`,
+      {
+        params: userId,
+      },
+    );
 
     const data = response.data;
 
@@ -26,7 +30,7 @@ export async function createUser(
   password: string,
 ) {
   try {
-    const response = await axios.post(
+    const response: AxiosResponse<IUser> = await axios.post(
       `${BASE_URL}/users`,
       {
         username,

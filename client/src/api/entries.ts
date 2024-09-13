@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL, handleRequestError } from "~/utils";
 import { IEntry } from "~/~/models/Entry";
@@ -10,9 +10,9 @@ export async function getMonthEntriesByTaskId(
   taskId: mongoose.Types.ObjectId | undefined,
   year: number,
   month: number,
-): Promise<IEntry[] | undefined> {
+) {
   try {
-    const response = await axios.get(
+    const response: AxiosResponse<IEntry[]> = await axios.get(
       `${BASE_URL}/entries/${userId}/${taskId}`,
       {
         params: {
@@ -38,15 +38,18 @@ export async function getUserEntriesByDay(
   year: number,
   month: number,
   day: number,
-): Promise<IEntry[] | undefined> {
+) {
   try {
-    const response = await axios.get(`${BASE_URL}/entries/day/${userId}`, {
-      params: {
-        year,
-        month,
-        day,
+    const response: AxiosResponse<IEntry[]> = await axios.get(
+      `${BASE_URL}/entries/day/${userId}`,
+      {
+        params: {
+          year,
+          month,
+          day,
+        },
       },
-    });
+    );
 
     const data = response.data;
 

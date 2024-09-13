@@ -16,7 +16,7 @@ export async function deleteTaskById(req: Request, res: Response) {
     const user = await User.findById(userId).exec();
 
     if (!user) {
-      return res.status(404).json({ error: "User not found while deleting a task." });
+      return res.status(404).json({ message: "User not found while deleting a task." });
     }
 
     const mongoTaskId = new mongoose.Types.ObjectId(taskId);

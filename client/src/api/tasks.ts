@@ -1,12 +1,19 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import mongoose from "mongoose";
 
 import { BASE_URL, handleRequestError } from "~/utils";
+import { ITask } from "~/~/models/Task";
+
+type DeleteResponse = {
+  message: string;
+};
 
 // Get user's tasks
 export async function getTasksByUserId(userId: string) {
   try {
-    const response = await axios.get(`${BASE_URL}/tasks/${userId}`);
+    const response: AxiosResponse<ITask[]> = await axios.get(
+      `${BASE_URL}/tasks/${userId}`,
+    );
     const data = response.data;
 
     return data;
@@ -20,7 +27,7 @@ export async function getTasksByUserId(userId: string) {
 // Create
 export async function createTask(userId: string, title: string) {
   try {
-    const response = await axios.post(
+    const response: AxiosResponse<ITask> = await axios.post(
       `${BASE_URL}/tasks`,
       {
         userId,
@@ -49,7 +56,7 @@ export async function deleteTaskById(
   taskId: mongoose.Types.ObjectId,
 ) {
   try {
-    const response = await axios.delete(
+    const response: AxiosResponse<DeleteResponse> = await axios.delete(
       `${BASE_URL}/tasks/${userId}/${taskId}`,
     );
 

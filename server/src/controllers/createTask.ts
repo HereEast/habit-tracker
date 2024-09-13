@@ -59,7 +59,7 @@ export async function createTask(req: Request, res: Response) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found while creating new task." });
+      return res.status(404).json({ message: "User not found while creating new task." });
     }
 
     user.tasks.push(task._id);
