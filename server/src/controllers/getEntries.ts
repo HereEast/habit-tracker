@@ -1,57 +1,66 @@
 import { Request, Response } from "express";
 
 import { Entry } from "../models/Entry.js";
+import { getMonthFromIndex } from "../utils/handlers.js";
 
 // Month entries by taskId
 export async function getMonthEntriesByTaskId(req: Request, res: Response) {
-  const { userId, taskId, year, month } = req.params;
+  const { userId, taskId } = req.params;
+  const { year, month } = req.query;
 
-  if (!taskId || !userId || !year || !month) {
-    throw new Error("Some parameters are missing: userId, taskId, year, month.");
+  if (!year || !month) {
+    return res.status(500).json({
+      message: "Some parameters are missing: year, month.",
+    });
   }
-
-  const parsedYear = Number(year);
-  const parsedMonth = Number(month);
-
-  const startOfMonth = new Date(parsedYear, parsedMonth - 1, 1);
-  const endOfMonth = new Date(parsedYear, parsedMonth, 0, 23, 59, 59, 999);
-
-  const entries = await Entry.find({
-    userId,
-    taskId,
-    createdAt: { $gte: startOfMonth, $lte: endOfMonth },
-  }).exec();
-
-  return res.json(entries);
-}
-
-// Get all daily entries
-export async function getAllDailyEntries(req: Request, res: Response) {
-  const { userId, year, month, day } = req.params;
-
-  if (!userId || !year || !month || !day) {
-    throw new Error("Some parameters are missing: userId, year, month, day.");
-  }
-
-  const parsedYear = Number(year);
-  const parsedMonth = Number(month) - 1;
-  const parsedDay = Number(day);
-
-  const startOfDay = new Date(parsedYear, parsedMonth, parsedDay);
-  const endOfDay = new Date(parsedYear, parsedMonth, parsedDay + 1);
 
   try {
     const entries = await Entry.find({
       userId,
-      entryDate: { $gte: startOfDay, $lt: endOfDay },
+      taskId,
+      year: Number(year),
+      month: getMonthFromIndex(Number(month)),
     }).exec();
 
     return res.json(entries);
   } catch (err) {
-    console.error("Error fetching daily entries:", err);
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
 
+      return res.status(500).json({
+        message: "Failed to fetch month entries by task ID.",
+      });
+    }
+  }
+}
+
+// Get all daily entries
+export async function getUserEntriesByDay(req: Request, res: Response) {
+  const { userId } = req.params;
+  const { year, month, day } = req.query;
+
+  if (!year || !month || !day) {
     return res.status(500).json({
-      message: "Internal server error in getAllDailyEntries().",
+      message: "Some parameters are missing: year, month, day.",
     });
+  }
+
+  try {
+    const entries = await Entry.find({
+      userId,
+      year: Number(year),
+      month: getMonthFromIndex(Number(month) - 1),
+      day: Number(day),
+    }).exec();
+
+    return res.status(200).json(entries);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to fetch user's entries by day.",
+      });
+    }
   }
 }

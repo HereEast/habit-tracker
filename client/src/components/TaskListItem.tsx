@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import { Button } from "./ui/Button";
 import { EntryBox } from "./EntryBox";
 
-import { useAppContext, useEntries } from "~/hooks";
+import { useAppContext, useMonthEntries } from "~/hooks";
 import { getDaysInMonth } from "~/utils";
-import { deleteTaskById } from "~/api";
+import { deleteTaskById } from "~/api/tasks";
 
 interface TaskListItemProps {
   taskId?: mongoose.Types.ObjectId;
@@ -23,7 +23,7 @@ export function TaskListItem(props: TaskListItemProps) {
     data: entries,
     isLoading,
     error,
-  } = useEntries(userId, taskId, year, month);
+  } = useMonthEntries({ userId, taskId, year, month });
 
   const daysInMonth = getDaysInMonth(month, year);
   const invalidEntries = entries ? daysInMonth - entries?.length : 0;

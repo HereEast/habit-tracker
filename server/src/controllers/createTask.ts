@@ -1,30 +1,26 @@
-import { Request, Response } from "express";
 import mongoose from "mongoose";
+import { Request, Response } from "express";
 
 import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
 import { User } from "../models/User.js";
-import { getDaysInMonth } from "../utils/handlers.js";
+import { getDaysInMonth, getMonthFromIndex } from "../utils/handlers.js";
 
 interface CreateTaskRequestProps {
   title: string;
   userId: mongoose.Types.ObjectId;
 }
 
+type NewEntryData = Omit<IEntry, "_id">;
+type NewTaskData = Omit<ITask, "_id">;
+
+// Create Task
 export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body as CreateTaskRequestProps;
 
-  if (!title) {
-    throw new Error("Title is required, and it should be a string.");
-  }
-
-  if (!userId) {
-    throw new Error("UserId is missing when creating a new task.");
-  }
-
   try {
     // Create Task
-    const taskData: ITask = {
+    const taskData: NewTaskData = {
       userId,
       title,
       entries: [],
@@ -34,7 +30,7 @@ export async function createTask(req: Request, res: Response) {
     const task = new Task(taskData);
     await task.save();
 
-    // Create month's entries
+    // Create Entries for the current month
     const today = new Date();
     const year = today.getFullYear();
     const monthIndex = today.getMonth();
@@ -43,12 +39,12 @@ export async function createTask(req: Request, res: Response) {
     const daysInMonth = getDaysInMonth(monthIndex + 1, year);
 
     for (let i = todayDate; i <= daysInMonth; i++) {
-      const entryDate = new Date(Date.UTC(year, monthIndex, i));
-
-      const entryData: IEntry = {
+      const entryData: NewEntryData = {
         userId,
         taskId: task._id,
-        entryDate,
+        year,
+        month: getMonthFromIndex(monthIndex),
+        day: i,
         status: 0,
       };
 
@@ -56,15 +52,14 @@ export async function createTask(req: Request, res: Response) {
       await entry.save();
 
       task.entries.push(entry._id);
-      // task.entries.push(entryData);
       await task.save();
     }
 
-    // Push TaskID to User's tasks[]
+    // Add task ID to User's tasks[]
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ message: "User not found while creating new task." });
     }
 
     user.tasks.push(task._id);
@@ -72,6 +67,12 @@ export async function createTask(req: Request, res: Response) {
 
     return res.status(201).json(task);
   } catch (err) {
-    console.log("Error", err);
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to create new task.",
+      });
+    }
   }
 }

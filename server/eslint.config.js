@@ -38,7 +38,7 @@ export default [
 
     rules: {
       "prettier/prettier": "warn",
-      "max-len": ["error", { code: 100 }],
+      "max-len": ["warn", { code: 100 }],
       indent: ["error", 2, { SwitchCase: 1 }],
       semi: "error",
       "no-multi-spaces": "warn",

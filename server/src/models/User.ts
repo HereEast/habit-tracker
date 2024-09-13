@@ -3,7 +3,7 @@ import mongoose, { Schema, model } from "mongoose";
 import { COLLECTION } from "../utils/constants.js";
 
 export interface IUser {
-  _id?: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;

@@ -1,5 +1,5 @@
+import mongoose, { Error } from "mongoose";
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
@@ -9,10 +9,6 @@ import { User } from "../models/User.js";
 export async function deleteTaskById(req: Request, res: Response) {
   const { userId, taskId } = req.params;
 
-  if (!userId || !taskId) {
-    throw new Error("Parameters are required: userId and taskId.");
-  }
-
   try {
     await Task.deleteOne({ _id: taskId }).exec();
     await Entry.deleteMany({ taskId }).exec();
@@ -20,7 +16,7 @@ export async function deleteTaskById(req: Request, res: Response) {
     const user = await User.findById(userId).exec();
 
     if (!user) {
-      throw new Error("User not found.");
+      return res.status(404).json({ message: "User not found while deleting a task." });
     }
 
     const mongoTaskId = new mongoose.Types.ObjectId(taskId);
@@ -32,8 +28,13 @@ export async function deleteTaskById(req: Request, res: Response) {
     return res.status(201).json({
       message: `Task with ID ${taskId} is deleted.`,
     });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("An error occurred while deleting the task.");
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to delete the task.",
+      });
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getUserById } from "~/api";
 
+import { getUserById } from "~/api/users";
 import { IUser } from "~/~/models/User";
 
 export function useUser(userId: string) {
@@ -18,9 +18,8 @@ export function useUser(userId: string) {
 
         setData(user);
         setIsLoading(false);
-      } catch (err) {
+      } catch {
         setError(true);
-        console.log("Error", err);
       } finally {
         setIsLoading(false);
       }

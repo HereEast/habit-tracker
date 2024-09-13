@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import mongoose from "mongoose";
 
-import { getMonthEntriesByTaskId } from "~/api";
+import { getMonthEntriesByTaskId } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
-export function useEntries(
-  userId: string,
-  taskId: mongoose.Types.ObjectId | undefined,
-  year: number,
-  month: number,
-) {
+interface IUseEntriesProps {
+  userId: string;
+  taskId: mongoose.Types.ObjectId | undefined;
+  year: number;
+  month: number;
+}
+
+export function useMonthEntries(props: IUseEntriesProps) {
+  const { userId, taskId, year, month } = props;
+
   const [data, setData] = useState<IEntry[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -29,9 +33,8 @@ export function useEntries(
 
         setData(entries);
         setIsLoading(false);
-      } catch (err) {
+      } catch {
         setError(true);
-        console.log("Error", err);
       } finally {
         setIsLoading(false);
       }
