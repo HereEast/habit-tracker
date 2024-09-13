@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { Entry } from "../models/Entry.js";
+import { getMonthFromIndex } from "../utils/handlers.js";
 
 // Month entries by taskId
 export async function getMonthEntriesByTaskId(req: Request, res: Response) {
@@ -13,17 +14,12 @@ export async function getMonthEntriesByTaskId(req: Request, res: Response) {
     });
   }
 
-  const parsedYear = Number(year);
-  const parsedMonth = Number(month);
-
-  const startOfMonth = new Date(parsedYear, parsedMonth - 1, 1);
-  const endOfMonth = new Date(parsedYear, parsedMonth, 0, 23, 59, 59, 999);
-
   try {
     const entries = await Entry.find({
       userId,
       taskId,
-      createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+      year: Number(year),
+      month: getMonthFromIndex(Number(month)),
     }).exec();
 
     return res.json(entries);
@@ -49,17 +45,12 @@ export async function getUserEntriesByDay(req: Request, res: Response) {
     });
   }
 
-  const parsedYear = Number(year);
-  const parsedMonth = Number(month) - 1;
-  const parsedDay = Number(day);
-
-  const startOfDay = new Date(parsedYear, parsedMonth, parsedDay);
-  const endOfDay = new Date(parsedYear, parsedMonth, parsedDay + 1);
-
   try {
     const entries = await Entry.find({
       userId,
-      entryDate: { $gte: startOfDay, $lt: endOfDay },
+      year: Number(year),
+      month: getMonthFromIndex(Number(month) - 1),
+      day: Number(day),
     }).exec();
 
     return res.status(200).json(entries);

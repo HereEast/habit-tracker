@@ -1,4 +1,5 @@
-import { useAppContext, useEntries } from "~/hooks";
+import { useAppContext } from "~/hooks";
+import { useDayEntries } from "~/hooks/useDayEntries";
 import { calculateStatusPercentage, cn, getDateDetails } from "~/utils";
 
 interface MonthCardHeaderProps {
@@ -12,10 +13,9 @@ export function MonthCardHeader({ title, classes }: MonthCardHeaderProps) {
   const today = new Date();
   const { year, month, day } = getDateDetails(today);
 
-  const { data, isLoading, error } = useEntries({ userId, year, month, day });
+  const { data, isLoading, error } = useDayEntries({ userId, year, month, day });
 
   const statuses = data?.map((entry) => entry.status);
-
   const percentage = calculateStatusPercentage(statuses);
 
   return (

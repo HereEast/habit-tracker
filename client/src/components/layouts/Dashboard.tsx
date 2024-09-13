@@ -14,14 +14,14 @@ export function Dashboard() {
   const { data: tasks, isLoading, error } = useTasks(userId);
 
   const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
+  const month = new Date().getMonth();
   const daysInMonth = getDaysInMonth(month, year);
 
   return (
     <>
       <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
         <MonthCardHeader
-          title={`${getMonthFromIndex(month - 1)} ${year}`}
+          title={`${getMonthFromIndex(month)} ${year}`}
           classes="mb-6"
         />
 

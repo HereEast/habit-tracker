@@ -4,12 +4,14 @@ import mongoose from "mongoose";
 import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
 import { User } from "../models/User.js";
-import { getDaysInMonth } from "../utils/handlers.js";
+import { getDaysInMonth, getMonthFromIndex } from "../utils/handlers.js";
 
 interface CreateTaskRequestProps {
   title: string;
   userId: mongoose.Types.ObjectId;
 }
+
+type NewEntryData = Omit<IEntry, "_id">;
 
 export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body as CreateTaskRequestProps;
@@ -35,12 +37,12 @@ export async function createTask(req: Request, res: Response) {
     const daysInMonth = getDaysInMonth(monthIndex + 1, year);
 
     for (let i = todayDate; i <= daysInMonth; i++) {
-      const entryDate = new Date(Date.UTC(year, monthIndex, i));
-
-      const entryData: IEntry = {
+      const entryData: NewEntryData = {
         userId,
         taskId: task._id,
-        entryDate,
+        year,
+        month: getMonthFromIndex(monthIndex),
+        day: i,
         status: 0,
       };
 
@@ -53,7 +55,7 @@ export async function createTask(req: Request, res: Response) {
     }
 
     // Push TaskID to User's tasks[]
-    const user = await User.findById("123");
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found while creating new task." });
