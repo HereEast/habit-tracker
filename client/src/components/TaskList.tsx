@@ -1,4 +1,4 @@
-import { TaskListItem } from "./TaskListItem";
+import { TaskListItem } from "./Task";
 
 import { ITask } from "~/~/models/Task";
 

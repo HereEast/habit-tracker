@@ -1,5 +1,6 @@
 import { TaskList } from "./TaskList";
 import { MonthDaysRow } from "./MonthDaysRow";
+
 import { getDaysInMonth, getMonthFromIndex } from "~/utils";
 
 // import { ITask } from "~/~/models/Task";
@@ -7,6 +8,7 @@ import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
 import { CreateTaskForm } from "./CreateTaskForm";
 import { useAppContext, useTasks } from "~/hooks";
+import { Task } from "./Task";
 
 interface MonthCardProps {
   year: number;
@@ -37,7 +39,19 @@ export function MonthCard({ year, month }: MonthCardProps) {
         {tasks && tasks?.length > 0 && (
           <div className="flex w-full flex-col justify-center gap-2">
             <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
-            <TaskList tasks={tasks} year={year} month={month} />
+            {/* <TaskList tasks={tasks} year={year} month={month} /> */}
+
+            <div className="space-y-0.5">
+              {tasks.map((task) => (
+                <Task
+                  taskId={task._id}
+                  title={task.title}
+                  year={year}
+                  month={month}
+                  key={String(task._id)}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -10,8 +10,8 @@ export interface ITask {
   paused: boolean;
   pausedAt?: Date;
   resumedAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const TaskSchema = new Schema(

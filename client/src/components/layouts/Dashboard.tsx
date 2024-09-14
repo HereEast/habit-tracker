@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-
 import { Button } from "../ui/Button";
 import { MonthCard } from "../MonthCard";
-import { useAppContext } from "~/hooks";
 
-const ratingRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { useAppContext } from "~/hooks";
+import { updateEntryStatus } from "~/api/entries";
+import { StatusType } from "~/~/models/Entry";
+import { STATUSES } from "~/utils";
 
 export function Dashboard() {
   const year = new Date().getFullYear();
@@ -19,24 +19,24 @@ export function Dashboard() {
 }
 
 export function Rating() {
-  const { selectedEntry, setSelectedEntry } = useAppContext();
+  const { selectedEntryId, setSelectedEntryId } = useAppContext();
 
-  function handleSetRating(option: number) {
-    console.log("Rate:", option);
-
-    // Update status
-    // Set selectedEntry to null
+  async function handleSetRating(status: StatusType) {
+    if (selectedEntryId) {
+      await updateEntryStatus(selectedEntryId, status);
+      setSelectedEntryId(null);
+    }
   }
 
   return (
     <div className="flex gap-2 rounded-lg bg-brown-100/20 p-4">
-      {ratingRange.map((option) => (
+      {STATUSES.map((status) => (
         <Button
-          key={option}
+          key={status}
           classes="flex size-10 items-center justify-center rounded-md bg-brown-100 text-brown-800 hover:bg-brown-800 hover:text-brown-50"
-          onClick={() => handleSetRating(option)}
+          onClick={() => handleSetRating(status as StatusType)}
         >
-          {option}
+          {status}
         </Button>
       ))}
     </div>

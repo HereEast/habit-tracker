@@ -12,7 +12,7 @@ interface CreateTaskRequestProps {
 }
 
 type NewEntryData = Omit<IEntry, "_id">;
-type NewTaskData = Omit<ITask, "_id">;
+type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
 
 // Create Task
 export async function createTask(req: Request, res: Response) {

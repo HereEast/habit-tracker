@@ -2,7 +2,34 @@ import mongoose from "mongoose";
 import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL, handleRequestError } from "~/utils";
-import { IEntry } from "~/~/models/Entry";
+import { IEntry, StatusType } from "~/~/models/Entry";
+
+type UpdateResponse = {
+  message: string;
+};
+
+// Update entry status
+export async function updateEntryStatus(
+  entryId: mongoose.Types.ObjectId | undefined,
+  status: StatusType,
+) {
+  try {
+    const response: AxiosResponse<UpdateResponse> = await axios.patch(
+      `${BASE_URL}/entries/update/${entryId}`,
+      {
+        status,
+      },
+    );
+
+    const data = response.data;
+
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
+  }
+}
 
 // Get month entries by task ID
 export async function getMonthEntriesByTaskId(
