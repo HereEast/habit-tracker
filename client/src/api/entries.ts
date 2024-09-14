@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL, handleRequestError } from "~/utils";
-import { IEntry, StatusType } from "~/~/models/Entry";
+import { IEntry, Status } from "~/~/models/Entry";
 
 type UpdateResponse = {
   message: string;
@@ -11,7 +11,7 @@ type UpdateResponse = {
 // Update entry status
 export async function updateEntryStatus(
   entryId: mongoose.Types.ObjectId | undefined,
-  status: StatusType,
+  status: Status,
 ) {
   try {
     const response: AxiosResponse<UpdateResponse> = await axios.patch(

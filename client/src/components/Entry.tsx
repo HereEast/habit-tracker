@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 import { useAppContext } from "~/hooks";
 import { cn, statusColor } from "~/utils";
-import { StatusType } from "~/~/models/Entry";
+import { Status } from "~/~/models/Entry";
 
 interface EntryProps {
   id: mongoose.Types.ObjectId;
-  status: StatusType;
+  status: Status;
 }
 
 export function Entry({ id, status }: EntryProps) {

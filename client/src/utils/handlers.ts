@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { StatusType } from "~/~/models/Entry";
+import { Status } from "~/~/models/Entry";
 
 // Handle request error
 export function handleRequestError(err: Error) {
@@ -14,7 +14,7 @@ export function handleRequestError(err: Error) {
 }
 
 // Status color
-export const statusColor = (status: StatusType) => {
+export const statusColor = (status: Status) => {
   const colorMap: { [key: number]: string } = {
     1: "bg-stone-400/50",
     2: "bg-stone-400/50",
@@ -32,12 +32,12 @@ export const statusColor = (status: StatusType) => {
 };
 
 // Calculate % of accomplishment
-export function calculateStatusPercentage(statuses: StatusType[] | undefined) {
+export function calculateStatusPercentage(statuses: Status[] | undefined) {
   if (!statuses || statuses.length === 0) {
     return 0;
   }
 
-  const maxStatusValue: StatusType = 10;
+  const maxStatusValue: Status = 10;
   const totalPossibleScore = statuses.length * maxStatusValue;
 
   const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);

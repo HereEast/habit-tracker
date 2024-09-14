@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 import { COLLECTION } from "../utils/constants.js";
 
-export type StatusValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export const STATUSES: StatusValue[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export type Status = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export const STATUSES: Status[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export interface IEntry {
   _id: mongoose.Types.ObjectId;
@@ -12,7 +12,7 @@ export interface IEntry {
   year: number;
   month: string;
   day: number;
-  status: StatusValue;
+  status: Status;
   notes?: string;
   createdAt?: Date;
   updatedAt?: Date;
