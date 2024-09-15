@@ -10,12 +10,12 @@ type UpdateResponse = {
 
 // Update entry status
 export async function updateEntryStatus(
-  entryId: mongoose.Types.ObjectId | undefined,
+  entryId: mongoose.Types.ObjectId,
   status: Status,
 ) {
   try {
     const response: AxiosResponse<UpdateResponse> = await axios.patch(
-      `${BASE_URL}/entries/update/${entryId}`,
+      `${BASE_URL}/entries/${entryId}`,
       {
         status,
       },
@@ -34,7 +34,7 @@ export async function updateEntryStatus(
 // Get month entries by task ID
 export async function getMonthEntriesByTaskId(
   userId: string,
-  taskId: mongoose.Types.ObjectId | undefined,
+  taskId: mongoose.Types.ObjectId,
   year: number,
   month: number,
 ) {
