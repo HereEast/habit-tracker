@@ -1,27 +1,38 @@
-import mongoose from "mongoose";
-
 import { useAppContext } from "~/hooks";
 import { cn, statusColor } from "~/utils";
-import { Status } from "~/~/models/Entry";
+
+import { IEntry } from "~/~/models/Entry";
 
 interface EntryProps {
-  id: mongoose.Types.ObjectId;
-  status: Status;
+  entry: IEntry;
 }
 
-export function Entry({ id, status }: EntryProps) {
+export function Entry({ entry }: EntryProps) {
   const { selectedEntryId, setSelectedEntryId } = useAppContext();
+
+  const today = new Date();
+  const todayDay = today.getDate();
+
+  const todayEntry = todayDay === entry.day;
+
+  function handleClick() {
+    if (todayEntry) {
+      setSelectedEntryId(selectedEntryId === entry._id ? null : entry._id);
+    }
+  }
 
   return (
     <div
       className={cn(
         "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
-        status > 0 && statusColor(status),
-        selectedEntryId === id && "border border-brown-600",
+        entry.status > 0 && statusColor(entry.status),
+        todayEntry && "hover:border hover:border-brown-600",
+        selectedEntryId === entry._id && "border border-brown-600",
       )}
-      onClick={() => setSelectedEntryId(id)}
+      onClick={handleClick}
+      title={`Rate: ${String(entry.status)}`}
     >
-      {status}
+      {entry.status}
     </div>
   );
 }
