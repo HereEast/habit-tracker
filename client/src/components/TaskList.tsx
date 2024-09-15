@@ -1,4 +1,4 @@
-import { TaskListItem } from "./TaskListItem";
+import { Task } from "./Task";
 
 import { ITask } from "~/~/models/Task";
 
@@ -11,9 +11,9 @@ interface TaskListProps {
 
 export function TaskList({ tasks, year, month }: TaskListProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {tasks.map((task) => (
-        <TaskListItem
+        <Task
           taskId={task._id}
           title={task.title}
           year={year}

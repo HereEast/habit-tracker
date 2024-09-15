@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { MonthType, StatusType } from "~/~/utils/types";
+import { Status } from "~/~/models/Entry";
 
 // Handle request error
 export function handleRequestError(err: Error) {
@@ -13,13 +13,31 @@ export function handleRequestError(err: Error) {
   }
 }
 
+// Status color
+export const statusColor = (status: Status) => {
+  const colorMap: { [key: number]: string } = {
+    1: "bg-stone-400/50",
+    2: "bg-stone-400/50",
+    3: "bg-stone-400",
+    4: "bg-stone-400",
+    5: "bg-stone-500",
+    6: "bg-stone-500",
+    7: "bg-stone-600",
+    8: "bg-stone-600",
+    9: "bg-stone-800",
+    10: "bg-stone-800",
+  };
+
+  return colorMap[status] || "bg-stone-300/50";
+};
+
 // Calculate % of accomplishment
-export function calculateStatusPercentage(statuses: StatusType[] | undefined) {
+export function calculateStatusPercentage(statuses: Status[] | undefined) {
   if (!statuses || statuses.length === 0) {
     return 0;
   }
 
-  const maxStatusValue: StatusType = 5;
+  const maxStatusValue: Status = 10;
   const totalPossibleScore = statuses.length * maxStatusValue;
 
   const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);
@@ -37,9 +55,9 @@ export function getDateDetails(date: Date) {
   };
 }
 
-// Get a month name from index
+// Get month from index
 export function getMonthFromIndex(index: number) {
-  const months: MonthType[] = [
+  const months = [
     "january",
     "february",
     "march",
