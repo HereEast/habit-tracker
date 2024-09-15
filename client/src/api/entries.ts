@@ -17,7 +17,7 @@ export async function updateEntryStatus(
     const response: AxiosResponse<UpdateResponse> = await axios.patch(
       `${BASE_URL}/entries/${entryId}`,
       {
-        status,
+        status: String(status),
       },
     );
 

@@ -74,11 +74,7 @@ export function Task(props: TaskListItemProps) {
 
         {entries &&
           entries.map((entry) => (
-            <Entry
-              id={entry._id}
-              status={entry.status}
-              key={String(entry._id)}
-            />
+            <Entry entry={entry} key={String(entry._id)} />
           ))}
       </div>
 
