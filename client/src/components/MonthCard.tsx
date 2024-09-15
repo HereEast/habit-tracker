@@ -39,7 +39,6 @@ export function MonthCard({ year, month }: MonthCardProps) {
         {tasks && tasks?.length > 0 && (
           <div className="flex w-full flex-col justify-center gap-2">
             <MonthDaysRow year={year} month={month} daysInMonth={daysInMonth} />
-            {/* <TaskList tasks={tasks} year={year} month={month} /> */}
 
             <div className="space-y-0.5">
               {tasks.map((task) => (

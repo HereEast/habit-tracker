@@ -10,7 +10,7 @@ export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
   const today = new Date();
 
   const currentDate = today.getDate();
-  const currentMonth = today.getMonth() + 1;
+  const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
 
   const isCurrentYearAndMonth = year === currentYear && month === currentMonth;
@@ -27,7 +27,7 @@ export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
               "flex size-6 shrink-0 items-center justify-center rounded-sm bg-transparent text-xs text-stone-400",
               isCurrentYearAndMonth &&
                 currentDate === i + 1 &&
-                "rounded-full bg-stone-50 text-stone-800",
+                "rounded-full bg-stone-50 text-stone-800 font-medium",
             )}
           >
             {i + 1}

@@ -3,6 +3,36 @@ import { Request, Response } from "express";
 import { Entry } from "../models/Entry.js";
 import { getMonthFromIndex } from "../utils/handlers.js";
 
+// Month entries
+export async function getMonthEntries(req: Request, res: Response) {
+  const { userId } = req.params;
+  const { year, month } = req.query;
+
+  if (!year || !month) {
+    return res.status(500).json({
+      message: "Some parameters are missing: year, month.",
+    });
+  }
+
+  try {
+    const entries = await Entry.find({
+      userId,
+      year: Number(year),
+      month: getMonthFromIndex(Number(month) - 1),
+    }).exec();
+
+    return res.json(entries);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log("🔴 Error:", err.message);
+
+      return res.status(500).json({
+        message: "Failed to fetch user's month entries.",
+      });
+    }
+  }
+}
+
 // Month entries by taskId
 export async function getMonthEntriesByTaskId(req: Request, res: Response) {
   const { userId, taskId } = req.params;
