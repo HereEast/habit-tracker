@@ -23,6 +23,10 @@ export function useMonthEntries(props: IUseEntriesProps) {
       setIsLoading(true);
       setError(false);
 
+      if (!taskId) {
+        return;
+      }
+
       try {
         const entries = await getMonthEntriesByTaskId(
           userId,

@@ -10,6 +10,6 @@ router.route("/day/:userId").get(getUserEntriesByDay);
 router.route("/:userId/:taskId").get(getMonthEntriesByTaskId);
 
 // Update
-router.route("/update/:entryId").patch(updateEntryStatus);
+router.route("/:entryId").patch(updateEntryStatus);
 
 export { router as entriesRouter };

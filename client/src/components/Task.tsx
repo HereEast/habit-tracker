@@ -4,8 +4,9 @@ import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
 
 import { useAppContext, useMonthEntries } from "~/hooks";
-import { getDaysInMonth } from "~/utils";
-import { deleteTaskById } from "~/api/tasks";
+import { cn, getDaysInMonth } from "~/utils";
+import { deleteTaskById, updateTaskTitle } from "~/api/tasks";
+import { useState } from "react";
 
 interface TaskListItemProps {
   taskId: mongoose.Types.ObjectId;
@@ -19,6 +20,9 @@ export function Task(props: TaskListItemProps) {
 
   const { taskId, title, year, month } = props;
 
+  const [newTaskTitle, setNewTaskTitle] = useState(title);
+  const [editMode, setEditMode] = useState(false);
+
   const {
     data: entries,
     isLoading,
@@ -28,17 +32,36 @@ export function Task(props: TaskListItemProps) {
   const daysInMonth = getDaysInMonth(month, year);
   const invalidEntries = entries ? daysInMonth - entries?.length : 0;
 
+  // Delete
   async function handleDeleteTask() {
-    if (!taskId) {
-      return;
+    if (taskId) {
+      await deleteTaskById(userId, taskId);
+    }
+  }
+
+  // Edit title
+  async function handleEditTitle() {
+    if (taskId) {
+      await updateTaskTitle(taskId, newTaskTitle);
     }
 
-    await deleteTaskById(userId, taskId);
+    setEditMode(false);
   }
 
   return (
     <div className="flex w-full items-center gap-6">
-      <div className="w-32 truncate text-sm">{title}</div>
+      <div className="w-32">
+        <input
+          value={newTaskTitle}
+          className={cn(
+            "h-6 w-full truncate border border-x-0 border-transparent bg-transparent text-sm outline-none",
+            editMode && "border-b-brown-200/0 bg-brown-50",
+          )}
+          onChange={(e) => setNewTaskTitle(e.target.value)}
+          onFocus={() => setEditMode(true)}
+          onBlur={handleEditTitle}
+        />
+      </div>
 
       {/* Entries */}
       <div className="flex gap-0.5">
@@ -51,7 +74,11 @@ export function Task(props: TaskListItemProps) {
 
         {entries &&
           entries.map((entry) => (
-            <Entry id={entry._id} status={entry.status} key={String(entry._id)} />
+            <Entry
+              id={entry._id}
+              status={entry.status}
+              key={String(entry._id)}
+            />
           ))}
       </div>
 
