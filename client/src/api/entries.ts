@@ -59,6 +59,33 @@ export async function getMonthEntriesByTaskId(
   }
 }
 
+// Get ALL month entries
+export async function getMonthEntries(
+  userId: string,
+  year: number,
+  month: number,
+) {
+  try {
+    const response: AxiosResponse<IEntry[]> = await axios.get(
+      `${BASE_URL}/entries/${userId}`,
+      {
+        params: {
+          year,
+          month,
+        },
+      },
+    );
+
+    const data = response.data;
+
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
+  }
+}
+
 // All users entries by day
 export async function getUserEntriesByDay(
   userId: string,

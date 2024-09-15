@@ -43,7 +43,7 @@ export function calculateStatusPercentage(statuses: Status[] | undefined) {
   const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);
   const percentage = (totalScore / totalPossibleScore) * 100;
 
-  return percentage;
+  return Math.round(percentage);
 }
 
 // Get date details
