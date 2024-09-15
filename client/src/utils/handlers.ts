@@ -14,21 +14,28 @@ export function handleRequestError(err: Error) {
 }
 
 // Status color
-export const statusColor = (status: Status) => {
-  const colorMap: { [key: number]: string } = {
-    1: "bg-stone-400/50",
-    2: "bg-stone-400/50",
-    3: "bg-stone-400",
-    4: "bg-stone-400",
-    5: "bg-stone-500",
-    6: "bg-stone-500",
-    7: "bg-stone-600",
-    8: "bg-stone-600",
-    9: "bg-stone-800",
-    10: "bg-stone-800",
-  };
-
-  return colorMap[status] || "bg-stone-300/50";
+export const statusColor = (status: Status): string => {
+  switch (status) {
+    case 0:
+      return "bg-stone-300/50";
+    case 1:
+    case 2:
+      return "bg-stone-400/50";
+    case 3:
+    case 4:
+      return "bg-stone-400";
+    case 5:
+    case 6:
+      return "bg-stone-500";
+    case 7:
+    case 8:
+      return "bg-stone-600";
+    case 9:
+    case 10:
+      return "bg-stone-800";
+    default:
+      return "bg-stone-300/50";
+  }
 };
 
 // Calculate % of accomplishment

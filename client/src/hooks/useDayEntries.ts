@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getUserEntriesByDay } from "~/api/entries";
+import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 interface IUseEntriesProps {
@@ -23,7 +23,7 @@ export function useDayEntries(props: IUseEntriesProps) {
       setError(false);
 
       try {
-        const entries = await getUserEntriesByDay(userId, year, month, day)
+        const entries = await getEntries(userId, year, month, day);
 
         setData(entries);
         setIsLoading(false);

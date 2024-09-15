@@ -60,10 +60,11 @@ export async function getMonthEntriesByTaskId(
 }
 
 // Get ALL month entries
-export async function getMonthEntries(
+export async function getEntries(
   userId: string,
   year: number,
   month: number,
+  day?: number,
 ) {
   try {
     const response: AxiosResponse<IEntry[]> = await axios.get(
@@ -72,6 +73,7 @@ export async function getMonthEntries(
         params: {
           year,
           month,
+          day: day || undefined,
         },
       },
     );
@@ -87,30 +89,30 @@ export async function getMonthEntries(
 }
 
 // All users entries by day
-export async function getUserEntriesByDay(
-  userId: string,
-  year: number,
-  month: number,
-  day: number,
-) {
-  try {
-    const response: AxiosResponse<IEntry[]> = await axios.get(
-      `${BASE_URL}/entries/day/${userId}`,
-      {
-        params: {
-          year,
-          month,
-          day,
-        },
-      },
-    );
+// export async function getUserEntriesByDay(
+//   userId: string,
+//   year: number,
+//   month: number,
+//   day: number,
+// ) {
+//   try {
+//     const response: AxiosResponse<IEntry[]> = await axios.get(
+//       `${BASE_URL}/entries/day/${userId}`,
+//       {
+//         params: {
+//           year,
+//           month,
+//           day,
+//         },
+//       },
+//     );
 
-    const data = response.data;
+//     const data = response.data;
 
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      handleRequestError(err);
-    }
-  }
-}
+//     return data;
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       handleRequestError(err);
+//     }
+//   }
+// }
