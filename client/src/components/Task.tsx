@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
 
-import { useAppContext, useMonthEntries } from "~/hooks";
+import { useAppContext, useEntries } from "~/hooks";
 import { cn, getDaysInMonth } from "~/utils";
 import { deleteTaskById, updateTaskTitle } from "~/api/tasks";
 import { useState } from "react";
@@ -27,7 +27,7 @@ export function Task(props: TaskListItemProps) {
     data: entries,
     isLoading,
     error,
-  } = useMonthEntries({ userId, taskId, year, month });
+  } = useEntries({ userId, taskId, year, month });
 
   const daysInMonth = getDaysInMonth(month, year);
   const invalidEntries = entries ? daysInMonth - entries?.length : 0;

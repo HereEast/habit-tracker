@@ -4,15 +4,16 @@ import mongoose from "mongoose";
 import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
-interface IUseEntriesProps {
+interface UseEntriesProps {
   userId: string;
   taskId?: mongoose.Types.ObjectId;
   year: number;
   month: number;
+  day?: number;
 }
 
-export function useMonthEntries(props: IUseEntriesProps) {
-  const { userId, taskId, year, month } = props;
+export function useEntries(props: UseEntriesProps) {
+  const { userId, taskId, year, month, day } = props;
 
   const [data, setData] = useState<IEntry[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +25,7 @@ export function useMonthEntries(props: IUseEntriesProps) {
       setError(false);
 
       try {
-        const entries = taskId
-          ? await getEntries({ userId, taskId, year, month })
-          : await getEntries({ userId, year, month });
+        const entries = await getEntries({ userId, taskId, year, month, day });
 
         setData(entries);
         setIsLoading(false);
@@ -38,7 +37,7 @@ export function useMonthEntries(props: IUseEntriesProps) {
     }
 
     fetchEntries();
-  }, [userId, taskId, year, month]);
+  }, [userId, taskId, year, month, day]);
 
   return { data, isLoading, error };
 }

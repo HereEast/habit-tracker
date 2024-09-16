@@ -8,6 +8,41 @@ type UpdateResponse = {
   message: string;
 };
 
+interface GetEntriesParams {
+  userId: string;
+  year: number;
+  month: number;
+  day?: number;
+  taskId?: mongoose.Types.ObjectId;
+}
+
+// Get Entries
+export async function getEntries(params: GetEntriesParams) {
+  const { userId, taskId, year, month, day } = params;
+
+  try {
+    const response: AxiosResponse<IEntry[]> = await axios.get(
+      `${BASE_URL}/entries/${userId}`,
+      {
+        params: {
+          taskId,
+          year,
+          month,
+          day,
+        },
+      },
+    );
+
+    const data = response.data;
+
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
+  }
+}
+
 // Update entry status
 export async function updateEntryStatus(
   entryId: mongoose.Types.ObjectId,
@@ -58,41 +93,6 @@ export async function updateEntryStatus(
 //     }
 //   }
 // }
-
-interface GetEntriesParams {
-  userId: string;
-  year: number;
-  month: number;
-  day?: number;
-  taskId?: mongoose.Types.ObjectId;
-}
-
-// Get ALL month entries
-export async function getEntries(params: GetEntriesParams) {
-  const { userId, taskId, year, month, day } = params;
-
-  try {
-    const response: AxiosResponse<IEntry[]> = await axios.get(
-      `${BASE_URL}/entries/${userId}`,
-      {
-        params: {
-          taskId,
-          year,
-          month,
-          day,
-        },
-      },
-    );
-
-    const data = response.data;
-
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      handleRequestError(err);
-    }
-  }
-}
 
 // All users entries by day
 // export async function getUserEntriesByDay(
