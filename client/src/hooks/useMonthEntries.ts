@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import mongoose from "mongoose";
 
-import { getEntries, getMonthEntriesByTaskId } from "~/api/entries";
+import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 interface IUseEntriesProps {
@@ -25,8 +25,8 @@ export function useMonthEntries(props: IUseEntriesProps) {
 
       try {
         const entries = taskId
-          ? await getMonthEntriesByTaskId(userId, taskId, year, month)
-          : await getEntries(userId, year, month);
+          ? await getEntries({ userId, taskId, year, month })
+          : await getEntries({ userId, year, month });
 
         setData(entries);
         setIsLoading(false);

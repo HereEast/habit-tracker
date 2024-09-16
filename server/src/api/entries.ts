@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Get
 // router.route("/day/:userId").get(getEntries);
-router.route("/:userId/:taskId").get(getEntries);
+// router.route("/:userId/:taskId").get(getEntries);
 router.route("/:userId").get(getEntries);
 
 // Update
