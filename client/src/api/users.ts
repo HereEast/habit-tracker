@@ -4,13 +4,10 @@ import { BASE_URL, handleRequestError } from "~/utils";
 import { IUser } from "~/~/models/User";
 
 // Get user by ID
-export async function getUserById(userId: string) {
+export async function getUser(userId: string) {
   try {
     const response: AxiosResponse<IUser> = await axios.get(
-      `${BASE_URL}/users`,
-      {
-        params: userId,
-      },
+      `${BASE_URL}/users/${userId}`,
     );
 
     const data = response.data;

@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
+import mongoose from "mongoose";
 
-import { getUserEntriesByDay } from "~/api/entries";
+import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
-interface IUseEntriesProps {
+interface UseEntriesProps {
   userId: string;
+  taskId?: mongoose.Types.ObjectId;
   year: number;
   month: number;
-  day: number;
+  day?: number;
 }
 
-export function useDayEntries(props: IUseEntriesProps) {
-  const { userId, year, month, day } = props;
+export function useEntries(props: UseEntriesProps) {
+  const { userId, taskId, year, month, day } = props;
 
   const [data, setData] = useState<IEntry[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +25,7 @@ export function useDayEntries(props: IUseEntriesProps) {
       setError(false);
 
       try {
-        const entries = await getUserEntriesByDay(userId, year, month, day)
+        const entries = await getEntries({ userId, taskId, year, month, day });
 
         setData(entries);
         setIsLoading(false);
@@ -35,7 +37,7 @@ export function useDayEntries(props: IUseEntriesProps) {
     }
 
     fetchEntries();
-  }, [userId, year, month, day]);
+  }, [userId, taskId, year, month, day]);
 
   return { data, isLoading, error };
 }

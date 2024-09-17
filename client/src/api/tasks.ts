@@ -9,11 +9,12 @@ type MessageResponse = {
 };
 
 // Get user's tasks
-export async function getTasksByUserId(userId: string) {
+export async function getTasks(userId: string) {
   try {
     const response: AxiosResponse<ITask[]> = await axios.get(
       `${BASE_URL}/tasks/${userId}`,
     );
+    
     const data = response.data;
 
     return data;
@@ -51,15 +52,15 @@ export async function createTask(userId: string, title: string) {
 }
 
 // Update title
-export async function updateTaskTitle(
+export async function updateTask(
   taskId: mongoose.Types.ObjectId,
-  newTitle: string,
+  title: string,
 ) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.patch(
       `${BASE_URL}/tasks/${taskId}`,
       {
-        newTitle,
+        title,
       },
     );
 
@@ -74,7 +75,7 @@ export async function updateTaskTitle(
 }
 
 // Delete
-export async function deleteTaskById(
+export async function deleteTask(
   userId: string,
   taskId: mongoose.Types.ObjectId,
 ) {

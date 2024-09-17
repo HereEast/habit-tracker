@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
 
-import { useAppContext, useMonthEntries } from "~/hooks";
+import { useAppContext, useEntries } from "~/hooks";
 import { cn, getDaysInMonth } from "~/utils";
-import { deleteTaskById, updateTaskTitle } from "~/api/tasks";
+import { deleteTask, updateTask } from "~/api/tasks";
 import { useState } from "react";
 
 interface TaskListItemProps {
@@ -27,7 +27,7 @@ export function Task(props: TaskListItemProps) {
     data: entries,
     isLoading,
     error,
-  } = useMonthEntries({ userId, taskId, year, month });
+  } = useEntries({ userId, taskId, year, month });
 
   const daysInMonth = getDaysInMonth(month, year);
   const invalidEntries = entries ? daysInMonth - entries?.length : 0;
@@ -35,14 +35,14 @@ export function Task(props: TaskListItemProps) {
   // Delete
   async function handleDeleteTask() {
     if (taskId) {
-      await deleteTaskById(userId, taskId);
+      await deleteTask(userId, taskId);
     }
   }
 
   // Edit title
   async function handleEditTitle() {
     if (taskId) {
-      await updateTaskTitle(taskId, newTaskTitle);
+      await updateTask(taskId, newTaskTitle);
     }
 
     setEditMode(false);

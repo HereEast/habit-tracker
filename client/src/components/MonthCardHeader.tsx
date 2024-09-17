@@ -1,4 +1,4 @@
-import { useAppContext, useMonthEntries } from "~/hooks";
+import { useAppContext, useEntries } from "~/hooks";
 import { calculateStatusPercentage, cn, getDateDetails } from "~/utils";
 
 interface MonthCardHeaderProps {
@@ -14,7 +14,7 @@ export function MonthCardHeader({ title, classes }: MonthCardHeaderProps) {
 
   const { year, month } = getDateDetails(today);
 
-  const { data: monthEntries, isLoading: isEntriesLoading } = useMonthEntries({
+  const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
     userId,
     year,
     month,

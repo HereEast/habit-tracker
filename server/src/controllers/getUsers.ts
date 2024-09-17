@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 
 import { User } from "../models/User.js";
 
-export async function getUserById(req: Request, res: Response) {
+// Get User
+export async function getUser(req: Request, res: Response) {
   const { userId } = req.params;
 
   try {
