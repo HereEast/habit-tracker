@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import { RootFilterQuery } from "mongoose";
 
 import { Entry } from "../models/Entry.js";
-import { getMonthFromIndex } from "../utils/handlers.js";
+// import { getMonthFromIndex } from "../utils/handlers.js";
 
 interface IEntryQuery {
   userId: string;
   taskId?: string;
   year: number;
-  month: string;
+  month: number;
   day?: number;
 }
 
@@ -26,7 +26,8 @@ export async function getEntries(req: Request, res: Response) {
   const query: RootFilterQuery<IEntryQuery> = {
     userId,
     year: Number(year),
-    month: getMonthFromIndex(Number(month)),
+    // month: getMonthFromIndex(Number(month)),
+    month: month,
   };
 
   if (taskId) {

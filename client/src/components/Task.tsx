@@ -23,14 +23,14 @@ export function Task(props: TaskListItemProps) {
   const [newTaskTitle, setNewTaskTitle] = useState(title);
   const [editMode, setEditMode] = useState(false);
 
-  const {
-    data: entries,
-    isLoading,
-    error,
-  } = useEntries({ userId, taskId, year, month });
+  // const {
+  //   data: entries,
+  //   isLoading,
+  //   error,
+  // } = useEntries({ userId, taskId, year, month });
 
   const daysInMonth = getDaysInMonth(month, year);
-  const invalidEntries = entries ? daysInMonth - entries?.length : 0;
+  // const invalidEntries = entries ? daysInMonth - entries?.length : 0;
 
   // Delete
   async function handleDeleteTask() {
@@ -64,7 +64,7 @@ export function Task(props: TaskListItemProps) {
       </div>
 
       {/* Entries */}
-      <div className="flex gap-0.5">
+      {/* <div className="flex gap-0.5">
         {invalidEntries > 0 &&
           new Array(invalidEntries)
             .fill(0)
@@ -76,7 +76,7 @@ export function Task(props: TaskListItemProps) {
           entries.map((entry) => (
             <Entry entry={entry} key={String(entry._id)} />
           ))}
-      </div>
+      </div> */}
 
       <Button
         onClick={handleDeleteTask}
