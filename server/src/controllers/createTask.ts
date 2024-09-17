@@ -35,7 +35,7 @@ export async function createTask(req: Request, res: Response) {
     const month = today.getMonth() + 1;
     const todayDate = today.getDate();
 
-    const daysInMonth = getDaysInMonth(month + 1, year);
+    const daysInMonth = getDaysInMonth(month, year);
 
     for (let i = todayDate; i <= daysInMonth; i++) {
       const entryData: NewEntryData = {

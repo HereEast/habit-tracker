@@ -1,4 +1,4 @@
-import { cn } from "~/utils";
+import { cn, getDaysInMonth } from "~/utils";
 
 interface MonthDaysRowProps {
   year: number;

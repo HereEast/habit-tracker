@@ -10,17 +10,20 @@ import { CreateTaskForm } from "./CreateTaskForm";
 import { useAppContext, useTasks } from "~/hooks";
 import { Task } from "./Task";
 
-interface MonthCardProps {
-  year: number;
-  month: number;
-}
+// interface MonthCardProps {
+//   year: number;
+//   month: number;
+// }
 
-export function MonthCard({ year, month }: MonthCardProps) {
+export function MonthCard() {
   const { userId } = useAppContext();
 
   const { data: tasks, isLoading, error } = useTasks(userId);
 
-  const daysInMonth = getDaysInMonth(month, year);
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth();
+
+  const daysInMonth = getDaysInMonth(month + 1, year);
 
   return (
     <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
@@ -46,7 +49,7 @@ export function MonthCard({ year, month }: MonthCardProps) {
                   taskId={task._id}
                   title={task.title}
                   year={year}
-                  month={month}
+                  month={month + 1}
                   key={String(task._id)}
                 />
               ))}

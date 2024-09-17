@@ -84,7 +84,7 @@ export function getMonthFromIndex(index: number) {
 
 // Get number of ays in a month
 export function getDaysInMonth(month: number, year: number) {
-  return new Date(year, month + 1, 0).getDate();
+  return new Date(year, month, 0).getDate();
 }
 
 // Tw

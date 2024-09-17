@@ -5,8 +5,8 @@ import { Rating } from "../Rating";
 export function Dashboard() {
   // const { userId } = useAppContext();
 
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth();
+  // const year = new Date().getFullYear();
+  // const month = new Date().getMonth();
 
   // const { data } = useUser(userId);
 
@@ -15,7 +15,8 @@ export function Dashboard() {
   return (
     <div className="flex flex-col items-center gap-6">
       <Rating />
-      <MonthCard year={year} month={month} />
+      {/* <MonthCard year={year} month={month} /> */}
+      <MonthCard />
     </div>
   );
 }

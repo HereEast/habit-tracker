@@ -23,14 +23,14 @@ export function Task(props: TaskListItemProps) {
   const [newTaskTitle, setNewTaskTitle] = useState(title);
   const [editMode, setEditMode] = useState(false);
 
-  // const {
-  //   data: entries,
-  //   isLoading,
-  //   error,
-  // } = useEntries({ userId, taskId, year, month });
+  const {
+    data: entries,
+    isLoading,
+    error,
+  } = useEntries({ userId, taskId, year, month });
 
-  const daysInMonth = getDaysInMonth(month, year);
-  // const invalidEntries = entries ? daysInMonth - entries?.length : 0;
+  const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
+  const invalidEntries = firstEntryDay - 1;
 
   // Delete
   async function handleDeleteTask() {
@@ -64,19 +64,19 @@ export function Task(props: TaskListItemProps) {
       </div>
 
       {/* Entries */}
-      {/* <div className="flex gap-0.5">
+      <div className="flex gap-0.5">
         {invalidEntries > 0 &&
           new Array(invalidEntries)
             .fill(0)
             .map((_, i) => (
-              <div key={i} className="size-6 shrink-0 bg-transparent" />
+              <div key={i} className="size-6 shrink-0 border bg-transparent" />
             ))}
 
         {entries &&
           entries.map((entry) => (
             <Entry entry={entry} key={String(entry._id)} />
           ))}
-      </div> */}
+      </div>
 
       <Button
         onClick={handleDeleteTask}
