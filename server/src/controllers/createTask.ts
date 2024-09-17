@@ -32,7 +32,7 @@ export async function createTask(req: Request, res: Response) {
     // Create Entries for the current month
     const today = new Date();
     const year = today.getFullYear();
-    const month = today.getMonth();
+    const month = today.getMonth() + 1;
     const todayDate = today.getDate();
 
     const daysInMonth = getDaysInMonth(month + 1, year);
@@ -58,7 +58,7 @@ export async function createTask(req: Request, res: Response) {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found while creating new task." });
+      return res.status(404).json({ message: "User not found (Create Task)." });
     }
 
     user.tasks.push(task._id);
@@ -67,16 +67,14 @@ export async function createTask(req: Request, res: Response) {
     const timelineYear = user.timeline.find((entry) => entry.year === year);
 
     if (!timelineYear) {
-      const yearEntry = { year, months: [{ month: month + 1, tasks: [task._id] }] };
-
+      const yearEntry = { year, months: [{ month, tasks: [task._id] }] };
       user.timeline.push(yearEntry);
     }
 
-    const timelineMonth = timelineYear?.months.find((mon) => mon.month === month + 1);
+    const timelineMonth = timelineYear?.months.find((mon) => mon.month === month);
 
     if (!timelineMonth) {
-      const monthEntry = { month: month + 1, tasks: [task._id] };
-
+      const monthEntry = { month, tasks: [task._id] };
       timelineYear?.months.push(monthEntry);
     } else {
       timelineMonth?.tasks.push(task._id);
@@ -91,7 +89,7 @@ export async function createTask(req: Request, res: Response) {
       console.log("🔴 Error:", err.message);
 
       return res.status(500).json({
-        message: "Failed to create new task.",
+        message: "Failed to create a new task.",
       });
     }
   }
