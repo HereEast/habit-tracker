@@ -6,7 +6,7 @@ import { Entry } from "../models/Entry.js";
 import { User } from "../models/User.js";
 
 // Delete task by ID
-export async function deleteTaskById(req: Request, res: Response) {
+export async function deleteTask(req: Request, res: Response) {
   const { userId, taskId } = req.params;
 
   try {

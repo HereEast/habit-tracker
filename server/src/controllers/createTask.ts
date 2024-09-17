@@ -19,7 +19,6 @@ export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body as CreateTaskRequestProps;
 
   try {
-    // Create Task
     const taskData: NewTaskData = {
       userId,
       title,

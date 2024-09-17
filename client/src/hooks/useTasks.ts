@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getTasksByUserId } from "~/api/tasks";
+import { getTasks } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
 
 export function useTasks(userId: string) {
@@ -14,7 +14,7 @@ export function useTasks(userId: string) {
       setError(false);
 
       try {
-        const userTasks = await getTasksByUserId(userId);
+        const userTasks = await getTasks(userId);
 
         setData(userTasks);
         setIsLoading(false);

@@ -5,16 +5,16 @@ import { Task } from "../models/Task.js";
 // Update status
 export async function updateTask(req: Request, res: Response) {
   const { taskId } = req.params;
-  const { newTitle } = req.body;
+  const { title } = req.body;
 
-  if (!newTitle) {
+  if (!title) {
     return res.status(500).json({
       message: "Some parameters are missing: newTitle.",
     });
   }
 
   try {
-    await Task.updateOne({ _id: taskId }, { $set: { title: newTitle } }).exec();
+    await Task.updateOne({ _id: taskId }, { $set: { title } }).exec();
 
     return res.status(201).json({
       message: "Task title successfully updated.",

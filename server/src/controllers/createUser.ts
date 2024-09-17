@@ -4,6 +4,7 @@ import { IUser, User } from "../models/User.js";
 
 type NewUserData = Omit<IUser, "_id">;
 
+// Create User
 export async function createUser(req: Request, res: Response) {
   const { username, email, password } = req.body;
 

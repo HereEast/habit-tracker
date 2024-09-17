@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 
 import { Task } from "../models/Task.js";
 
-export async function getTasksByUserId(req: Request, res: Response) {
+// Get user Tasks
+export async function getTasks(req: Request, res: Response) {
   const { userId } = req.params;
 
   try {
