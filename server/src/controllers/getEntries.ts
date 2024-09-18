@@ -1,21 +1,19 @@
 import { Request, Response } from "express";
-import { RootFilterQuery } from "mongoose";
+import mongoose, { RootFilterQuery } from "mongoose";
 
 import { Entry } from "../models/Entry.js";
-// import { getMonthFromIndex } from "../utils/handlers.js";
 
 interface IEntryQuery {
-  userId: string;
-  taskId?: string;
+  userId: string; // change to mongoose later
+  taskId: mongoose.Types.ObjectId;
   year: number;
   month: number;
   day?: number;
 }
 
-// Get entries
+// Get task entries
 export async function getEntries(req: Request, res: Response) {
-  const { userId } = req.params;
-  const { taskId, year, month, day } = req.query;
+  const { userId, taskId, year, month, day } = req.query;
 
   if (!year || !month) {
     return res.status(500).json({
@@ -24,11 +22,13 @@ export async function getEntries(req: Request, res: Response) {
   }
 
   const query: RootFilterQuery<IEntryQuery> = {
-    userId,
     year: Number(year),
-    // month: getMonthFromIndex(Number(month)),
     month: month,
   };
+
+  if (userId) {
+    query.userId = userId;
+  }
 
   if (taskId) {
     query.taskId = taskId;

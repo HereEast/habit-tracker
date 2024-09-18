@@ -1,18 +1,18 @@
 import { useAppContext, useEntries } from "~/hooks";
-import { calculateStatusPercentage, cn, getDateDetails } from "~/utils";
+import { calculateStatusPercentage, cn, getMonthFromIndex } from "~/utils";
 
 interface MonthCardHeaderProps {
-  title: string;
+  year: number;
+  month: number;
   classes?: string;
 }
 
-export function MonthCardHeader({ title, classes }: MonthCardHeaderProps) {
+export function MonthCardHeader({
+  year,
+  month,
+  classes,
+}: MonthCardHeaderProps) {
   const { userId } = useAppContext();
-
-  // Any other date here
-  const today = new Date();
-
-  const { year, month } = getDateDetails(today);
 
   const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
     userId,
@@ -27,7 +27,7 @@ export function MonthCardHeader({ title, classes }: MonthCardHeaderProps) {
 
   return (
     <div className={cn("flex w-full items-center justify-between", classes)}>
-      <h2 className="text-xl font-semibold capitalize">{title}</h2>
+      <h2 className="text-xl font-semibold capitalize">{`${getMonthFromIndex(month - 1)} ${year}`}</h2>
 
       <div className="space-x-1 text-sm">
         <span>{`${tasks.size} tasks`}</span>

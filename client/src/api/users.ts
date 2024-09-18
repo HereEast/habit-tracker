@@ -1,7 +1,39 @@
 import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL, handleRequestError } from "~/utils";
+import { ITask } from "~/~/models/Task";
 import { IUser } from "~/~/models/User";
+
+export interface IMonthData {
+  month: number;
+  tasks: ITask[];
+}
+
+export interface IYearData {
+  year: number;
+  months: IMonthData[];
+}
+
+// Get year data
+export async function getUserYear(userId: string, year: number) {
+  try {
+    const response: AxiosResponse<IYearData> = await axios.get(
+      `${BASE_URL}/users/${userId}/${year}`,
+    );
+
+    const data = response.data;
+    const sortedMonths = data.months.sort((a, b) => b.month - a.month);
+
+    return {
+      year: data.year,
+      months: sortedMonths,
+    };
+  } catch (err) {
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
+  }
+}
 
 // Get user by ID
 export async function getUser(userId: string) {

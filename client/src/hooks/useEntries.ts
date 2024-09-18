@@ -5,7 +5,7 @@ import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 interface UseEntriesProps {
-  userId: string;
+  userId?: string; // change to mongoose
   taskId?: mongoose.Types.ObjectId;
   year: number;
   month: number;
