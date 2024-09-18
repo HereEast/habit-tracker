@@ -1,19 +1,18 @@
+import { useAppContext } from "~/hooks";
 import { cn, getDaysInMonth } from "~/utils";
 
 interface MonthDaysRowProps {
   year: number;
   month: number;
-  daysInMonth: number;
 }
 
-export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
-  const today = new Date();
+export function MonthDaysRow({ year, month }: MonthDaysRowProps) {
+  const { today } = useAppContext();
+  
+  const { todayDay, todayMonth, todayYear } = today;
 
-  const currentDate = today.getDate();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-
-  const isCurrentYearAndMonth = year === currentYear && month === currentMonth;
+  const daysInMonth = getDaysInMonth(month, year);
+  const isCurrentYearAndMonth = year === todayYear && month === todayMonth;
 
   return (
     <div className="flex w-full items-center gap-6">
@@ -26,8 +25,8 @@ export function MonthDaysRow({ year, month, daysInMonth }: MonthDaysRowProps) {
             className={cn(
               "flex size-6 shrink-0 items-center justify-center rounded-sm bg-transparent text-xs text-stone-400",
               isCurrentYearAndMonth &&
-                currentDate === i + 1 &&
-                "rounded-full bg-stone-50 text-stone-800 font-medium",
+                todayDay === i + 1 &&
+                "rounded-full bg-stone-50 font-medium text-stone-800",
             )}
           >
             {i + 1}
