@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import mongoose from "mongoose";
 
-import { CreateTaskForm } from "./CreateTaskForm";
+import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
 import { MonthDaysRow } from "./MonthDaysRow";
 import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
@@ -10,7 +11,7 @@ import { Task } from "./Task";
 import { useAppContext } from "~/hooks";
 import { IMonthData } from "~/api/users";
 import { ITask } from "~/~/models/Task";
-import { deleteTask } from "~/api/tasks";
+import { createTask, deleteTask } from "~/api/tasks";
 
 interface MonthCardProps {
   year: number;
@@ -20,10 +21,25 @@ interface MonthCardProps {
 export function MonthCard({ year, monthData }: MonthCardProps) {
   const { userId } = useAppContext();
 
+  const [newTask, setNewTask] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
 
-  // Handle Delete
-  async function handleDelete(taskId: mongoose.Types.ObjectId) {
+  console.log(monthTasks);
+
+  // Create
+  async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!newTask.length) {
+      return;
+    }
+
+    setNewTask("");
+    await createTask(userId, newTask);
+  }
+
+  // Delete
+  async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
     setMonthTasks(updatedTasks); // Delete from UI
@@ -49,7 +65,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
                   task={task}
                   year={year}
                   month={monthData.month}
-                  onDelete={handleDelete}
+                  onDelete={handleDeleteTask}
                   key={String(task._id)}
                 />
               ))}
@@ -58,7 +74,19 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         )}
       </div>
 
-      <CreateTaskForm />
+      {/* Create Task form */}
+      <form onSubmit={(e) => handleCreateTask(e)}>
+        <div className="flex gap-2">
+          <Input
+            name="new-task"
+            value={newTask}
+            placeholder="New task..."
+            onChange={(e) => setNewTask(e.target.value)}
+          />
+
+          <Button>Create</Button>
+        </div>
+      </form>
     </div>
   );
 }
