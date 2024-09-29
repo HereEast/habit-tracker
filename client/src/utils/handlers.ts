@@ -53,15 +53,6 @@ export function calculateStatusPercentage(statuses: Status[] | undefined) {
   return Math.round(percentage);
 }
 
-// Get date details
-export function getDateDetails(date: Date) {
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
-    day: date.getDate(),
-  };
-}
-
 // Get month from index
 export function getMonthFromIndex(index: number) {
   const months = [
@@ -84,7 +75,7 @@ export function getMonthFromIndex(index: number) {
 
 // Get number of ays in a month
 export function getDaysInMonth(month: number, year: number) {
-  return new Date(year, month + 1, 0).getDate();
+  return new Date(year, month, 0).getDate();
 }
 
 // Tw

@@ -1,18 +1,25 @@
 import { Request, Response } from "express";
 
 import { IUser, User } from "../models/User.js";
+// import { getMonthFromIndex } from "../utils/handlers.js";
 
-type NewUserData = Omit<IUser, "_id">;
+type NewUserData = Omit<IUser, "_id" | "createdAt">;
 
 // Create User
 export async function createUser(req: Request, res: Response) {
   const { username, email, password } = req.body;
+
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = today.getMonth();
 
   const userData: NewUserData = {
     username,
     email,
     password,
     tasks: [],
+    timeline: [{ year, months: [{ month: month + 1, tasks: [] }] }],
   };
 
   try {
@@ -25,7 +32,7 @@ export async function createUser(req: Request, res: Response) {
       console.log("🔴 Error:", err.message);
 
       return res.status(500).json({
-        message: "Failed to create the user.",
+        message: "Failed to create a User.",
       });
     }
   }

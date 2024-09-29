@@ -6,7 +6,7 @@ import { updateEntryStatus } from "../controllers/updateEntry.js";
 const router = express.Router();
 
 // Get
-router.route("/:userId").get(getEntries);
+router.route("/").get(getEntries);
 
 // Update
 router.route("/:entryId").patch(updateEntryStatus);

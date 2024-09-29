@@ -1,48 +1,46 @@
-import mongoose from "mongoose";
+import { useState } from "react";
 
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
 
-import { useAppContext, useEntries } from "~/hooks";
-import { cn, getDaysInMonth } from "~/utils";
 import { deleteTask, updateTask } from "~/api/tasks";
-import { useState } from "react";
+import { useAppContext, useEntries } from "~/hooks";
+import { cn } from "~/utils";
+import { ITask } from "~/~/models/Task";
 
-interface TaskListItemProps {
-  taskId: mongoose.Types.ObjectId;
-  title: string;
+interface TaskProps {
   year: number;
   month: number;
+  task: ITask;
 }
 
-export function Task(props: TaskListItemProps) {
+// Task
+export function Task({ task, year, month }: TaskProps) {
   const { userId } = useAppContext();
 
-  const { taskId, title, year, month } = props;
-
-  const [newTaskTitle, setNewTaskTitle] = useState(title);
+  const [newTaskTitle, setNewTaskTitle] = useState(task.title);
   const [editMode, setEditMode] = useState(false);
 
   const {
     data: entries,
     isLoading,
     error,
-  } = useEntries({ userId, taskId, year, month });
+  } = useEntries({ userId, taskId: task._id, year, month });
 
-  const daysInMonth = getDaysInMonth(month, year);
-  const invalidEntries = entries ? daysInMonth - entries?.length : 0;
+  const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
+  const invalidEntries = firstEntryDay - 1;
 
   // Delete
   async function handleDeleteTask() {
-    if (taskId) {
-      await deleteTask(userId, taskId);
+    if (task._id) {
+      await deleteTask(userId, task._id);
     }
   }
 
   // Edit title
   async function handleEditTitle() {
-    if (taskId) {
-      await updateTask(taskId, newTaskTitle);
+    if (task._id) {
+      await updateTask(task._id, newTaskTitle);
     }
 
     setEditMode(false);
@@ -69,7 +67,7 @@ export function Task(props: TaskListItemProps) {
           new Array(invalidEntries)
             .fill(0)
             .map((_, i) => (
-              <div key={i} className="size-6 shrink-0 bg-transparent" />
+              <div key={i} className="size-6 shrink-0 border bg-transparent" />
             ))}
 
         {entries &&

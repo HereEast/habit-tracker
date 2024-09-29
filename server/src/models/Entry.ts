@@ -10,7 +10,8 @@ export interface IEntry {
   userId: mongoose.Types.ObjectId;
   taskId: mongoose.Types.ObjectId;
   year: number;
-  month: string;
+  // month: string;
+  month: number;
   day: number;
   status: Status;
   notes?: string;
@@ -23,7 +24,8 @@ export const EntrySchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     taskId: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
     year: { type: Number, required: true },
-    month: { type: String, required: true },
+    // month: { type: String, required: true },
+    month: { type: Number, required: true },
     day: { type: Number, required: true },
     status: { type: Number, enum: STATUSES, default: 0, required: true },
     notes: String,
