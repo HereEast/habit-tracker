@@ -1,21 +1,23 @@
 import { useState } from "react";
+import mongoose from "mongoose";
 
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
 
-import { deleteTask, updateTask } from "~/api/tasks";
 import { useAppContext, useEntries } from "~/hooks";
-import { cn } from "~/utils";
+import { updateTask } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
+import { cn } from "~/utils";
 
 interface TaskProps {
   year: number;
   month: number;
   task: ITask;
+  onDelete: (id: mongoose.Types.ObjectId) => void;
 }
 
 // Task
-export function Task({ task, year, month }: TaskProps) {
+export function Task({ task, year, month, onDelete }: TaskProps) {
   const { userId } = useAppContext();
 
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
@@ -29,13 +31,6 @@ export function Task({ task, year, month }: TaskProps) {
 
   const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
   const invalidEntries = firstEntryDay - 1;
-
-  // Delete
-  async function handleDeleteTask() {
-    if (task._id) {
-      await deleteTask(userId, task._id);
-    }
-  }
 
   // Edit title
   async function handleEditTitle() {
@@ -77,7 +72,7 @@ export function Task({ task, year, month }: TaskProps) {
       </div>
 
       <Button
-        onClick={handleDeleteTask}
+        onClick={() => onDelete(task._id)}
         classes="size-6 p-0 rounded-[4px] text-sm"
       >
         X
