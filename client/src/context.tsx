@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { createContext, ReactNode, useState } from "react";
 
-interface ContextProps {
+interface AppContextProps {
   userId: string;
   selectedEntryId: mongoose.Types.ObjectId | null;
   setSelectedEntryId: (entry: mongoose.Types.ObjectId | null) => void;
@@ -12,13 +12,13 @@ interface ContextProps {
   };
 }
 
-interface ContextProviderProps {
+interface AppContextProviderProps {
   children: ReactNode;
 }
 
-export const AppContext = createContext<ContextProps | undefined>(undefined);
+export const AppContext = createContext<AppContextProps | undefined>(undefined);
 
-export function ContextProvider({ children }: ContextProviderProps) {
+export function AppContextProvider({ children }: AppContextProviderProps) {
   const [selectedEntryId, setSelectedEntryId] =
     useState<mongoose.Types.ObjectId | null>(null);
 
