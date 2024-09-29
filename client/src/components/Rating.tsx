@@ -1,13 +1,13 @@
 import { Button } from "./ui/Button";
 
-import { useAppContext } from "~/hooks";
+import { useMonthContext } from "~/hooks";
 import { STATUSES } from "~/utils";
 import { updateEntryStatus } from "~/api/entries";
 import { Status } from "~/~/models/Entry";
 
 export function Rating() {
   const { selectedEntryId, setSelectedEntryId, setSelectedRating } =
-    useAppContext();
+    useMonthContext();
 
   async function handleSetRating(status: Status) {
     if (selectedEntryId) {

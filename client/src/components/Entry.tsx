@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useAppContext } from "~/hooks";
+import { useAppContext, useMonthContext } from "~/hooks";
 import { cn, statusColor } from "~/utils";
 import { IEntry } from "~/~/models/Entry";
 
@@ -9,8 +9,9 @@ interface EntryProps {
 }
 
 export function Entry({ entry }: EntryProps) {
-  const { selectedEntryId, setSelectedEntryId, selectedRating, today } =
-    useAppContext();
+  const { today } = useAppContext();
+  const { selectedEntryId, setSelectedEntryId, selectedRating } =
+    useMonthContext();
 
   const [currentRating, setCurrentRating] = useState(entry.status);
 

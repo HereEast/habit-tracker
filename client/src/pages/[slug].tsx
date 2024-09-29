@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import { Dashboard, AuthRedirect } from "~/components/layouts";
+import { MonthContextProvider } from "~/context";
 
 export default function DashboardPage() {
   return (
@@ -12,7 +13,9 @@ export default function DashboardPage() {
         <link rel="icon" href="/favicon.png" />
       </Head> */}
 
-      <Dashboard />
+      <MonthContextProvider>
+        <Dashboard />
+      </MonthContextProvider>
     </AuthRedirect>
   );
 }
