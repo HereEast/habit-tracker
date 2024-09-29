@@ -6,7 +6,7 @@ import { useAppContext } from "~/hooks";
 
 export function CreateTaskForm() {
   const { userId } = useAppContext();
-  
+
   const [taskTitle, setTaskTitle] = useState("");
 
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -16,8 +16,8 @@ export function CreateTaskForm() {
       return;
     }
 
-    await createTask(userId, taskTitle);
     setTaskTitle("");
+    await createTask(userId, taskTitle);
   }
 
   return (
@@ -25,6 +25,7 @@ export function CreateTaskForm() {
       <div className="flex gap-2">
         <Input
           name="new-task"
+          value={taskTitle}
           placeholder="New task..."
           onChange={(e) => setTaskTitle(e.target.value)}
         />
