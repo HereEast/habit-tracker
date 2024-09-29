@@ -40,13 +40,18 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
-    setMonthTasks(updatedTasks);      // Delete from UI
+    setMonthTasks(updatedTasks); // Delete from UI
     await deleteTask(userId, taskId); // Delete from DB
   }
 
   return (
     <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
-      <MonthCardHeader year={year} month={monthData.month} classes="mb-6" />
+      <MonthCardHeader
+        year={year}
+        month={monthData.month}
+        tasksCount={monthTasks.length}
+        classes="mb-6"
+      />
 
       <div className="mb-4">
         {monthTasks?.length === 0 && (

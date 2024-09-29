@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
 import { createContext, ReactNode, useState } from "react";
 
+import { Status } from "~/~/models/Entry";
+
 interface AppContextProps {
   userId: string;
   selectedEntryId: mongoose.Types.ObjectId | null;
   setSelectedEntryId: (entry: mongoose.Types.ObjectId | null) => void;
+  selectedRating: Status | null;
+  setSelectedRating: (status: Status | null) => void;
   today: {
     todayDay: number;
     todayMonth: number;
@@ -22,6 +26,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const [selectedEntryId, setSelectedEntryId] =
     useState<mongoose.Types.ObjectId | null>(null);
 
+  const [selectedRating, setSelectedRating] = useState<Status | null>(null);
+
   const userId = "66d0db0c810e60d1f8a7c9d8";
   // const userId = "66e9d216ea7fd7292cb6b325";
 
@@ -35,11 +41,13 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
     userId,
     selectedEntryId,
     setSelectedEntryId,
+    selectedRating,
+    setSelectedRating,
     today: {
       todayDay,
       todayMonth,
-      todayYear
-    }
+      todayYear,
+    },
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

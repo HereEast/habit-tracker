@@ -15,7 +15,11 @@ export function Entry({ entry }: EntryProps) {
   const [currentRating, setCurrentRating] = useState(entry.status);
 
   useEffect(() => {
-    if (selectedEntryId === entry._id && selectedRating) {
+    if (
+      selectedEntryId === entry._id &&
+      selectedRating !== null &&
+      selectedRating !== undefined
+    ) {
       setCurrentRating(selectedRating);
     }
   }, [selectedRating, selectedEntryId, entry._id]);

@@ -4,12 +4,14 @@ import { calculateStatusPercentage, cn, getMonthFromIndex } from "~/utils";
 interface MonthCardHeaderProps {
   year: number;
   month: number;
+  tasksCount: number;
   classes?: string;
 }
 
 export function MonthCardHeader({
   year,
   month,
+  tasksCount,
   classes,
 }: MonthCardHeaderProps) {
   const { userId } = useAppContext();
@@ -20,7 +22,7 @@ export function MonthCardHeader({
     month,
   });
 
-  const tasks = new Set(monthEntries?.map((entry) => entry.taskId));
+  // const tasks = new Set(monthEntries?.map((entry) => entry.taskId));
 
   const monthStatuses = monthEntries?.map((entry) => entry.status);
   const monthPercentage = calculateStatusPercentage(monthStatuses);
@@ -30,7 +32,7 @@ export function MonthCardHeader({
       <h2 className="text-xl font-semibold capitalize">{`${getMonthFromIndex(month - 1)} ${year}`}</h2>
 
       <div className="space-x-1 text-sm">
-        <span>{`${tasks.size} tasks`}</span>
+        <span>{`${tasksCount} tasks`}</span>
         <span>•</span>
         <span>{`${monthPercentage}% month 🔥`}</span>
       </div>
