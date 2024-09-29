@@ -24,8 +24,6 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   const [newTask, setNewTask] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
 
-  console.log(monthTasks);
-
   // Create
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,7 +40,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
-    setMonthTasks(updatedTasks); // Delete from UI
+    setMonthTasks(updatedTasks);      // Delete from UI
     await deleteTask(userId, taskId); // Delete from DB
   }
 

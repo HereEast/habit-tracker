@@ -5,12 +5,14 @@ import { STATUSES } from "~/utils";
 import { updateEntryStatus } from "~/api/entries";
 import { Status } from "~/~/models/Entry";
 
-
 export function Rating() {
-  const { selectedEntryId, setSelectedEntryId } = useAppContext();
+  const { selectedEntryId, setSelectedEntryId, setSelectedRating } =
+    useAppContext();
 
   async function handleSetRating(status: Status) {
     if (selectedEntryId) {
+      setSelectedRating(status);
+
       await updateEntryStatus(selectedEntryId, status);
       setSelectedEntryId(null);
     }
