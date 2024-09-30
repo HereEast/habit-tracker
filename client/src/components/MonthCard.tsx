@@ -21,27 +21,32 @@ interface MonthCardProps {
 export function MonthCard({ year, monthData }: MonthCardProps) {
   const { userId } = useAppContext();
 
-  const [newTask, setNewTask] = useState("");
+  const [newTaskName, setNewTaskName] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
 
   // Create
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!newTask.length) {
+    if (!newTaskName.length) {
       return;
     }
 
-    setNewTask("");
-    await createTask(userId, newTask);
+    setNewTaskName("");
+
+    const newTask = await createTask(userId, newTaskName);
+
+    if (newTask) {
+      setMonthTasks((prevTasks) => [...prevTasks, newTask]);
+    }
   }
 
   // Delete
   async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
-    setMonthTasks(updatedTasks); // Delete from UI
-    await deleteTask(userId, taskId); // Delete from DB
+    setMonthTasks(updatedTasks); 
+    await deleteTask(userId, taskId); 
   }
 
   return (
@@ -82,9 +87,9 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         <div className="flex gap-2">
           <Input
             name="new-task"
-            value={newTask}
+            value={newTaskName}
             placeholder="New task..."
-            onChange={(e) => setNewTask(e.target.value)}
+            onChange={(e) => setNewTaskName(e.target.value)}
           />
 
           <Button>Create</Button>
