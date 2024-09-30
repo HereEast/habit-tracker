@@ -8,10 +8,11 @@ import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
 import { Task } from "./Task";
 
-import { useAppContext } from "~/hooks";
+import { useAppContext, useEntries } from "~/hooks";
 import { IMonthData } from "~/api/users";
 import { ITask } from "~/~/models/Task";
 import { createTask, deleteTask } from "~/api/tasks";
+import { calculateStatusPercentage } from "~/utils";
 
 interface MonthCardProps {
   year: number;
@@ -23,6 +24,15 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   const [newTaskName, setNewTaskName] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
+
+  const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
+    userId,
+    year,
+    month: monthData.month,
+  });
+
+  const monthStatuses = monthEntries?.map((entry) => entry.status);
+  const monthPercentage = calculateStatusPercentage(monthStatuses);
 
   // Create
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -45,8 +55,8 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
-    setMonthTasks(updatedTasks); 
-    await deleteTask(userId, taskId); 
+    setMonthTasks(updatedTasks);
+    await deleteTask(userId, taskId);
   }
 
   return (
@@ -55,6 +65,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         year={year}
         month={monthData.month}
         tasksCount={monthTasks.length}
+        monthPercentage={monthPercentage}
         classes="mb-6"
       />
 

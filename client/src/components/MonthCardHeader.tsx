@@ -7,6 +7,7 @@ import { IEntry } from "~/~/models/Entry";
 interface MonthCardHeaderProps {
   year: number;
   month: number;
+  monthPercentage: number;
   tasksCount: number;
   classes?: string;
 }
@@ -14,19 +15,20 @@ interface MonthCardHeaderProps {
 export function MonthCardHeader({
   year,
   month,
+  monthPercentage,
   tasksCount,
   classes,
 }: MonthCardHeaderProps) {
-  const { userId } = useAppContext();
+  // const { userId } = useAppContext();
 
-  const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
-    userId,
-    year,
-    month,
-  });
+  // const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
+  //   userId,
+  //   year,
+  //   month,
+  // });
 
-  const monthStatuses = monthEntries?.map((entry) => entry.status);
-  const monthPercentage = calculateStatusPercentage(monthStatuses);
+  // const monthStatuses = monthEntries?.map((entry) => entry.status);
+  // const monthPercentage = calculateStatusPercentage(monthStatuses);
 
   // const [monthEntries, setMonthEntries] = useState<IEntry[] | undefined>(
   //   undefined,
