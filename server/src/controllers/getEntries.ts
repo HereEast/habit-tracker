@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import mongoose, { RootFilterQuery } from "mongoose";
 
 import { Entry } from "../models/Entry.js";
+import { ITask } from "../models/Task.js";
 
 interface IEntryQuery {
   userId: string; // change to mongoose later
@@ -39,9 +40,14 @@ export async function getEntries(req: Request, res: Response) {
   }
 
   try {
-    const entries = await Entry.find(query).exec();
+    const entries = await Entry.find(query).populate("taskId").exec();
 
-    return res.json(entries);
+    const activeEntries = entries.filter((entry) => {
+      const activeTask = entry.taskId as ITask;
+      return activeTask.stopped === false;
+    });
+
+    return res.json(activeEntries);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 import { COLLECTION } from "../utils/constants.js";
+import { ITask } from "./Task.js";
 
 export type Status = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export const STATUSES: Status[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -8,7 +9,7 @@ export const STATUSES: Status[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export interface IEntry {
   _id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
-  taskId: mongoose.Types.ObjectId;
+  taskId: mongoose.Types.ObjectId | ITask;
   year: number;
   // month: string;
   month: number;

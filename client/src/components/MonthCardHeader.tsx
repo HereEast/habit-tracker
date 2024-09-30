@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
+
 import { useAppContext, useEntries } from "~/hooks";
 import { calculateStatusPercentage, cn, getMonthFromIndex } from "~/utils";
+import { IEntry } from "~/~/models/Entry";
 
 interface MonthCardHeaderProps {
   year: number;
@@ -22,10 +25,22 @@ export function MonthCardHeader({
     month,
   });
 
-  // const tasks = new Set(monthEntries?.map((entry) => entry.taskId));
-
   const monthStatuses = monthEntries?.map((entry) => entry.status);
   const monthPercentage = calculateStatusPercentage(monthStatuses);
+
+  // const [monthEntries, setMonthEntries] = useState<IEntry[] | undefined>(
+  //   undefined,
+  // );
+  // const [monthPercentage, setMonthPercentage] = useState(0);
+
+  // useEffect(() => {
+  //   setMonthEntries(data);
+
+  //   const monthStatuses = monthEntries?.map((entry) => entry.status);
+  //   const percentage = calculateStatusPercentage(monthStatuses);
+
+  //   setMonthPercentage(percentage);
+  // }, [data, tasksCount, monthEntries]);
 
   return (
     <div className={cn("flex w-full items-center justify-between", classes)}>
