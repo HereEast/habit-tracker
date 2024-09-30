@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import mongoose from "mongoose";
 
 import { Input } from "./ui/Input";
@@ -10,9 +10,10 @@ import { Task } from "./Task";
 
 import { useAppContext, useEntries } from "~/hooks";
 import { IMonthData } from "~/api/users";
-import { ITask } from "~/~/models/Task";
 import { createTask, deleteTask } from "~/api/tasks";
-import { calculateStatusPercentage } from "~/utils";
+import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
+import { ITask } from "~/~/models/Task";
+import { Status } from "~/~/models/Entry";
 
 interface MonthCardProps {
   year: number;
@@ -24,6 +25,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   const [newTaskName, setNewTaskName] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
+  const [monthRatings, setMonthRatings] = useState<Status[]>([]);
 
   const { data: monthEntries, isLoading: isEntriesLoading } = useEntries({
     userId,
@@ -31,8 +33,15 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
     month: monthData.month,
   });
 
-  const monthStatuses = monthEntries?.map((entry) => entry.status);
-  const monthPercentage = calculateStatusPercentage(monthStatuses);
+  useEffect(() => {
+    const ratings = monthEntries?.map((entry) => entry.status);
+
+    if (ratings) {
+      setMonthRatings(ratings);
+    }
+  }, [monthEntries]);
+
+  const monthPercentage = calculateStatusPercentage(monthRatings);
 
   // Create
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -48,28 +57,36 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
     if (newTask) {
       setMonthTasks((prevTasks) => [...prevTasks, newTask]);
+      setMonthRatings((prev) => [
+        ...prev,
+        ...new Array(newTask.entries.length).fill(0),
+      ]);
     }
   }
 
   // Delete
-  async function handleDeleteTask(taskId: mongoose.Types.ObjectId) {
+  async function handleDeleteTask(
+    taskId: mongoose.Types.ObjectId,
+    deletedTaskRatings: Status[],
+  ) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
     setMonthTasks(updatedTasks);
+    setMonthRatings((prev) => filterDeletedRatings(prev, deletedTaskRatings));
+
     await deleteTask(userId, taskId);
   }
 
   return (
-    <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
+    <div className="w-fit min-w-[680px] space-y-6 rounded-xl bg-stone-100/75 p-6">
       <MonthCardHeader
         year={year}
         month={monthData.month}
         tasksCount={monthTasks.length}
         monthPercentage={monthPercentage}
-        classes="mb-6"
       />
 
-      <div className="mb-4">
+      <div>
         {monthTasks?.length === 0 && (
           <Notice text="You haven't created any tasks yet." />
         )}

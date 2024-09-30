@@ -8,12 +8,13 @@ import { useAppContext, useEntries } from "~/hooks";
 import { updateTask } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
 import { cn } from "~/utils";
+import { Status } from "~/~/models/Entry";
 
 interface TaskProps {
   year: number;
   month: number;
   task: ITask;
-  onDelete: (id: mongoose.Types.ObjectId) => void;
+  onDelete: (id: mongoose.Types.ObjectId, deletedTaskRatings: Status[]) => void;
 }
 
 // Task
@@ -31,6 +32,8 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
 
   const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
   const invalidEntries = firstEntryDay - 1;
+
+  const taskRatings = entries?.map((entry) => entry.status);
 
   // Edit title
   async function handleEditTitle() {
@@ -72,7 +75,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       </div>
 
       <Button
-        onClick={() => onDelete(task._id)}
+        onClick={() => onDelete(task._id, taskRatings || [])}
         classes="size-6 p-0 rounded-[4px] text-sm"
       >
         X
