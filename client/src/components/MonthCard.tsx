@@ -21,7 +21,7 @@ interface MonthCardProps {
 }
 
 export function MonthCard({ year, monthData }: MonthCardProps) {
-  const { userId } = useAppContext();
+  const { userId, today } = useAppContext();
 
   const [newTaskName, setNewTaskName] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
@@ -77,6 +77,8 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
     await deleteTask(userId, taskId);
   }
 
+  const isCurrentMonth = today.month === monthData.month;
+
   return (
     <div className="w-fit min-w-[680px] space-y-6 rounded-xl bg-stone-100/75 p-6">
       <MonthCardHeader
@@ -111,18 +113,20 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
       </div>
 
       {/* Create Task form */}
-      <form onSubmit={(e) => handleCreateTask(e)}>
-        <div className="flex gap-2">
-          <Input
-            name="new-task"
-            value={newTaskName}
-            placeholder="New task..."
-            onChange={(e) => setNewTaskName(e.target.value)}
-          />
+      {isCurrentMonth && (
+        <form onSubmit={(e) => handleCreateTask(e)}>
+          <div className="flex gap-2">
+            <Input
+              name="new-task"
+              value={newTaskName}
+              placeholder="New task..."
+              onChange={(e) => setNewTaskName(e.target.value)}
+            />
 
-          <Button>Create</Button>
-        </div>
-      </form>
+            <Button>Create</Button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

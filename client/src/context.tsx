@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { createContext, ReactNode, useState } from "react";
+import mongoose from "mongoose";
 
 import { Status } from "~/~/models/Entry";
 
@@ -7,9 +7,9 @@ import { Status } from "~/~/models/Entry";
 interface AppContextProps {
   userId: string;
   today: {
-    todayDay: number;
-    todayMonth: number;
-    todayYear: number;
+    day: number;
+    month: number;
+    year: number;
   };
 }
 
@@ -25,16 +25,16 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   const today = new Date();
 
-  const todayDay = today.getDate();
-  const todayMonth = today.getMonth() + 1;
-  const todayYear = today.getFullYear();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth() + 1;
+  const currentYear = today.getFullYear();
 
   const value = {
     userId,
     today: {
-      todayDay,
-      todayMonth,
-      todayYear,
+      day: currentDay,
+      month: currentMonth,
+      year: currentYear,
     },
   };
 

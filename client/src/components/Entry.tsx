@@ -10,6 +10,7 @@ interface EntryProps {
 
 export function Entry({ entry }: EntryProps) {
   const { today } = useAppContext();
+
   const { selectedEntryId, setSelectedEntryId, selectedRating } =
     useMonthContext();
 
@@ -25,10 +26,10 @@ export function Entry({ entry }: EntryProps) {
     }
   }, [selectedRating, selectedEntryId, entry._id]);
 
-  const isTodayEntry = today.todayDay === entry.day;
+  const isValidEntry = entry.day <= today.day && entry.day >= 1;
 
   function handleClick() {
-    if (isTodayEntry) {
+    if (isValidEntry) {
       setSelectedEntryId(selectedEntryId === entry._id ? null : entry._id);
     }
   }
@@ -38,7 +39,7 @@ export function Entry({ entry }: EntryProps) {
       className={cn(
         "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
         currentRating > 0 && statusColor(currentRating),
-        isTodayEntry && "hover:border hover:border-brown-600",
+        isValidEntry && "hover:border hover:border-brown-600",
         selectedEntryId === entry._id
           ? "border border-brown-600"
           : "border-none",

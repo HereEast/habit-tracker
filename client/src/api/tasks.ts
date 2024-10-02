@@ -14,7 +14,7 @@ export async function getTasks(userId: string) {
     const response: AxiosResponse<ITask[]> = await axios.get(
       `${BASE_URL}/tasks/${userId}`,
     );
-    
+
     const data = response.data;
 
     return data;

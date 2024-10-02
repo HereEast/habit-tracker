@@ -1,16 +1,13 @@
-import { useAppContext } from "~/hooks";
 import { MonthCard } from "../MonthCard";
 import { Rating } from "../Rating";
+
+import { useAppContext } from "~/hooks";
 import { useUserYear } from "~/hooks/useUserYear";
 
 export function Dashboard() {
-  const { userId, today } = useAppContext();
+  const { today } = useAppContext();
 
-  const { data: yearData } = useUserYear(userId, today.todayYear);
-
-  {
-    /* {error && <Notice isError text="Something went wrong." />} */
-  }
+  const { data: yearData } = useUserYear(today.year);
 
   return (
     <div className="flex flex-col items-center gap-6">

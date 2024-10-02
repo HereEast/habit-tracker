@@ -11,8 +11,8 @@ interface CreateTaskRequestProps {
   userId: mongoose.Types.ObjectId;
 }
 
-type NewEntryData = Omit<IEntry, "_id">;
-type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
+export type NewEntryData = Omit<IEntry, "_id">;
+export type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
 
 // Create Task
 export async function createTask(req: Request, res: Response) {
