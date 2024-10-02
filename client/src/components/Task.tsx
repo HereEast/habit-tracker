@@ -7,8 +7,8 @@ import { Entry } from "./Entry";
 import { useAppContext, useEntries } from "~/hooks";
 import { updateTask } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
+import { IEntry, Status } from "~/~/models/Entry";
 import { cn } from "~/utils";
-import { Status } from "~/~/models/Entry";
 
 interface TaskProps {
   year: number;
@@ -29,12 +29,6 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
     isLoading,
     error,
   } = useEntries({ userId, taskId: task._id, year, month });
-
-  const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
-  const invalidEntries = firstEntryDay - 1;
-  const restEntries = entries?.length
-    ? 31 - (entries?.length + invalidEntries)
-    : 0;
 
   const taskRatings = entries?.map((entry) => entry.status) || [];
 
@@ -75,26 +69,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       </div>
 
       {/* Entries */}
-      <div className="flex gap-0.5">
-        {invalidEntries > 0 &&
-          new Array(invalidEntries)
-            .fill(0)
-            .map((_, i) => (
-              <div key={i} className="size-6 shrink-0 border bg-transparent" />
-            ))}
-
-        {entries &&
-          entries.map((entry) => (
-            <Entry entry={entry} key={String(entry._id)} />
-          ))}
-
-        {restEntries > 0 &&
-          new Array(restEntries)
-            .fill(0)
-            .map((_, i) => (
-              <div key={i} className="size-6 shrink-0 border bg-transparent" />
-            ))}
-      </div>
+      <TaskEntries entries={entries || []} />
 
       <Button
         onClick={handleDelete}
@@ -106,6 +81,40 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       >
         X
       </Button>
+    </div>
+  );
+}
+
+// Task Entries
+interface TaskEntriesProps {
+  entries: IEntry[];
+}
+
+function TaskEntries({ entries }: TaskEntriesProps) {
+  const firstEntryDay = entries && entries.length > 0 ? entries[0].day : 1;
+  const invalidEntries = firstEntryDay - 1;
+  const restEntries = entries?.length
+    ? 31 - (entries?.length + invalidEntries)
+    : 0;
+
+  return (
+    <div className="flex gap-0.5">
+      {invalidEntries > 0 &&
+        new Array(invalidEntries)
+          .fill(0)
+          .map((_, i) => (
+            <div key={i} className="size-6 shrink-0 border bg-transparent" />
+          ))}
+
+      {entries &&
+        entries.map((entry) => <Entry entry={entry} key={String(entry._id)} />)}
+
+      {restEntries > 0 &&
+        new Array(restEntries)
+          .fill(0)
+          .map((_, i) => (
+            <div key={i} className="size-6 shrink-0 border bg-transparent" />
+          ))}
     </div>
   );
 }
