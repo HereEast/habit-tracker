@@ -17,11 +17,9 @@ export function Entry({ entry }: EntryProps) {
   const [currentRating, setCurrentRating] = useState(entry.status);
 
   useEffect(() => {
-    if (
-      selectedEntryId === entry._id &&
-      selectedRating !== null &&
-      selectedRating !== undefined
-    ) {
+    const isRating = selectedRating !== null && selectedRating !== undefined;
+
+    if (isRating && selectedEntryId === entry._id) {
       setCurrentRating(selectedRating);
     }
   }, [selectedRating, selectedEntryId, entry._id]);
@@ -30,7 +28,9 @@ export function Entry({ entry }: EntryProps) {
 
   function handleClick() {
     if (isValidEntry) {
-      setSelectedEntryId(selectedEntryId === entry._id ? null : entry._id);
+      const id = selectedEntryId === entry._id ? null : entry._id;
+
+      setSelectedEntryId(id);
     }
   }
 

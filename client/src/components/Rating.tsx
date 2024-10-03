@@ -14,7 +14,9 @@ export function Rating() {
       setSelectedRating(status);
 
       await updateEntryStatus(selectedEntryId, status);
+
       setSelectedEntryId(null);
+      setSelectedRating(null);
     }
   }
 

@@ -8,13 +8,12 @@ import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
 import { Task } from "./Task";
 
-import { useAppContext, useEntries } from "~/hooks";
+import { useAppContext, useEntries, useMonthRating } from "~/hooks";
 import { IMonthData } from "~/api/users";
 import { createTask, deleteTask } from "~/api/tasks";
 import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
 import { ITask } from "~/~/models/Task";
 import { Status } from "~/~/models/Entry";
-import { useMonthRating } from "~/hooks/useMonthRating";
 
 interface MonthCardProps {
   year: number;
@@ -24,7 +23,6 @@ interface MonthCardProps {
 export function MonthCard({ year, monthData }: MonthCardProps) {
   const { userId, today } = useAppContext();
 
-  // const [newTaskName, setNewTaskName] = useState("");
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
   const [monthEntryRatings, setMonthEntryRatings] = useState<Status[]>([]);
 

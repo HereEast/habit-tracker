@@ -28,8 +28,10 @@ export function useMonthRating({
 
     const currentRating = clickedEntry?.status;
 
+    console.log(clickedEntry);
+
     if (currentRating) {
-      if (selectedRating) {
+      if (selectedRating !== null) {
         const index = monthEntryRatings.indexOf(currentRating);
 
         const updatedRatings = [...monthEntryRatings];
