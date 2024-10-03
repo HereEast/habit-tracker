@@ -25,12 +25,12 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   const [editMode, setEditMode] = useState(false);
 
   const {
-    data: entries,
+    data: entriesTaskData,
     isLoading,
     error,
   } = useEntries({ userId, taskId: task._id, year, month });
 
-  const taskRatings = entries?.map((entry) => entry.status) || [];
+  const taskRatings = entriesTaskData?.map((entry) => entry.status) || [];
 
   const isCurrentMonth = today.month === month && today.year === year;
 
@@ -69,7 +69,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       </div>
 
       {/* Entries */}
-      <TaskEntries entries={entries || []} />
+      <TaskEntries entries={entriesTaskData || []} />
 
       <Button
         onClick={handleDelete}

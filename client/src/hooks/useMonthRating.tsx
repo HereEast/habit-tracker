@@ -5,12 +5,12 @@ import { calculateStatusPercentage } from "~/utils";
 import { IEntry, Status } from "~/~/models/Entry";
 
 interface UseMonthRatingProps {
-  entriesData: IEntry[];
+  entriesMonthData: IEntry[];
   monthEntryRatings: Status[];
 }
 
 export function useMonthRating({
-  entriesData,
+  entriesMonthData,
   monthEntryRatings,
 }: UseMonthRatingProps) {
   const { selectedEntryId, selectedRating } = useMonthContext();
@@ -22,7 +22,7 @@ export function useMonthRating({
       return;
     }
 
-    const clickedEntry = entriesData?.find(
+    const clickedEntry = entriesMonthData?.find(
       (entry) => entry._id === selectedEntryId,
     );
 
@@ -41,7 +41,7 @@ export function useMonthRating({
         return;
       }
     }
-  }, [selectedEntryId, entriesData, selectedRating, monthEntryRatings]);
+  }, [selectedEntryId, entriesMonthData, selectedRating, monthEntryRatings]);
 
   return { monthPercentage, setMonthPercentage };
 }

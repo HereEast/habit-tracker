@@ -9,14 +9,12 @@ export function Dashboard() {
 
   const { data } = useUserYear(today.year);
 
-  console.log(data);
-
   return (
     <div className="flex flex-col items-center gap-6">
       <Rating />
 
       {data?.months.map((month) => (
-        <MonthCard key={month.month} year={data.year} data={month} />
+        <MonthCard key={month.month} year={data.year} monthData={month} />
       ))}
     </div>
   );

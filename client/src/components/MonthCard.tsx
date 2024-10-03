@@ -18,35 +18,35 @@ import { useMonthRating } from "~/hooks/useMonthRating";
 
 interface MonthCardProps {
   year: number;
-  data: IMonthData;
+  monthData: IMonthData;
 }
 
-export function MonthCard({ year, data }: MonthCardProps) {
+export function MonthCard({ year, monthData }: MonthCardProps) {
   const { userId, today } = useAppContext();
 
-  const [newTaskName, setNewTaskName] = useState("");
-  const [monthTasks, setMonthTasks] = useState<ITask[]>(data.tasks);
+  // const [newTaskName, setNewTaskName] = useState("");
+  const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
   const [monthEntryRatings, setMonthEntryRatings] = useState<Status[]>([]);
 
-  const { data: entriesData, isLoading: isEntriesLoading } = useEntries({
+  const { data: entriesMonthData, isLoading: isEntriesLoading } = useEntries({
     userId,
     year,
-    month: data.month,
+    month: monthData.month,
   });
 
   const { monthPercentage, setMonthPercentage } = useMonthRating({
-    entriesData: entriesData || [],
+    entriesMonthData: entriesMonthData || [],
     monthEntryRatings,
   });
 
   // Ratings array
   useEffect(() => {
-    const ratings = entriesData?.map((entry) => entry.status);
+    const ratings = entriesMonthData?.map((entry) => entry.status);
 
     if (ratings) {
       setMonthEntryRatings(ratings);
     }
-  }, [entriesData, setMonthEntryRatings]);
+  }, [entriesMonthData, setMonthEntryRatings]);
 
   // Percentage
   useEffect(() => {
@@ -55,23 +55,13 @@ export function MonthCard({ year, data }: MonthCardProps) {
     setMonthPercentage(percentage);
   }, [monthEntryRatings, setMonthPercentage]);
 
-  // Create
-  async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!newTaskName.trim()) return;
-
-    const newTask = await createTask(userId, newTaskName);
-
-    if (newTask) {
-      setMonthTasks((prevTasks) => [...prevTasks, newTask]);
-      setMonthEntryRatings((prev) => [
-        ...prev,
-        ...new Array(newTask.entries.length).fill(0),
-      ]);
-    }
-
-    setNewTaskName("");
+  // On Create
+  function handleOnCreate(newTask: ITask) {
+    setMonthTasks((prevTasks) => [...prevTasks, newTask]);
+    setMonthEntryRatings((prev) => [
+      ...prev,
+      ...new Array(newTask.entries.length).fill(0),
+    ]);
   }
 
   // Delete
@@ -89,13 +79,13 @@ export function MonthCard({ year, data }: MonthCardProps) {
     await deleteTask(userId, taskId);
   }
 
-  const isCurrentMonth = today.month === data.month;
+  const isCurrentMonth = today.month === monthData.month;
 
   return (
     <div className="w-fit min-w-[680px] space-y-6 rounded-xl bg-stone-100/75 p-6">
       <MonthCardHeader
         year={year}
-        month={data.month}
+        month={monthData.month}
         tasksCount={monthTasks.length}
         monthPercentage={monthPercentage}
       />
@@ -107,14 +97,14 @@ export function MonthCard({ year, data }: MonthCardProps) {
 
         {monthTasks && monthTasks?.length > 0 && (
           <div className="flex w-full flex-col justify-center gap-2">
-            <MonthCardDays year={year} month={data.month} />
+            <MonthCardDays year={year} month={monthData.month} />
 
             <div className="space-y-0.5">
               {monthTasks.map((task) => (
                 <Task
                   task={task}
                   year={year}
-                  month={data.month}
+                  month={monthData.month}
                   onDelete={handleDeleteTask}
                   key={String(task._id)}
                 />
@@ -125,20 +115,46 @@ export function MonthCard({ year, data }: MonthCardProps) {
       </div>
 
       {/* Create Task form */}
-      {isCurrentMonth && (
-        <form onSubmit={(e) => handleCreateTask(e)}>
-          <div className="flex gap-2">
-            <Input
-              name="new-task"
-              value={newTaskName}
-              placeholder="New task..."
-              onChange={(e) => setNewTaskName(e.target.value)}
-            />
-
-            <Button>Create</Button>
-          </div>
-        </form>
-      )}
+      {isCurrentMonth && <CreateTaskForm handleOnCreate={handleOnCreate} />}
     </div>
+  );
+}
+
+// Create Task form
+interface CreateTaskForm {
+  handleOnCreate: (task: ITask) => void;
+}
+
+export function CreateTaskForm({ handleOnCreate }: CreateTaskForm) {
+  const { userId } = useAppContext();
+
+  const [taskTitle, setTaskTitle] = useState("");
+
+  async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!taskTitle.trim()) return;
+
+    const newTask = await createTask(userId, taskTitle);
+
+    if (newTask) {
+      handleOnCreate(newTask);
+      setTaskTitle("");
+    }
+  }
+
+  return (
+    <form onSubmit={(e) => handleCreateTask(e)}>
+      <div className="flex gap-2">
+        <Input
+          name="new-task"
+          value={taskTitle}
+          placeholder="New task..."
+          onChange={(e) => setTaskTitle(e.target.value)}
+        />
+
+        <Button>Create</Button>
+      </div>
+    </form>
   );
 }
