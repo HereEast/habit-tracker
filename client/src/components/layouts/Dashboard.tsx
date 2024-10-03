@@ -7,14 +7,16 @@ import { useUserYear } from "~/hooks/useUserYear";
 export function Dashboard() {
   const { today } = useAppContext();
 
-  const { data: yearData } = useUserYear(today.year);
+  const { data } = useUserYear(today.year);
+
+  console.log(data);
 
   return (
     <div className="flex flex-col items-center gap-6">
       <Rating />
 
-      {yearData?.months.map((month) => (
-        <MonthCard key={month.month} year={yearData.year} monthData={month} />
+      {data?.months.map((month) => (
+        <MonthCard key={month.month} year={data.year} data={month} />
       ))}
     </div>
   );

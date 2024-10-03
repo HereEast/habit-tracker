@@ -1,14 +1,14 @@
 import { useAppContext } from "~/hooks";
 import { cn, getDaysInMonth } from "~/utils";
 
-interface MonthDaysRowProps {
+interface MonthCardDaysProps {
   year: number;
   month: number;
 }
 
-export function MonthDaysRow({ year, month }: MonthDaysRowProps) {
+export function MonthCardDays({ year, month }: MonthCardDaysProps) {
   const { today } = useAppContext();
-  
+
   const daysInMonth = getDaysInMonth(month, year);
   const isCurrentYearAndMonth = year === today.year && month === today.month;
 
