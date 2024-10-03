@@ -46,7 +46,7 @@ export function MonthCard({ year, data }: MonthCardProps) {
     if (ratings) {
       setMonthEntryRatings(ratings);
     }
-  }, [entriesData]);
+  }, [entriesData, setMonthEntryRatings]);
 
   // Percentage
   useEffect(() => {
@@ -56,20 +56,6 @@ export function MonthCard({ year, data }: MonthCardProps) {
   }, [monthEntryRatings, setMonthPercentage]);
 
   // Create
-  // async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-
-  //   if (!newTaskName.trim()) return;
-
-  //   const newTask = await createTask(userId, newTaskName);
-
-  //   if (newTask) {
-  //     setMonthTasks((prevTasks) => [...prevTasks, newTask]);
-  //   }
-
-  //   setNewTaskName("");
-  // }
-
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -89,15 +75,6 @@ export function MonthCard({ year, data }: MonthCardProps) {
   }
 
   // Delete
-  // async function handleDeleteTask(
-  //   taskId: mongoose.Types.ObjectId,
-  //   deletedTaskRatings: Status[],
-  // ) {
-  //   setMonthTasks((prev) => prev.filter((task) => task._id !== taskId));
-
-  //   await deleteTask(userId, taskId);
-  // }
-
   async function handleDeleteTask(
     taskId: mongoose.Types.ObjectId,
     deletedTaskRatings: Status[],
@@ -165,25 +142,3 @@ export function MonthCard({ year, data }: MonthCardProps) {
     </div>
   );
 }
-
-// Create Task form
-// interface CreateTaskFormProps {
-//   onSubmit: () => void;
-// }
-
-// export function CreateTaskForm() {
-//   return (
-//     <form onSubmit={(e) => handleCreateTask(e)}>
-//       <div className="flex gap-2">
-//         <Input
-//           name="new-task"
-//           value={newTaskName}
-//           placeholder="New task..."
-//           onChange={(e) => setNewTaskName(e.target.value)}
-//         />
-
-//         <Button>Create</Button>
-//       </div>
-//     </form>
-//   );
-// }
