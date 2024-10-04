@@ -31,7 +31,6 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   } = useEntries({ userId, taskId: task._id, year, month });
 
   const taskRatings = entriesTaskData?.map((entry) => entry.status) || [];
-
   const isCurrentMonth = today.month === month && today.year === year;
 
   // Delete task

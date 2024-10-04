@@ -18,19 +18,17 @@ export function useMonthRating({
   const [monthPercentage, setMonthPercentage] = useState(0);
 
   useEffect(() => {
-    if (!selectedEntryId) {
-      return;
-    }
+    if (!selectedEntryId) return;
 
     const clickedEntry = entriesMonthData?.find(
       (entry) => entry._id === selectedEntryId,
     );
 
     const currentRating = clickedEntry?.status;
+    const isCurrentRatingValid =
+      currentRating !== null && currentRating !== undefined;
 
-    console.log(clickedEntry);
-
-    if (currentRating) {
+    if (isCurrentRatingValid) {
       if (selectedRating !== null) {
         const index = monthEntryRatings.indexOf(currentRating);
 
