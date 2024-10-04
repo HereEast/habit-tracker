@@ -26,12 +26,12 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   const taskId = String(task._id);
 
   const {
-    data: entriesTaskData,
+    data: entriesData,
     isLoading,
     error,
   } = useEntries({ userId, taskId, year, month });
 
-  const taskRatings = entriesTaskData?.map((entry) => entry.status) || [];
+  const taskRatings = entriesData?.map((entry) => entry.status) || [];
   const isCurrentMonth = today.month === month && today.year === year;
 
   // Delete task
@@ -69,7 +69,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       </div>
 
       {/* Entries */}
-      <TaskEntries entries={entriesTaskData || []} />
+      <TaskEntries entries={entriesData || []} />
 
       <Button
         onClick={handleDelete}
