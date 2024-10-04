@@ -1,15 +1,14 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
 import { MonthCardDays } from "./MonthCardDays";
 import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
 import { Task } from "./Task";
+import { CreateTaskForm } from "./CreateTaskForm";
 
 import { useAppContext, useEntries, useMonthRating } from "~/hooks";
 import { IMonthData } from "~/api/users";
-import { createTask, deleteTask } from "~/api/tasks";
+import { deleteTask } from "~/api/tasks";
 import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
 import { ITask } from "~/~/models/Task";
 import { Status } from "~/~/models/Entry";
@@ -119,41 +118,3 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   );
 }
 
-// Create Task form
-interface CreateTaskForm {
-  handleOnCreate: (task: ITask) => void;
-}
-
-export function CreateTaskForm({ handleOnCreate }: CreateTaskForm) {
-  const { userId } = useAppContext();
-
-  const [taskTitle, setTaskTitle] = useState("");
-
-  async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!taskTitle.trim()) return;
-
-    const newTask = await createTask(userId, taskTitle);
-
-    if (newTask) {
-      handleOnCreate(newTask);
-      setTaskTitle("");
-    }
-  }
-
-  return (
-    <form onSubmit={(e) => handleCreateTask(e)}>
-      <div className="flex gap-2">
-        <Input
-          name="new-task"
-          value={taskTitle}
-          placeholder="New task..."
-          onChange={(e) => setTaskTitle(e.target.value)}
-        />
-
-        <Button>Create</Button>
-      </div>
-    </form>
-  );
-}

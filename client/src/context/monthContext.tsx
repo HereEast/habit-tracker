@@ -24,7 +24,6 @@ export const MonthContext = createContext<MonthContextProps | undefined>(
 
 export function MonthContextProvider({ children }: MonthContextProviderProps) {
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
-
   const [selectedRating, setSelectedRating] = useState<Status | null>(null);
 
   const today = new Date();
