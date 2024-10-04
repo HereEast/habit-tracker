@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 import { COLLECTION } from "../utils/constants.js";
 import { ITask } from "./Task.js";
@@ -11,7 +11,6 @@ export interface IEntry {
   userId: mongoose.Types.ObjectId;
   taskId: mongoose.Types.ObjectId | ITask;
   year: number;
-  // month: string;
   month: number;
   day: number;
   status: Status;
@@ -20,12 +19,11 @@ export interface IEntry {
   updatedAt?: Date;
 }
 
-export const EntrySchema = new mongoose.Schema(
+export const EntrySchema = new Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    taskId: { type: mongoose.Schema.Types.ObjectId, ref: "Task" },
+    userId: { type: Schema.Types.ObjectId, ref: "User" },
+    taskId: { type: Schema.Types.ObjectId, ref: "Task" },
     year: { type: Number, required: true },
-    // month: { type: String, required: true },
     month: { type: Number, required: true },
     day: { type: Number, required: true },
     status: { type: Number, enum: STATUSES, default: 0, required: true },
@@ -34,4 +32,4 @@ export const EntrySchema = new mongoose.Schema(
   { timestamps: true, collection: COLLECTION.entries },
 );
 
-export const Entry = mongoose.model<IEntry>("Entry", EntrySchema);
+export const Entry = model<IEntry>("Entry", EntrySchema);
