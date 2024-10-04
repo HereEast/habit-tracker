@@ -1,4 +1,5 @@
 import { useState } from "react";
+import mongoose from "mongoose";
 
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
@@ -9,11 +10,13 @@ import { ITask } from "~/~/models/Task";
 import { IEntry, Status } from "~/~/models/Entry";
 import { cn } from "~/utils";
 
+type MongooseId = mongoose.Types.ObjectId;
+
 interface TaskProps {
   year: number;
   month: number;
   task: ITask;
-  onDelete: (id: string, deletedTaskRatings: Status[]) => void;
+  onDelete: (id: MongooseId, deletedTaskRatings: Status[]) => void;
 }
 
 // Task
@@ -23,13 +26,11 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
   const [editMode, setEditMode] = useState(false);
 
-  const taskId = String(task._id);
-
   const {
     data: entriesData,
     isLoading,
     error,
-  } = useEntries({ userId, taskId, year, month });
+  } = useEntries({ userId, taskId: task._id, year, month });
 
   const taskRatings = entriesData?.map((entry) => entry.status) || [];
   const isCurrentMonth = today.month === month && today.year === year;
@@ -40,13 +41,13 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       return;
     }
 
-    onDelete(taskId, taskRatings);
+    onDelete(task._id, taskRatings);
   }
 
   // Edit title
   async function handleEditTitle() {
     if (task._id) {
-      await updateTask(taskId, newTaskTitle);
+      await updateTask(task._id, newTaskTitle);
     }
 
     setEditMode(false);

@@ -16,21 +16,19 @@ export function Entry({ entry }: EntryProps) {
 
   const [currentRating, setCurrentRating] = useState(entry.status);
 
-  const entryId = String(entry._id);
-
   useEffect(() => {
     const isRating = selectedRating !== null && selectedRating !== undefined;
 
-    if (isRating && selectedEntryId === entryId) {
+    if (isRating && selectedEntryId === entry._id) {
       setCurrentRating(selectedRating);
     }
-  }, [selectedRating, selectedEntryId, entryId]);
+  }, [selectedRating, selectedEntryId, entry._id]);
 
   const isValidEntry = entry.day <= today.day && entry.day >= 1;
 
   function handleClick() {
     if (isValidEntry) {
-      const id = selectedEntryId === entryId ? null : entryId;
+      const id = selectedEntryId === entry._id ? null : entry._id;
 
       setSelectedEntryId(id);
     }
@@ -42,7 +40,7 @@ export function Entry({ entry }: EntryProps) {
         "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
         currentRating > 0 && statusColor(currentRating),
         isValidEntry && "hover:border hover:border-brown-600",
-        selectedEntryId === String(entry._id)
+        selectedEntryId === entry._id
           ? "border border-brown-600"
           : "border-none",
       )}

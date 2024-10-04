@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import mongoose from "mongoose";
 
 import { MonthCardDays } from "./MonthCardDays";
 import { MonthCardHeader } from "./MonthCardHeader";
@@ -12,6 +13,8 @@ import { deleteTask } from "~/api/tasks";
 import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
 import { ITask } from "~/~/models/Task";
 import { Status } from "~/~/models/Entry";
+
+type MongooseId = mongoose.Types.ObjectId;
 
 interface MonthCardProps {
   year: number;
@@ -62,11 +65,11 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   // Delete
   async function handleDeleteTask(
-    taskId: string,
+    taskId: MongooseId,
     deletedTaskRatings: Status[],
   ) {
     const updatedTasks = monthTasks.filter(
-      (task) => String(task._id) !== taskId,
+      (task) => task._id !== taskId,
     );
 
     setMonthTasks(updatedTasks);
@@ -117,4 +120,3 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
     </div>
   );
 }
-
