@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { CreateAccountForm } from "~/components/CreateAccountForm";
+import { LoginForm } from "~/components/LoginForm";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,7 +22,11 @@ export default function LoginPage() {
         <h2 className="text-center font-semibold">Create Account</h2>
       </div>
 
-      <CreateAccountForm />
+      <div className="space-y-10">
+        <CreateAccountForm />
+
+        <LoginForm />
+      </div>
     </div>
   );
 }
