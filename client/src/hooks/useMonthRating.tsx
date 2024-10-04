@@ -21,7 +21,7 @@ export function useMonthRating({
     if (!selectedEntryId) return;
 
     const clickedEntry = entriesMonthData?.find(
-      (entry) => entry._id === selectedEntryId,
+      (entry) => String(entry._id) === selectedEntryId,
     );
 
     const currentRating = clickedEntry?.status;

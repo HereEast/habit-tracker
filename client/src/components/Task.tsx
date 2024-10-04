@@ -1,5 +1,4 @@
 import { useState } from "react";
-import mongoose from "mongoose";
 
 import { Button } from "./ui/Button";
 import { Entry } from "./Entry";
@@ -14,7 +13,7 @@ interface TaskProps {
   year: number;
   month: number;
   task: ITask;
-  onDelete: (id: mongoose.Types.ObjectId, deletedTaskRatings: Status[]) => void;
+  onDelete: (id: string, deletedTaskRatings: Status[]) => void;
 }
 
 // Task
@@ -24,11 +23,13 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
   const [editMode, setEditMode] = useState(false);
 
+  const taskId = String(task._id);
+
   const {
     data: entriesTaskData,
     isLoading,
     error,
-  } = useEntries({ userId, taskId: task._id, year, month });
+  } = useEntries({ userId, taskId, year, month });
 
   const taskRatings = entriesTaskData?.map((entry) => entry.status) || [];
   const isCurrentMonth = today.month === month && today.year === year;
@@ -39,13 +40,13 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       return;
     }
 
-    onDelete(task._id, taskRatings);
+    onDelete(taskId, taskRatings);
   }
 
   // Edit title
   async function handleEditTitle() {
     if (task._id) {
-      await updateTask(task._id, newTaskTitle);
+      await updateTask(taskId, newTaskTitle);
     }
 
     setEditMode(false);

@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import mongoose from "mongoose";
 
 import { BASE_URL, handleRequestError } from "~/utils";
 import { ITask } from "~/~/models/Task";
@@ -52,10 +51,7 @@ export async function createTask(userId: string, title: string) {
 }
 
 // Update title
-export async function updateTask(
-  taskId: mongoose.Types.ObjectId,
-  title: string,
-) {
+export async function updateTask(taskId: string, title: string) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.patch(
       `${BASE_URL}/tasks/${taskId}`,
@@ -75,10 +71,7 @@ export async function updateTask(
 }
 
 // Delete
-export async function deleteTask(
-  userId: string,
-  taskId: mongoose.Types.ObjectId,
-) {
+export async function deleteTask(userId: string, taskId: string) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.delete(
       `${BASE_URL}/tasks/${userId}/${taskId}`,

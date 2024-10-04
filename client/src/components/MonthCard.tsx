@@ -1,5 +1,4 @@
 import { FormEvent, useEffect, useState } from "react";
-import mongoose from "mongoose";
 
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
@@ -64,10 +63,12 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   // Delete
   async function handleDeleteTask(
-    taskId: mongoose.Types.ObjectId,
+    taskId: string,
     deletedTaskRatings: Status[],
   ) {
-    const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
+    const updatedTasks = monthTasks.filter(
+      (task) => String(task._id) !== taskId,
+    );
 
     setMonthTasks(updatedTasks);
     setMonthEntryRatings((prev) =>

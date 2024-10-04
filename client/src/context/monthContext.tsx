@@ -1,11 +1,10 @@
 import { createContext, ReactNode, useState } from "react";
-import mongoose from "mongoose";
 
 import { Status } from "~/~/models/Entry";
 
 interface MonthContextProps {
-  selectedEntryId: mongoose.Types.ObjectId | null;
-  setSelectedEntryId: (entry: mongoose.Types.ObjectId | null) => void;
+  selectedEntryId: string | null;
+  setSelectedEntryId: (entry: string | null) => void;
   selectedRating: Status | null;
   setSelectedRating: (status: Status | null) => void;
   today: {
@@ -24,8 +23,7 @@ export const MonthContext = createContext<MonthContextProps | undefined>(
 );
 
 export function MonthContextProvider({ children }: MonthContextProviderProps) {
-  const [selectedEntryId, setSelectedEntryId] =
-    useState<mongoose.Types.ObjectId | null>(null);
+  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
 
   const [selectedRating, setSelectedRating] = useState<Status | null>(null);
 

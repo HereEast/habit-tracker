@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import mongoose from "mongoose";
 
 import { getEntries } from "~/api/entries";
 import { IEntry } from "~/~/models/Entry";
 
 interface UseEntriesProps {
-  userId?: string; // change to mongoose
-  taskId?: mongoose.Types.ObjectId;
+  userId?: string;
+  taskId?: string;
   year: number;
   month: number;
   day?: number;
