@@ -16,12 +16,13 @@ export function LoginForm() {
     e.preventDefault();
 
     try {
-      const user = await login(email, password);
+      const token = await login(email, password);
 
-      console.log("Logged in User:", user);
+      console.log("Logged in User:", token);
 
-      if (user) {
-        router.replace(`/${user?.username}`);
+      if (token) {
+        // router.replace(`/${user?.username}`);
+        window.localStorage.setItem("token", token);
       }
     } catch (err) {
       // Err if username exists

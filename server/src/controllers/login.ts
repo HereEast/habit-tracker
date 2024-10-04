@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { User } from "../models/User.js";
+import { SECRET_KEY } from "../config.js";
 
 // Login
 export async function login(req: Request, res: Response) {
@@ -28,10 +30,15 @@ export async function login(req: Request, res: Response) {
       });
     }
 
-    return res.status(201).json({
-      success: true,
-      user,
-    });
+    // Get only necessary fields
+    const userPayload = {
+      _id: user._id,
+      email: user.email,
+    };
+
+    const token = jwt.sign(userPayload, SECRET_KEY || "", { expiresIn: "7d" });
+
+    return res.status(201).json(token);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

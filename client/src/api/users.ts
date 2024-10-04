@@ -86,7 +86,7 @@ export async function createUser(
 // Login
 export async function login(email: string, password: string) {
   try {
-    const response: AxiosResponse<IUser> = await axios.post(
+    const response: AxiosResponse<string> = await axios.post(
       `${BASE_URL}/users/login`,
       {
         email,
