@@ -7,7 +7,7 @@ import { IEntry } from "~/~/models/Entry";
 type MongooseId = mongoose.Types.ObjectId;
 
 interface UseEntriesProps {
-  userId?: string;
+  userId?: MongooseId;
   taskId?: MongooseId;
   year: number;
   month: number;

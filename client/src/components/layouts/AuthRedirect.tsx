@@ -8,7 +8,7 @@ interface AuthRedirectProps {
 export function AuthRedirect({ children }: AuthRedirectProps) {
   const router = useRouter();
 
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   useEffect(() => {
     if (!isAuthenticated) {

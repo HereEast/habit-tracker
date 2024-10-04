@@ -5,20 +5,20 @@ interface InputProps {
   name: string;
   value?: string;
   placeholder: string;
+  required?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   classes?: string;
 }
 
 export function Input(props: InputProps) {
-  const { name, value, placeholder, onChange, classes } = props;
-
   return (
     <input
-      name={name}
-      value={value}
-      placeholder={placeholder}
-      onChange={onChange}
-      className={cn("h-10 w-full rounded-md border px-4", classes || "")}
+      name={props.name}
+      value={props.value}
+      placeholder={props.placeholder}
+      required={props.required || false}
+      onChange={props.onChange}
+      className={cn("h-10 w-full rounded-md border px-4", props.classes || "")}
     />
   );
 }

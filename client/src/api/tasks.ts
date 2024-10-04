@@ -11,7 +11,7 @@ type MessageResponse = {
 type MongooseId = mongoose.Types.ObjectId;
 
 // Get user's tasks
-export async function getTasks(userId: string) {
+export async function getTasks(userId: MongooseId) {
   try {
     const response: AxiosResponse<ITask[]> = await axios.get(
       `${BASE_URL}/tasks/${userId}`,
@@ -28,7 +28,7 @@ export async function getTasks(userId: string) {
 }
 
 // Create
-export async function createTask(userId: string, title: string) {
+export async function createTask(userId: MongooseId, title: string) {
   try {
     const response: AxiosResponse<ITask> = await axios.post(
       `${BASE_URL}/tasks`,
@@ -74,7 +74,7 @@ export async function updateTask(taskId: MongooseId, title: string) {
 }
 
 // Delete
-export async function deleteTask(userId: string, taskId: MongooseId) {
+export async function deleteTask(userId: MongooseId, taskId: MongooseId) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.delete(
       `${BASE_URL}/tasks/${userId}/${taskId}`,

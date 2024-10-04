@@ -11,7 +11,7 @@ type UpdateResponse = {
 type MongooseId = mongoose.Types.ObjectId;
 
 interface GetEntriesParams {
-  userId?: string; // UPD to mongoose
+  userId?: MongooseId;
   taskId?: MongooseId;
   year: number;
   month: number;

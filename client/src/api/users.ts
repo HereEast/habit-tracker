@@ -82,3 +82,34 @@ export async function createUser(
     }
   }
 }
+
+// Login
+// export async function loginUser(
+//   username: string,
+//   email: string,
+//   password: string,
+// ) {
+//   try {
+//     const response: AxiosResponse<IUser> = await axios.post(
+//       `${BASE_URL}/users`,
+//       {
+//         username,
+//         email,
+//         password,
+//       },
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       },
+//     );
+
+//     const data = response.data;
+
+//     return data;
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       handleRequestError(err);
+//     }
+//   }
+// }
