@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { RegisterForm } from "~/components/RegisterForm";
+import { LoginForm } from "~/components/LoginForm";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter();
+
+  const [view, setView] = useState<"login" | "register">("login");
 
   const isAuthenticated = false;
   const slug = "hereeast";
@@ -19,21 +21,21 @@ export default function RegisterPage() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-center font-semibold">Register, please 😊</h2>
+        <h2 className="text-center font-semibold">👋 Hey there!</h2>
       </div>
 
       <div>
         <div className="mb-6">
-          <RegisterForm />
+          <LoginForm />
         </div>
 
         <div className="space-x-1 text-center">
-          <span>Been there already?</span>
+          <span>Don't have an account yet?</span>
           <Link
-            href="/login"
+            href="/register"
             className="underline underline-offset-2 hover:no-underline hover:opacity-50"
           >
-            Login
+            Create Account
           </Link>
         </div>
       </div>

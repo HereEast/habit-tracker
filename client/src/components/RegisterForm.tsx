@@ -7,7 +7,7 @@ import { Input } from "~/components/ui/Input";
 import { useAppContext } from "~/hooks";
 import { createUser } from "~/api/users";
 
-export function CreateAccountForm() {
+export function RegisterForm() {
   const router = useRouter();
 
   const { setUserId } = useAppContext();

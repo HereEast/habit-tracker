@@ -18,11 +18,11 @@ export function LoginForm() {
     try {
       const user = await login(email, password);
 
-      console.log(user);
+      console.log("Logged in User:", user);
 
-      // if (user) {
-      //   router.replace(`/${user?.username}`);
-      // }
+      if (user) {
+        router.replace(`/${user?.username}`);
+      }
     } catch (err) {
       // Err if username exists
       // Err if email exists
