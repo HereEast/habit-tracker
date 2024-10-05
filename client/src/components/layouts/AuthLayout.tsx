@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
-import jwt, { type JwtPayload } from "jsonwebtoken";
 
-import { useAuth } from "~/hooks";
+import { useAppContext } from "~/hooks";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -11,20 +10,13 @@ interface AuthLayoutProps {
 export function AuthLayout({ children }: AuthLayoutProps) {
   const router = useRouter();
 
-  const { isAuth } = useAuth();
+  const { isAuth, isAuthLoading } = useAppContext();
 
   useEffect(() => {
-    if (isAuth) {
-      const token = localStorage.getItem("token") || "";
-      const decodedUser = jwt.decode(token) as JwtPayload;
-
-      if (decodedUser) {
-        router.replace(`/${decodedUser.username}`);
-      }
-    } else {
+    if (!isAuthLoading && !isAuth) {
       router.replace("/");
     }
-  }, [isAuth, router]);
+  }, [isAuth, router, isAuthLoading]);
 
   return <>{isAuth ? children : null}</>;
 }

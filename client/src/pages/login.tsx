@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { useAuth } from "~/hooks";
+import { useAppContext } from "~/hooks";
 import { Login } from "~/components/layouts";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const { isAuth } = useAuth();
+  const { isAuth } = useAppContext();
 
   useEffect(() => {
     if (isAuth) {

@@ -1,14 +1,18 @@
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import axios from "axios";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 
 import { login } from "~/api/users";
+import { useAppContext } from "~/hooks";
 
 export function LoginForm() {
   const router = useRouter();
+
+  const { setIsAuth } = useAppContext();
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -20,11 +24,16 @@ export function LoginForm() {
       const token = await login(email, password);
 
       if (token) {
-        // Add token to the request header
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         window.localStorage.setItem("token", token);
 
-        router.replace("/hereeast");
+        setIsAuth(true);
+
+        const decodedUser = jwt.decode(token) as JwtPayload;
+
+        if (decodedUser) {
+          router.replace(`/${decodedUser.username}`);
+        }
       }
     } catch (err) {
       // Err if username exists
