@@ -11,7 +11,7 @@ import { NewEntryData } from "./createTask.js";
 // Get User year data
 export async function getUserYear(req: Request, res: Response) {
   const { year } = req.params;
-  const { userId } = req.body.user._id;
+  const userId = req.body.user._id;
 
   const today = new Date();
   const currentMonth = today.getMonth() + 1;

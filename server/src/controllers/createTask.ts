@@ -12,7 +12,7 @@ export type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
 // Create Task
 export async function createTask(req: Request, res: Response) {
   const { title } = req.body;
-  const { userId } = req.body.user._id;
+  const userId = req.body.user._id;
 
   try {
     const taskData: NewTaskData = {

@@ -7,7 +7,7 @@ import { User } from "../models/User.js";
 // Delete task by ID
 export async function deleteTask(req: Request, res: Response) {
   const { taskId } = req.params;
-  const { userId } = req.body.user._id;
+  const userId = req.body.user._id;
 
   const today = new Date();
   const currentYear = today.getFullYear();
