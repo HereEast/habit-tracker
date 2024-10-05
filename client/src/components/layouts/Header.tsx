@@ -1,11 +1,17 @@
 import Link from "next/link";
-import { Button } from "../ui/Button";
 import { useRouter } from "next/router";
+
+import { Button } from "../ui/Button";
+import { useAuth } from "~/hooks";
 
 export function Header() {
   const router = useRouter();
 
+  // const { setIsAuth } = useAuth();
+
   function handleLogout() {
+    // setIsAuth(null);
+
     localStorage.removeItem("token");
     router.replace("/");
   }

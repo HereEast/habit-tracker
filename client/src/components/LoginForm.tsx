@@ -19,14 +19,12 @@ export function LoginForm() {
     try {
       const token = await login(email, password);
 
-      console.log("Logged in User:", token);
-
       if (token) {
-        router.replace("/");
-
         // Add token to the request header
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         window.localStorage.setItem("token", token);
+
+        router.replace("/hereeast");
       }
     } catch (err) {
       // Err if username exists
