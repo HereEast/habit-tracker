@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 
 import { useAuth } from "~/hooks";
 
@@ -16,13 +16,13 @@ export function AuthLayout({ children }: AuthLayoutProps) {
   useEffect(() => {
     if (isAuth) {
       const token = localStorage.getItem("token") || "";
-      const decodedUser = jwt.decode(token);
+      const decodedUser = jwt.decode(token) as JwtPayload;
 
-      console.log(decodedUser);
+      if (decodedUser) {
+        router.replace(`/${decodedUser.username}`);
+      }
     } else {
-      console.log("Auth", isAuth);
-
-      // router.replace("/");
+      router.replace("/");
     }
   }, [isAuth, router]);
 

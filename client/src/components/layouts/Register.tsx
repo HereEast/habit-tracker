@@ -1,21 +1,8 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { RegisterForm } from "../RegisterForm";
-import { useAuth } from "~/hooks";
 
 export function Register() {
-  const router = useRouter();
-
-  // const { isAuth } = useAuth();
-
-  // useEffect(() => {
-  //   if (isAuth) {
-  //     router.replace("/");
-  //   }
-  // }, [isAuth, router]);
-
   return (
     <div>
       <div className="mb-6">

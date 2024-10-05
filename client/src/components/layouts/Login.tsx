@@ -1,21 +1,8 @@
-import { useEffect } from "react";
 import Link from "next/link";
 
 import { LoginForm } from "../LoginForm";
-import { useAuth } from "~/hooks";
-import { useRouter } from "next/router";
 
 export function Login() {
-  const router = useRouter();
-
-  // const { isAuth } = useAuth();
-
-  // useEffect(() => {
-  //   if (isAuth) {
-  //     router.replace("/");
-  //   }
-  // }, [isAuth]);
-
   return (
     <div>
       <div className="mb-6">
