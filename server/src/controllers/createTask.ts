@@ -6,17 +6,13 @@ import { Entry, IEntry } from "../models/Entry.js";
 import { User } from "../models/User.js";
 import { getDaysInMonth } from "../utils/handlers.js";
 
-interface CreateTaskRequestProps {
-  title: string;
-  userId: mongoose.Types.ObjectId;
-}
-
 export type NewEntryData = Omit<IEntry, "_id">;
 export type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
 
 // Create Task
 export async function createTask(req: Request, res: Response) {
-  const { title, userId } = req.body as CreateTaskRequestProps;
+  const { title } = req.body;
+  const { userId } = req.body.user._id;
 
   try {
     const taskData: NewTaskData = {

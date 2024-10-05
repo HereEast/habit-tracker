@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import axios from "axios";
 
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
@@ -21,7 +22,10 @@ export function LoginForm() {
       console.log("Logged in User:", token);
 
       if (token) {
-        // router.replace(`/${user?.username}`);
+        router.replace("/");
+
+        // Add token to the request header
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         window.localStorage.setItem("token", token);
       }
     } catch (err) {

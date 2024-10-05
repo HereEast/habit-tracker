@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 import { Task } from "../models/Task.js";
 
 // Get user Tasks
-export async function getTasks(req: Request, res: Response) {
-  const { userId } = req.params;
+export async function getUserTasks(req: Request, res: Response) {
+  const { userId } = req.body.user._id;
 
   try {
     const tasks = await Task.find({ userId }).exec();

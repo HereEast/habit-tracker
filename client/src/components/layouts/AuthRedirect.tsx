@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 interface AuthRedirectProps {
   children: ReactNode;
@@ -8,13 +8,24 @@ interface AuthRedirectProps {
 export function AuthRedirect({ children }: AuthRedirectProps) {
   const router = useRouter();
 
-  const isAuthenticated = false;
+  const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isAuthenticated, router]);
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
 
-  return <>{isAuthenticated ? children : null}</>;
+      if (token) {
+        setIsAuth(true);
+      } else {
+        router.replace("/");
+      }
+
+    }
+  }, [router]);
+
+  if (isAuth === null) {
+    return null;
+  }
+
+  return <>{isAuth ? children : null}</>;
 }

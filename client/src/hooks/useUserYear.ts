@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { getUserYear, IYearData } from "~/api/users";
-import { useAppContext } from "./useAppContext";
 
 export function useUserYear(year: number) {
-  const { userId } = useAppContext();
-
   const [data, setData] = useState<IYearData | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -16,7 +13,7 @@ export function useUserYear(year: number) {
       setError(false);
 
       try {
-        const userTasks = await getUserYear(userId, year);
+        const userTasks = await getUserYear(year);
 
         setData(userTasks);
         setIsLoading(false);
@@ -28,7 +25,7 @@ export function useUserYear(year: number) {
     }
 
     fetchTasks();
-  }, [userId, year]);
+  }, [year]);
 
   return { data, isLoading, error };
 }

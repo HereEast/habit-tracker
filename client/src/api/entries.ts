@@ -11,7 +11,6 @@ type UpdateResponse = {
 type MongooseId = mongoose.Types.ObjectId;
 
 interface GetEntriesParams {
-  userId?: MongooseId;
   taskId?: MongooseId;
   year: number;
   month: number;
@@ -20,14 +19,13 @@ interface GetEntriesParams {
 
 // Get Entries
 export async function getEntries(params: GetEntriesParams) {
-  const { userId, taskId, year, month, day } = params;
+  const { taskId, year, month, day } = params;
 
   try {
     const response: AxiosResponse<IEntry[]> = await axios.get(
       `${BASE_URL}/entries`,
       {
         params: {
-          userId,
           taskId,
           year,
           month,

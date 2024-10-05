@@ -14,7 +14,8 @@ interface IEntryQuery {
 
 // Get task entries
 export async function getEntries(req: Request, res: Response) {
-  const { userId, taskId, year, month, day } = req.query;
+  const { taskId, year, month, day } = req.query;
+  const { userId } = req.body.user._id;
 
   if (!year || !month) {
     return res.status(500).json({

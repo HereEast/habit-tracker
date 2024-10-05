@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -48,4 +48,28 @@ export async function login(req: Request, res: Response) {
       });
     }
   }
+}
+
+// Verify token
+export function verifyToken(req: Request, res: Response, next: NextFunction) {
+  const authHeaders = req.headers["authorization"];
+  const token = authHeaders && authHeaders?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({
+      message: "Authentication token is missing.",
+    });
+  }
+
+  jwt.verify(token, SECRET_KEY || "", (err, user) => {
+    if (err) {
+      return res.status(403).json({
+        message: "Invalid token.",
+      });
+    }
+
+    req.body.user = user;
+
+    next();
+  });
 }
