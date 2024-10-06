@@ -63,7 +63,7 @@ export function LoginForm() {
         const decodedUser = jwt.decode(token) as JwtPayload;
 
         if (decodedUser) {
-          router.replace(`/${decodedUser.username}`);
+          router.replace("/app");
         }
       }
     } catch (err) {

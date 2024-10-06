@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!isAuthLoading && isAuth) {
-      router.replace("/");
+      router.replace("/app");
     }
   }, [isAuth, router, isAuthLoading]);
 
