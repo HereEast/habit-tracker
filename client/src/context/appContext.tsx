@@ -17,15 +17,11 @@ export const AppContext = createContext<AppContextProps | undefined>(undefined);
 export function AppContextProvider({ children }: AppContextProviderProps) {
   const today = new Date();
 
-  const currentDay = today.getDate();
-  const currentMonth = today.getMonth() + 1;
-  const currentYear = today.getFullYear();
-
   const value = {
     today: {
-      day: currentDay,
-      month: currentMonth,
-      year: currentYear,
+      day: today.getDate(),
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
     },
   };
 

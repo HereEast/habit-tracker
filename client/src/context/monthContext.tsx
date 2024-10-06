@@ -10,11 +10,6 @@ interface MonthContextProps {
   setSelectedEntryId: (entry: MongooseId | null) => void;
   selectedRating: Status | null;
   setSelectedRating: (status: Status | null) => void;
-  today: {
-    todayDay: number;
-    todayMonth: number;
-    todayYear: number;
-  };
 }
 
 interface MonthContextProviderProps {
@@ -31,18 +26,11 @@ export function MonthContextProvider({ children }: MonthContextProviderProps) {
   );
   const [selectedRating, setSelectedRating] = useState<Status | null>(null);
 
-  const today = new Date();
-
   const value = {
     selectedEntryId,
     setSelectedEntryId,
     selectedRating,
     setSelectedRating,
-    today: {
-      todayDay: today.getDate(),
-      todayMonth: today.getMonth() + 1,
-      todayYear: today.getFullYear(),
-    },
   };
 
   return (
