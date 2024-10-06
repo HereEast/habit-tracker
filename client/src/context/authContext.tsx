@@ -24,7 +24,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     } else {
       setIsAuth(false);
     }
-  }, [isAuth]);
+  }, [isAuth, setIsAuth]);
 
   const value = {
     isAuth,

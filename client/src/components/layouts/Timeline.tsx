@@ -4,7 +4,7 @@ import { Rating } from "../Rating";
 import { useAppContext } from "~/hooks";
 import { useUserYear } from "~/hooks/useUserYear";
 
-export function Dashboard() {
+export function Timeline() {
   const { today } = useAppContext();
 
   const { data } = useUserYear(today.year);

@@ -14,7 +14,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
 
   useEffect(() => {
     if (!isAuth) {
-      router.replace("/");
+      // router.replace("/");
     }
   }, [isAuth, router]);
 

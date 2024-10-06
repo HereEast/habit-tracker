@@ -11,9 +11,9 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuth) {
-      router.replace("/");
+      // router.replace("/");
     }
   }, [isAuth, router]);
 
-  return <Login />;
+  return <>{!isAuth && <Login />}</>;
 }
