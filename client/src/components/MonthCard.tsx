@@ -22,13 +22,12 @@ interface MonthCardProps {
 }
 
 export function MonthCard({ year, monthData }: MonthCardProps) {
-  const { userId, today } = useAppContext();
+  const { today } = useAppContext();
 
   const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
   const [monthEntryRatings, setMonthEntryRatings] = useState<Status[]>([]);
 
   const { data: entriesMonthData, isLoading: isEntriesLoading } = useEntries({
-    userId,
     year,
     month: monthData.month,
   });
@@ -68,16 +67,14 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
     taskId: MongooseId,
     deletedTaskRatings: Status[],
   ) {
-    const updatedTasks = monthTasks.filter(
-      (task) => task._id !== taskId,
-    );
+    const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
 
     setMonthTasks(updatedTasks);
     setMonthEntryRatings((prev) =>
       filterDeletedRatings(prev, deletedTaskRatings),
     );
 
-    await deleteTask(userId, taskId);
+    await deleteTask(taskId);
   }
 
   const isCurrentMonth = today.month === monthData.month;

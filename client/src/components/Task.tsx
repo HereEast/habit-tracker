@@ -21,7 +21,7 @@ interface TaskProps {
 
 // Task
 export function Task({ task, year, month, onDelete }: TaskProps) {
-  const { userId, today } = useAppContext();
+  const { today } = useAppContext();
 
   const [newTaskTitle, setNewTaskTitle] = useState(task.title);
   const [editMode, setEditMode] = useState(false);
@@ -30,7 +30,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
     data: entriesData,
     isLoading,
     error,
-  } = useEntries({ userId, taskId: task._id, year, month });
+  } = useEntries({ taskId: task._id, year, month });
 
   const taskRatings = entriesData?.map((entry) => entry.status) || [];
   const isCurrentMonth = today.month === month && today.year === year;
