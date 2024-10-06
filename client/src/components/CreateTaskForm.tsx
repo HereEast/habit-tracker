@@ -3,7 +3,6 @@ import { FormEvent, useState } from "react";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 
-import { useAppContext } from "~/hooks";
 import { createTask } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
 
@@ -12,8 +11,6 @@ interface CreateTaskForm {
 }
 
 export function CreateTaskForm({ handleOnCreate }: CreateTaskForm) {
-  const { userId } = useAppContext();
-
   const [taskTitle, setTaskTitle] = useState("");
 
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -21,7 +18,7 @@ export function CreateTaskForm({ handleOnCreate }: CreateTaskForm) {
 
     if (!taskTitle.trim()) return;
 
-    const newTask = await createTask(userId, taskTitle);
+    const newTask = await createTask(taskTitle);
 
     if (newTask) {
       handleOnCreate(newTask);
