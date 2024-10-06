@@ -2,11 +2,6 @@ import mongoose, { Schema, model } from "mongoose";
 
 import { COLLECTION } from "../utils/constants.js";
 
-interface ITimeline {
-  year: number;
-  months: { month: number; tasks: mongoose.Types.ObjectId[] }[];
-}
-
 export interface IUser {
   _id: mongoose.Types.ObjectId;
   username: string;
@@ -15,6 +10,11 @@ export interface IUser {
   tasks: mongoose.Types.ObjectId[];
   timeline: ITimeline[];
   createdAt: Date;
+}
+
+interface ITimeline {
+  year: number;
+  months: { month: number; tasks: mongoose.Types.ObjectId[] }[];
 }
 
 const MonthSchema = new Schema(

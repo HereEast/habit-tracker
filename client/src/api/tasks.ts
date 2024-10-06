@@ -8,13 +8,15 @@ type MessageResponse = {
   message: string;
 };
 
+type MongooseId = mongoose.Types.ObjectId;
+
 // Get user's tasks
-export async function getTasks(userId: string) {
+export async function getUserTasks() {
   try {
     const response: AxiosResponse<ITask[]> = await axios.get(
-      `${BASE_URL}/tasks/${userId}`,
+      `${BASE_URL}/tasks/user`,
     );
-    
+
     const data = response.data;
 
     return data;
@@ -26,12 +28,11 @@ export async function getTasks(userId: string) {
 }
 
 // Create
-export async function createTask(userId: string, title: string) {
+export async function createTask(title: string) {
   try {
     const response: AxiosResponse<ITask> = await axios.post(
       `${BASE_URL}/tasks`,
       {
-        userId,
         title,
       },
       {
@@ -52,10 +53,7 @@ export async function createTask(userId: string, title: string) {
 }
 
 // Update title
-export async function updateTask(
-  taskId: mongoose.Types.ObjectId,
-  title: string,
-) {
+export async function updateTask(taskId: MongooseId, title: string) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.patch(
       `${BASE_URL}/tasks/${taskId}`,
@@ -75,13 +73,10 @@ export async function updateTask(
 }
 
 // Delete
-export async function deleteTask(
-  userId: string,
-  taskId: mongoose.Types.ObjectId,
-) {
+export async function deleteTask(taskId: MongooseId) {
   try {
     const response: AxiosResponse<MessageResponse> = await axios.delete(
-      `${BASE_URL}/tasks/${userId}/${taskId}`,
+      `${BASE_URL}/tasks/${taskId}`,
     );
 
     const data = response.data;

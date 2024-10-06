@@ -4,7 +4,7 @@ import { User } from "../models/User.js";
 
 // Update status
 export async function updateUser(req: Request, res: Response) {
-  const { userId } = req.params;
+  const userId = req.body.user._id;
   const { year, month } = req.body;
 
   if (!year || !month) {

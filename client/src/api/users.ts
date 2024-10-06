@@ -15,10 +15,10 @@ export interface IYearData {
 }
 
 // Get year data
-export async function getUserYear(userId: string, year: number) {
+export async function getUserYear(year: number) {
   try {
     const response: AxiosResponse<IYearData> = await axios.get(
-      `${BASE_URL}/users/${userId}/${year}`,
+      `${BASE_URL}/users/timeline/${year}`,
     );
 
     const data = response.data;
@@ -36,21 +36,21 @@ export async function getUserYear(userId: string, year: number) {
 }
 
 // Get user by ID
-export async function getUser(userId: string) {
-  try {
-    const response: AxiosResponse<IUser> = await axios.get(
-      `${BASE_URL}/users/${userId}`,
-    );
+// export async function getUser(userId: string) {
+//   try {
+//     const response: AxiosResponse<IUser> = await axios.get(
+//       `${BASE_URL}/users/${userId}`,
+//     );
 
-    const data = response.data;
+//     const data = response.data;
 
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      handleRequestError(err);
-    }
-  }
-}
+//     return data;
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       handleRequestError(err);
+//     }
+//   }
+// }
 
 // Create user
 export async function createUser(
@@ -63,6 +63,32 @@ export async function createUser(
       `${BASE_URL}/users`,
       {
         username,
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = response.data;
+
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      handleRequestError(err);
+    }
+  }
+}
+
+// Login
+export async function login(email: string, password: string) {
+  try {
+    const response: AxiosResponse<string> = await axios.post(
+      `${BASE_URL}/users/login`,
+      {
         email,
         password,
       },

@@ -1,30 +1,37 @@
 import { FormEvent, useState } from "react";
-import { createTask } from "~/api/tasks";
+
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
-import { useAppContext } from "~/hooks";
 
-export function CreateTaskForm() {
-  const { userId } = useAppContext();
-  
+import { createTask } from "~/api/tasks";
+import { ITask } from "~/~/models/Task";
+
+interface CreateTaskForm {
+  handleOnCreate: (task: ITask) => void;
+}
+
+export function CreateTaskForm({ handleOnCreate }: CreateTaskForm) {
   const [taskTitle, setTaskTitle] = useState("");
 
   async function handleCreateTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!taskTitle.length) {
-      return;
-    }
+    if (!taskTitle.trim()) return;
 
-    await createTask(userId, taskTitle);
-    setTaskTitle("");
+    const newTask = await createTask(taskTitle);
+
+    if (newTask) {
+      handleOnCreate(newTask);
+      setTaskTitle("");
+    }
   }
 
   return (
-    <form onSubmit={handleCreateTask}>
+    <form onSubmit={(e) => handleCreateTask(e)}>
       <div className="flex gap-2">
         <Input
           name="new-task"
+          value={taskTitle}
           placeholder="New task..."
           onChange={(e) => setTaskTitle(e.target.value)}
         />

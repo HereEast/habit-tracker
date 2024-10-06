@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { getTasks } from "~/api/tasks";
+import { getUserTasks } from "~/api/tasks";
 import { ITask } from "~/~/models/Task";
 
-export function useTasks(userId: string) {
+export function useTasks() {
   const [data, setData] = useState<ITask[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -14,7 +14,7 @@ export function useTasks(userId: string) {
       setError(false);
 
       try {
-        const userTasks = await getTasks(userId);
+        const userTasks = await getUserTasks();
 
         setData(userTasks);
         setIsLoading(false);
@@ -26,7 +26,7 @@ export function useTasks(userId: string) {
     }
 
     fetchTasks();
-  }, [userId]);
+  }, []);
 
   return { data, isLoading, error };
 }

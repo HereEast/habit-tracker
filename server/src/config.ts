@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING || "";
+export const SECRET_KEY = process.env.SECRET_KEY;
 
 export const DEVELOPMENT = process.env.NODE_ENV === "development";
 

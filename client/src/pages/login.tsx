@@ -1,17 +1,19 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import { useAuthContext } from "~/hooks";
+import { Login } from "~/components/layouts";
+
 export default function LoginPage() {
   const router = useRouter();
 
-  const isAuthenticated = true;
-  const slug = "hereeast";
+  const { isAuth, isAuthLoading } = useAuthContext();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.replace(`/${slug}`);
+    if (!isAuthLoading && isAuth) {
+      router.replace("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuth, router, isAuthLoading]);
 
-  return <div>Login</div>;
+  return <Login />;
 }

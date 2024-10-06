@@ -1,6 +1,7 @@
-import { useAppContext } from "~/hooks";
-import { cn, statusColor } from "~/utils";
+import { useEffect, useState } from "react";
 
+import { useAppContext, useMonthContext } from "~/hooks";
+import { cn, statusColor } from "~/utils";
 import { IEntry } from "~/~/models/Entry";
 
 interface EntryProps {
@@ -8,14 +9,28 @@ interface EntryProps {
 }
 
 export function Entry({ entry }: EntryProps) {
-  const { selectedEntryId, setSelectedEntryId, today } = useAppContext();
-  const { todayDay } = today;
+  const { today } = useAppContext();
 
-  const isTodayEntry = todayDay === entry.day;
+  const { selectedEntryId, setSelectedEntryId, selectedRating } =
+    useMonthContext();
+
+  const [currentRating, setCurrentRating] = useState(entry.status);
+
+  useEffect(() => {
+    const isRating = selectedRating !== null && selectedRating !== undefined;
+
+    if (isRating && selectedEntryId === entry._id) {
+      setCurrentRating(selectedRating);
+    }
+  }, [selectedRating, selectedEntryId, entry._id]);
+
+  const isValidEntry = entry.day <= today.day && entry.day >= 1;
 
   function handleClick() {
-    if (isTodayEntry) {
-      setSelectedEntryId(selectedEntryId === entry._id ? null : entry._id);
+    if (isValidEntry) {
+      const id = selectedEntryId === entry._id ? null : entry._id;
+
+      setSelectedEntryId(id);
     }
   }
 
@@ -23,14 +38,16 @@ export function Entry({ entry }: EntryProps) {
     <div
       className={cn(
         "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
-        entry.status > 0 && statusColor(entry.status),
-        isTodayEntry && "hover:border hover:border-brown-600",
-        selectedEntryId === entry._id && "border border-brown-600",
+        currentRating > 0 && statusColor(currentRating),
+        isValidEntry && "hover:border hover:border-brown-600",
+        selectedEntryId === entry._id
+          ? "border border-brown-600"
+          : "border-none",
       )}
       onClick={handleClick}
       title={`Rate: ${String(entry.status)}`}
     >
-      {entry.status}
+      {currentRating}
     </div>
   );
 }

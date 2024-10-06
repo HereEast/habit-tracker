@@ -4,6 +4,24 @@ import { twMerge } from "tailwind-merge";
 
 import { Status } from "~/~/models/Entry";
 
+// Filter ratings on Delete
+export function filterDeletedRatings(
+  currentRatings: Status[],
+  deletedRatings: Status[],
+) {
+  const result = [...currentRatings];
+
+  deletedRatings.forEach((rating) => {
+    const index = result.indexOf(rating);
+
+    if (index !== -1) {
+      result.splice(index, 1);
+    }
+  });
+
+  return result;
+}
+
 // Handle request error
 export function handleRequestError(err: Error) {
   if (err instanceof AxiosError && err.response) {

@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 
-import { getUser } from "~/api/users";
+// import { getUser } from "~/api/users";
 import { IUser } from "~/~/models/User";
 
-export function useUser(userId: string) {
-  const [data, setData] = useState<IUser | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+// export function useUser(userId: string) {
+//   const [data, setData] = useState<IUser | undefined>();
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    async function fetchUser() {
-      setIsLoading(true);
-      setError(false);
+//   useEffect(() => {
+//     async function fetchUser() {
+//       setIsLoading(true);
+//       setError(false);
 
-      try {
-        const user = await getUser(userId);
+//       try {
+//         const user = await getUser(userId);
 
-        setData(user);
-        setIsLoading(false);
-      } catch {
-        setError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+//         setData(user);
+//         setIsLoading(false);
+//       } catch {
+//         setError(true);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     }
 
-    fetchUser();
-  }, [userId]);
+//     fetchUser();
+//   }, [userId]);
 
-  return { data, isLoading, error };
-}
+//   return { data, isLoading, error };
+// }

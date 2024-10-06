@@ -1,10 +1,20 @@
-import { CreateTaskForm } from "./CreateTaskForm";
-import { MonthDaysRow } from "./MonthDaysRow";
+import { useEffect, useState } from "react";
+import mongoose from "mongoose";
+
+import { MonthCardDays } from "./MonthCardDays";
 import { MonthCardHeader } from "./MonthCardHeader";
 import { Notice } from "./Notice";
 import { Task } from "./Task";
+import { CreateTaskForm } from "./CreateTaskForm";
 
+import { useAppContext, useEntries, useMonthRating } from "~/hooks";
 import { IMonthData } from "~/api/users";
+import { deleteTask } from "~/api/tasks";
+import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
+import { ITask } from "~/~/models/Task";
+import { Status } from "~/~/models/Entry";
+
+type MongooseId = mongoose.Types.ObjectId;
 
 interface MonthCardProps {
   year: number;
@@ -12,27 +22,88 @@ interface MonthCardProps {
 }
 
 export function MonthCard({ year, monthData }: MonthCardProps) {
-  const { month, tasks } = monthData;
+  const { today } = useAppContext();
+
+  const [monthTasks, setMonthTasks] = useState<ITask[]>(monthData.tasks);
+  const [monthEntryRatings, setMonthEntryRatings] = useState<Status[]>([]);
+
+  const { data: entriesMonthData, isLoading: isEntriesLoading } = useEntries({
+    year,
+    month: monthData.month,
+  });
+
+  const { monthPercentage, setMonthPercentage } = useMonthRating({
+    entriesMonthData: entriesMonthData || [],
+    monthEntryRatings,
+  });
+
+  // Ratings array
+  useEffect(() => {
+    const ratings = entriesMonthData?.map((entry) => entry.status);
+
+    if (ratings) {
+      setMonthEntryRatings(ratings);
+    }
+  }, [entriesMonthData, setMonthEntryRatings]);
+
+  // Percentage
+  useEffect(() => {
+    const percentage = calculateStatusPercentage(monthEntryRatings);
+
+    setMonthPercentage(percentage);
+  }, [monthEntryRatings, setMonthPercentage]);
+
+  // On Create
+  function handleOnCreate(newTask: ITask) {
+    setMonthTasks((prevTasks) => [...prevTasks, newTask]);
+    setMonthEntryRatings((prev) => [
+      ...prev,
+      ...new Array(newTask.entries.length).fill(0),
+    ]);
+  }
+
+  // Delete
+  async function handleDeleteTask(
+    taskId: MongooseId,
+    deletedTaskRatings: Status[],
+  ) {
+    const updatedTasks = monthTasks.filter((task) => task._id !== taskId);
+
+    setMonthTasks(updatedTasks);
+    setMonthEntryRatings((prev) =>
+      filterDeletedRatings(prev, deletedTaskRatings),
+    );
+
+    await deleteTask(taskId);
+  }
+
+  const isCurrentMonth = today.month === monthData.month;
 
   return (
-    <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
-      <MonthCardHeader year={year} month={month} classes="mb-6" />
+    <div className="w-fit min-w-[680px] space-y-6 rounded-xl bg-stone-100/75 p-6">
+      <MonthCardHeader
+        year={year}
+        month={monthData.month}
+        tasksCount={monthTasks.length}
+        monthPercentage={monthPercentage}
+      />
 
-      <div className="mb-4">
-        {tasks?.length === 0 && (
+      <div>
+        {monthTasks?.length === 0 && (
           <Notice text="You haven't created any tasks yet." />
         )}
 
-        {tasks && tasks?.length > 0 && (
+        {monthTasks && monthTasks?.length > 0 && (
           <div className="flex w-full flex-col justify-center gap-2">
-            <MonthDaysRow year={year} month={month} />
+            <MonthCardDays year={year} month={monthData.month} />
 
             <div className="space-y-0.5">
-              {tasks.map((task) => (
+              {monthTasks.map((task) => (
                 <Task
                   task={task}
                   year={year}
-                  month={month}
+                  month={monthData.month}
+                  onDelete={handleDeleteTask}
                   key={String(task._id)}
                 />
               ))}
@@ -41,7 +112,8 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         )}
       </div>
 
-      <CreateTaskForm />
+      {/* Create Task form */}
+      {isCurrentMonth && <CreateTaskForm handleOnCreate={handleOnCreate} />}
     </div>
   );
 }
