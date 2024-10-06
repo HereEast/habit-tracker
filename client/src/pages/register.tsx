@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { useAppContext } from "~/hooks";
+import { useAuthContext } from "~/hooks";
 import { Register } from "~/components/layouts/Register";
 
 export default function RegisterPage() {
   const router = useRouter();
 
-  const { isAuth } = useAppContext();
+  const { isAuth } = useAuthContext();
 
   useEffect(() => {
     if (isAuth) {

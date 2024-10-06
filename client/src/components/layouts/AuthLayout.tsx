@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 
-import { useAppContext } from "~/hooks";
+import { useAuthContext } from "~/hooks";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -10,13 +10,13 @@ interface AuthLayoutProps {
 export function AuthLayout({ children }: AuthLayoutProps) {
   const router = useRouter();
 
-  const { isAuth, isAuthLoading } = useAppContext();
+  const { isAuth } = useAuthContext();
 
   useEffect(() => {
-    if (!isAuthLoading && !isAuth) {
+    if (!isAuth) {
       router.replace("/");
     }
-  }, [isAuth, router, isAuthLoading]);
+  }, [isAuth, router]);
 
   return <>{isAuth ? children : null}</>;
 }

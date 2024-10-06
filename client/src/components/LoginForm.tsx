@@ -7,16 +7,17 @@ import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 
 import { login } from "~/api/users";
-import { useAppContext } from "~/hooks";
+import { useAuthContext } from "~/hooks";
 
 export function LoginForm() {
   const router = useRouter();
 
-  const { setIsAuth } = useAppContext();
+  const { setIsAuth } = useAuthContext();
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  // Login
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -27,7 +28,7 @@ export function LoginForm() {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         window.localStorage.setItem("token", token);
 
-        setIsAuth(true);
+        // setIsAuth(true);
 
         const decodedUser = jwt.decode(token) as JwtPayload;
 

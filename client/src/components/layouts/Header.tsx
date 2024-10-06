@@ -2,12 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { Button } from "../ui/Button";
-import { useAppContext } from "~/hooks";
+import { useAuthContext } from "~/hooks";
 
 export function Header() {
   const router = useRouter();
 
-  const { isAuth, setIsAuth } = useAppContext();
+  const { isAuth, setIsAuth } = useAuthContext();
 
   // Log out
   function handleLogout() {

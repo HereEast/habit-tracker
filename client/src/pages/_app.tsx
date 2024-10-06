@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import axios from "axios";
 
-import { AppContextProvider } from "~/context";
+import { AppContextProvider, AuthContextProvider } from "~/context";
 import { Layout } from "~/components/layouts";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -17,10 +17,12 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <AppContextProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AppContextProvider>
+    <AuthContextProvider>
+      <AppContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AppContextProvider>
+    </AuthContextProvider>
   );
 }

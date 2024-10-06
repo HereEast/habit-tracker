@@ -33,7 +33,7 @@ export async function login(req: Request, res: Response) {
     // Get only necessary fields
     const userPayload = {
       _id: user._id,
-      email: user.email,
+      // email: user.email,
       username: user.username,
     };
 
