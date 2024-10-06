@@ -10,13 +10,15 @@ interface AuthLayoutProps {
 export function AuthLayout({ children }: AuthLayoutProps) {
   const router = useRouter();
 
-  const { isAuth } = useAuthContext();
+  const { isAuth, isAuthLoading } = useAuthContext();
 
   useEffect(() => {
-    if (!isAuth) {
-      // router.replace("/");
+    if (!isAuthLoading && !isAuth) {
+      router.replace("/login");
     }
-  }, [isAuth, router]);
+  }, [isAuth, isAuthLoading, router]);
+
+  // if !user return 404
 
   return <>{isAuth ? children : null}</>;
 }

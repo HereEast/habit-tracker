@@ -30,7 +30,7 @@ export async function login(req: Request, res: Response) {
       });
     }
 
-    // Get only necessary fields
+    // Only necessary fields
     const userPayload = {
       _id: user._id,
       // email: user.email,

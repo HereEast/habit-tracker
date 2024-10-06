@@ -1,20 +1,18 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 import { Button } from "../ui/Button";
 import { useAuthContext } from "~/hooks";
 
 export function Header() {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const { isAuth, setIsAuth } = useAuthContext();
+  const { user, isAuth, setIsAuth } = useAuthContext();
 
   // Log out
   function handleLogout() {
-    setIsAuth(false);
-
-    router.replace("/");
     localStorage.removeItem("token");
+    setIsAuth(false);
   }
 
   return (
@@ -23,15 +21,16 @@ export function Header() {
       <div className="flex items-center gap-2">
         <div>
           {isAuth ? (
-            <Button onClick={handleLogout}>Log out</Button>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">👋 {user}</span>
+              <Button onClick={handleLogout}>Log out</Button>
+            </div>
           ) : (
             <Link href="/login">
               <Button>Log in</Button>
             </Link>
           )}
         </div>
-
-        {/* <span className="text-sm font-medium">👋 hereeast</span> */}
       </div>
     </div>
   );
