@@ -33,26 +33,20 @@ export function handleRequestError(err: Error) {
 
 // Status color
 export const statusColor = (status: Status): string => {
-  switch (status) {
-    case 0:
-      return "bg-stone-300/50";
-    case 1:
-    case 2:
-      return "bg-stone-400/50";
-    case 3:
-    case 4:
-      return "bg-stone-400";
-    case 5:
-    case 6:
-      return "bg-stone-500";
-    case 7:
-    case 8:
-      return "bg-stone-600";
-    case 9:
-    case 10:
-      return "bg-stone-800";
-    default:
-      return "bg-stone-300/50";
+  if (status === 0) {
+    return "bg-stone-300/50";
+  } else if (status === 1 || status === 2) {
+    return "bg-stone-400/50";
+  } else if (status === 3 || status === 4) {
+    return "bg-stone-400";
+  } else if (status === 5 || status === 6) {
+    return "bg-stone-500";
+  } else if (status === 7 || status === 8) {
+    return "bg-stone-600";
+  } else if (status === 9 || status === 10) {
+    return "bg-stone-800";
+  } else {
+    return "bg-stone-300/50";
   }
 };
 

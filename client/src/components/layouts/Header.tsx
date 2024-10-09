@@ -14,7 +14,7 @@ export function Header() {
     localStorage.removeItem("token");
     setIsAuth(false);
 
-    router.push("/");
+    router.replace("/");
   }
 
   return (
