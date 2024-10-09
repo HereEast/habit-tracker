@@ -15,5 +15,9 @@ export default function LoginPage() {
     }
   }, [user, router, isAuthLoading]);
 
+  if (isAuthLoading) {
+    return null;
+  }
+
   return <Login />;
 }

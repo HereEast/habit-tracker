@@ -15,5 +15,9 @@ export default function RegisterPage() {
     }
   }, [user, router, isAuthLoading]);
 
+  if (isAuthLoading) {
+    return null;
+  }
+
   return <Register />;
 }
