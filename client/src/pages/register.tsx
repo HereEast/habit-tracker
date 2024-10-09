@@ -7,13 +7,13 @@ import { Register } from "~/components/layouts/Register";
 export default function RegisterPage() {
   const router = useRouter();
 
-  const { isAuth } = useAuthContext();
+  const { user, isAuthLoading } = useAuthContext();
 
   useEffect(() => {
-    if (isAuth) {
-      router.replace("/");
+    if (!isAuthLoading && user) {
+      router.replace(`/${user}`);
     }
-  }, [isAuth, router]);
+  }, [user, router, isAuthLoading]);
 
   return <Register />;
 }

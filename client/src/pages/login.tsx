@@ -7,13 +7,13 @@ import { Login } from "~/components/layouts";
 export default function LoginPage() {
   const router = useRouter();
 
-  const { isAuth, isAuthLoading } = useAuthContext();
+  const { user, isAuthLoading } = useAuthContext();
 
   useEffect(() => {
-    if (!isAuthLoading && isAuth) {
-      router.replace("/");
+    if (!isAuthLoading && user) {
+      router.replace(`/${user}`);
     }
-  }, [isAuth, router, isAuthLoading]);
+  }, [user, router, isAuthLoading]);
 
   return <Login />;
 }
