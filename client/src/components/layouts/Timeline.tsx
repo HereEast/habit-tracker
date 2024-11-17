@@ -2,7 +2,7 @@ import { MonthCard } from "../MonthCard";
 import { Rating } from "../Rating";
 
 import { useAppContext } from "~/hooks";
-import { useUserYear } from "~/hooks/useUserYear";
+import { useUserYear } from "~/hooks";
 
 export function Timeline() {
   const { today } = useAppContext();

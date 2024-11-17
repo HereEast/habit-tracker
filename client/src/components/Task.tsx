@@ -29,8 +29,8 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
   const {
     data: entriesData,
     isLoading,
-    error,
-  } = useEntries({ taskId: task._id, year, month });
+    isError,
+  } = useEntries({ taskId: String(task._id), year, month });
 
   const taskRatings = entriesData?.map((entry) => entry.status) || [];
   const isCurrentMonth = today.month === month && today.year === year;

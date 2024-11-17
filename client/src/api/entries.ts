@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import mongoose from "mongoose";
 
 import { BASE_URL, handleRequestError } from "~/utils";
 import { IEntry, Status } from "~/~/models/Entry";
@@ -8,10 +7,8 @@ type UpdateResponse = {
   message: string;
 };
 
-type MongooseId = mongoose.Types.ObjectId;
-
 interface GetEntriesParams {
-  taskId?: MongooseId;
+  taskId?: string;
   year: number;
   month: number;
   day?: number;
@@ -45,7 +42,7 @@ export async function getEntries(params: GetEntriesParams) {
 }
 
 // Update entry status
-export async function updateEntryStatus(entryId: MongooseId, status: Status) {
+export async function updateEntryStatus(entryId: string, status: Status) {
   try {
     const response: AxiosResponse<UpdateResponse> = await axios.patch(
       `${BASE_URL}/entries/${entryId}`,

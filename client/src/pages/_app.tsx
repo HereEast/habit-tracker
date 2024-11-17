@@ -1,11 +1,14 @@
-import "~/styles/globals.css";
-import type { AppProps } from "next/app";
-
 import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { AppProps } from "next/app";
 import axios from "axios";
+
+import "~/styles/globals.css";
 
 import { AppContextProvider, AuthContextProvider } from "~/context";
 import { Layout } from "~/components/layouts";
+
+const client = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -18,11 +21,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <AuthContextProvider>
-      <AppContextProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </AppContextProvider>
+      <QueryClientProvider client={client}>
+        <AppContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AppContextProvider>
+      </QueryClientProvider>
     </AuthContextProvider>
   );
 }
