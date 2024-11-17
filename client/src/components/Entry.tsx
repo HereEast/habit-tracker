@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { useAppContext, useMonthContext } from "~/hooks";
-import { cn, statusColor } from "~/utils";
-import { IEntry } from "~/~/models/Entry";
+import { cn, statusColor } from "~/utils/handlers";
+import { type IEntry } from "~/utils/types";
 
 interface EntryProps {
   entry: IEntry;

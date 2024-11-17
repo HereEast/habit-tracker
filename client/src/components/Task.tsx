@@ -1,22 +1,18 @@
 import { useState } from "react";
-import mongoose from "mongoose";
 
-import { Button } from "./ui/Button";
+import { Button } from "./ui";
 import { Entry } from "./Entry";
 
 import { useAppContext, useEntries } from "~/hooks";
 import { updateTask } from "~/api/tasks";
-import { ITask } from "~/~/models/Task";
-import { IEntry, Status } from "~/~/models/Entry";
-import { cn } from "~/utils";
-
-type MongooseId = mongoose.Types.ObjectId;
+import { cn } from "~/utils/handlers";
+import { IEntry, ITask, Status } from "~/utils/types";
 
 interface TaskProps {
   year: number;
   month: number;
   task: ITask;
-  onDelete: (id: MongooseId, deletedTaskRatings: Status[]) => void;
+  onDelete: (id: string, deletedTaskRatings: Status[]) => void;
 }
 
 // Task
@@ -41,7 +37,7 @@ export function Task({ task, year, month, onDelete }: TaskProps) {
       return;
     }
 
-    onDelete(task._id, taskRatings);
+    onDelete(String(task._id), taskRatings);
   }
 
   // Edit title

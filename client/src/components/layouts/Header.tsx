@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Button } from "../ui/Button";
+import { Button } from "../ui";
 import { useAuthContext } from "~/hooks";
 
 export function Header() {

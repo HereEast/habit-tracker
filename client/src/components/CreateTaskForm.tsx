@@ -1,10 +1,8 @@
 import { FormEvent, useState } from "react";
 
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-
+import { Input, Button } from "./ui";
 import { createTask } from "~/api/tasks";
-import { ITask } from "~/~/models/Task";
+import { ITask } from "~/utils/types";
 
 interface CreateTaskForm {
   handleOnCreate: (task: ITask) => void;

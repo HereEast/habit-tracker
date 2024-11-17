@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import mongoose from "mongoose";
 
 import { MonthCardDays } from "./MonthCardDays";
 import { MonthCardHeader } from "./MonthCardHeader";
@@ -10,11 +9,12 @@ import { CreateTaskForm } from "./CreateTaskForm";
 import { useAppContext, useEntries, useMonthRating } from "~/hooks";
 import { IMonthData } from "~/api/users";
 import { deleteTask } from "~/api/tasks";
-import { calculateStatusPercentage, filterDeletedRatings } from "~/utils";
-import { ITask } from "~/~/models/Task";
-import { Status } from "~/~/models/Entry";
 
-type MongooseId = mongoose.Types.ObjectId;
+import {
+  calculateStatusPercentage,
+  filterDeletedRatings,
+} from "~/utils/handlers";
+import { Status, type ITask } from "~/utils/types";
 
 interface MonthCardProps {
   year: number;
@@ -64,7 +64,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   // Delete
   async function handleDeleteTask(
-    taskId: MongooseId,
+    taskId: string,
     deletedTaskRatings: Status[],
   ) {
     const updatedTasks = monthTasks.filter((task) => task._id !== taskId);

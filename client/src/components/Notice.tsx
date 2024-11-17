@@ -1,4 +1,4 @@
-import { cn } from "~/utils";
+import { cn } from "~/utils/handlers";
 
 interface NoticeProps {
   text: string;

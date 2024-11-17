@@ -1,9 +1,8 @@
 import { Button } from "./ui/Button";
 
 import { useMonthContext } from "~/hooks";
-import { STATUSES } from "~/utils";
+import { Status, STATUSES } from "~/utils/types";
 import { updateEntryStatus } from "~/api/entries";
-import { Status } from "~/~/models/Entry";
 
 export function Rating() {
   const { selectedEntryId, setSelectedEntryId, setSelectedRating } =
@@ -13,7 +12,7 @@ export function Rating() {
     if (selectedEntryId) {
       setSelectedRating(status);
 
-      await updateEntryStatus(selectedEntryId, status);
+      await updateEntryStatus(String(selectedEntryId), status);
 
       setSelectedEntryId(null);
       setSelectedRating(null);

@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-import { BASE_URL, handleRequestError } from "~/utils";
-import { IEntry, Status } from "~/~/models/Entry";
+import { BASE_URL } from "~/utils/constants";
+import { handleRequestError } from "~/utils/handlers";
+import { IEntry, Status } from "~/utils/types";
 
 type UpdateResponse = {
   message: string;

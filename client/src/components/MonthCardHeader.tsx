@@ -1,4 +1,4 @@
-import { cn, getMonthFromIndex } from "~/utils";
+import { cn, getMonthFromIndex } from "~/utils/handlers";
 
 interface MonthCardHeaderProps {
   year: number;

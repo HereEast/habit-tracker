@@ -4,8 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
-import { Button } from "~/components/ui/Button";
-import { Input } from "~/components/ui/Input";
+import { Button, Input } from "~/components/ui";
 
 import { login } from "~/api/users";
 import { useAuthContext } from "~/hooks";

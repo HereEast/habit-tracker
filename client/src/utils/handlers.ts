@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { Status } from "~/~/models/Entry";
+import { Status } from "./types";
 
 // Filter ratings on Delete
 export function filterDeletedRatings(

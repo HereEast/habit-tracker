@@ -1,5 +1,5 @@
 import { useAppContext } from "~/hooks";
-import { cn, getDaysInMonth } from "~/utils";
+import { cn, getDaysInMonth } from "~/utils/handlers";
 
 interface MonthCardDaysProps {
   year: number;

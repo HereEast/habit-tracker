@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
-import { cn } from "~/utils";
+
+import { cn } from "~/utils/handlers";
 
 interface InputProps {
   name: string;

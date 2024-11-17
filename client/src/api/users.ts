@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-import { BASE_URL, handleRequestError } from "~/utils";
-import { ITask } from "~/~/models/Task";
-import { IUser } from "~/~/models/User";
+import { BASE_URL } from "~/utils/constants";
+import { handleRequestError } from "~/utils/handlers";
+import { ITask, IUser } from "~/utils/types";
 
 export interface IMonthData {
   month: number;

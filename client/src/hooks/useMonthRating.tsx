@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { useMonthContext } from "./useMonthContext";
-import { calculateStatusPercentage } from "~/utils";
-import { IEntry, Status } from "~/~/models/Entry";
+import { useMonthContext } from "./context";
+import { calculateStatusPercentage } from "~/utils/handlers";
+import { IEntry, Status } from "~/utils/types";
 
 interface UseMonthRatingProps {
   entriesMonthData: IEntry[];
