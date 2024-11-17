@@ -38,7 +38,7 @@ export function Entry({ entry }: EntryProps) {
   return (
     <div
       className={cn(
-        "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
+        "flex size-6 shrink-0 items-center justify-center bg-stone-300/50 text-sm",
         currentRating > 0 && statusColor(currentRating),
         // (currentRating === 1 || currentRating === 2) && "bg-stone-400/50",
         // (currentRating === 3 || currentRating === 4) && "bg-stone-400",

@@ -99,7 +99,7 @@ function TaskEntries({ entries }: TaskEntriesProps) {
     : 0;
 
   return (
-    <div className="flex gap-0.5">
+    <div className="flex">
       {invalidEntries > 0 &&
         new Array(invalidEntries)
           .fill(0)
