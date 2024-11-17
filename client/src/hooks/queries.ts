@@ -4,7 +4,6 @@ import { getEntries } from "~/api/entries";
 import { getUserTasks } from "~/api/tasks";
 import { getUserYear } from "~/api/users";
 
-
 // Year
 export function useUserYear(year: number) {
   const { data, isLoading, isError } = useQuery({
@@ -37,7 +36,7 @@ export function useEntries(props: UseEntriesProps) {
   const { taskId, year, month, day } = props;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["entires"],
+    queryKey: ["entires", month, day, taskId],
     queryFn: () => getEntries({ taskId, year, month, day }),
   });
 
