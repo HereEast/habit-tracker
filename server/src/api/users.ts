@@ -13,7 +13,8 @@ router.route("/timeline/:year").get(verifyToken, getUserYear);
 // router.route("/:userId").get(verifyToken, getUser);
 
 // Create
-router.route("/").post(verifyToken, createUser);
+// router.route("/").post(verifyToken, createUser);
+router.route("/").post(createUser);
 
 // Login
 router.route("/login").post(login);

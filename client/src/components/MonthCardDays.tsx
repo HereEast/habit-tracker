@@ -21,7 +21,7 @@ export function MonthCardDays({ year, month }: MonthCardDaysProps) {
           <div
             key={i}
             className={cn(
-              "flex size-6 shrink-0 items-center justify-center rounded-sm bg-transparent text-xs text-stone-400",
+              "flex size-6 shrink-0 items-center justify-center rounded-sm border bg-transparent text-xs text-stone-400",
               isCurrentYearAndMonth &&
                 today.day === i + 1 &&
                 "rounded-full bg-stone-50 font-medium text-stone-800",
