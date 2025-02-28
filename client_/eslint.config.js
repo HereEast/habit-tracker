@@ -3,6 +3,7 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -22,4 +23,4 @@ export default tseslint.config(
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
-);
+).concat(eslintPluginPrettier);
