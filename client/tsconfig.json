@@ -5,10 +5,15 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~/~/*": ["../server/src/*"]
+      "~/*": ["src/*"],
+      "~/server/*": ["../server/src/*"]
     }
-  }
+  },
+  "include": ["src", "../server/src"]
 }
