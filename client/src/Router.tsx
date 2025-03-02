@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
-import { HomePage } from "./pages/HomePage";
-import { TimelinePage } from "./pages/TimelinePage";
-import { LoginPage } from "./pages/LoginPage";
+import { Home } from "./pages/Home";
+import { Timeline } from "./pages/Timeline";
+import { Login } from "./pages/Login";
 import { Layout } from "./components/Layout";
 
 import { ROUTE } from "./utils/constants";
@@ -12,15 +12,15 @@ export function Router() {
   return (
     <Routes>
       <Route path={ROUTE.home} element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<Home />} />
 
         <Route path=":slug">
           <Route element={<AuthProvider />}>
-            <Route index element={<TimelinePage />} />
+            <Route index element={<Timeline />} />
           </Route>
         </Route>
 
-        <Route path={ROUTE.login} element={<LoginPage />} />
+        <Route path={ROUTE.login} element={<Login />} />
       </Route>
     </Routes>
   );
