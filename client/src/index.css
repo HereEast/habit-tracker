@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
-html {
+html,
+body {
   box-sizing: border-box;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

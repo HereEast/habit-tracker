@@ -8,7 +8,7 @@ export function Layout() {
     <>
       <Header />
 
-      <main>
+      <main className="grow">
         <Outlet />
       </main>
 
