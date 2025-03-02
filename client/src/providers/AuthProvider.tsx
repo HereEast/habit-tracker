@@ -1,18 +1,16 @@
-import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider() {
   const navigate = useNavigate();
 
   const isAuth = true;
 
-  if (!isAuth) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
 
-  return isAuth && children;
+  return isAuth && <Outlet />;
 }

@@ -17,7 +17,7 @@ export function Header() {
   // }
 
   return (
-    <div className="fixed flex h-16 w-full items-center justify-between bg-stone-300 px-10">
+    <div className="fixed flex h-16 w-full items-center justify-between px-10">
       <h1 className="font-medium hover:opacity-50">
         <Link to="/">Habit Tracker</Link>
       </h1>

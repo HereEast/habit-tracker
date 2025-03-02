@@ -5,17 +5,22 @@ import { TimelinePage } from "./pages/TimelinePage";
 import { LoginPage } from "./pages/LoginPage";
 import { Layout } from "./components/Layout";
 
+import { ROUTE } from "./utils/constants";
+import { AuthProvider } from "./providers/AuthProvider";
+
 export function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path={ROUTE.home} element={<Layout />}>
         <Route index element={<HomePage />} />
 
         <Route path=":slug">
-          <Route index element={<TimelinePage />} />
+          <Route element={<AuthProvider />}>
+            <Route index element={<TimelinePage />} />
+          </Route>
         </Route>
 
-        <Route path="/login" element={<LoginPage />} />
+        <Route path={ROUTE.login} element={<LoginPage />} />
       </Route>
     </Routes>
   );
