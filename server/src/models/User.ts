@@ -1,7 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
 
-import { COLLECTION } from "../utils/constants.js";
-
 export interface IUser {
   _id: mongoose.Types.ObjectId;
   username: string;
@@ -44,4 +42,4 @@ const UserSchema = new Schema(
   { timestamps: true, collection: "users" },
 );
 
-export const User = model<IUser>("User", UserSchema, COLLECTION.users);
+export const User = model<IUser>("User", UserSchema, "users");

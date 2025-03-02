@@ -7,7 +7,7 @@ export async function getUser(req: Request, res: Response) {
   const { slug } = req.params;
 
   try {
-    const user = await User.findById(slug).exec();
+    const user = await User.findOne({ username: slug }).exec();
 
     return res.json(user);
   } catch (err) {
@@ -15,7 +15,7 @@ export async function getUser(req: Request, res: Response) {
       console.log("🔴 Error:", err.message);
 
       return res.status(500).json({
-        message: "Failed to fetch the user by user ID.",
+        message: "Failed to fetch the user by slug.",
       });
     }
   }

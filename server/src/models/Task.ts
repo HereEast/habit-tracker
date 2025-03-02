@@ -1,7 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
 
-import { COLLECTION } from "../utils/constants.js";
-
 export interface ITask {
   _id: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
@@ -23,7 +21,7 @@ export const TaskSchema = new Schema(
     stoppedAt: Date,
     resumedAt: Date,
   },
-  { timestamps: true, collection: COLLECTION.tasks },
+  { timestamps: true, collection: "tasks" },
 );
 
 export const Task = model<ITask>("Task", TaskSchema);
