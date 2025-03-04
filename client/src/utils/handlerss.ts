@@ -4,6 +4,8 @@ import { twMerge } from "tailwind-merge";
 
 import { Status } from "~/server/models/Entry";
 
+//
+
 // Filter ratings on Delete
 export function filterDeletedRatings(
   currentRatings: Status[],
@@ -31,24 +33,24 @@ export function handleRequestError(err: Error) {
   }
 }
 
-// Status color
-export const statusColor = (status: Status): string => {
-  if (status === 0) {
-    return "bg-stone-300/50";
-  } else if (status === 1 || status === 2) {
-    return "bg-stone-400/50";
-  } else if (status === 3 || status === 4) {
-    return "bg-stone-400";
-  } else if (status === 5 || status === 6) {
-    return "bg-stone-500";
-  } else if (status === 7 || status === 8) {
-    return "bg-stone-600";
-  } else if (status === 9 || status === 10) {
-    return "bg-stone-800";
-  } else {
-    return "bg-stone-300/50";
-  }
-};
+// // Status color
+// export const statusColor = (status: Status): string => {
+//   if (status === 0) {
+//     return "bg-stone-300/50";
+//   } else if (status === 1 || status === 2) {
+//     return "bg-stone-400/50";
+//   } else if (status === 3 || status === 4) {
+//     return "bg-stone-400";
+//   } else if (status === 5 || status === 6) {
+//     return "bg-stone-500";
+//   } else if (status === 7 || status === 8) {
+//     return "bg-stone-600";
+//   } else if (status === 9 || status === 10) {
+//     return "bg-stone-800";
+//   } else {
+//     return "bg-stone-300/50";
+//   }
+// };
 
 // Calculate % of accomplishment
 export function calculateStatusPercentage(statuses: Status[] | undefined) {
@@ -66,31 +68,31 @@ export function calculateStatusPercentage(statuses: Status[] | undefined) {
 }
 
 // Get month from index
-export function getMonthFromIndex(index: number) {
-  const months = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
+// export function getMonthFromIndex(index: number) {
+//   const months = [
+//     "january",
+//     "february",
+//     "march",
+//     "april",
+//     "may",
+//     "june",
+//     "july",
+//     "august",
+//     "september",
+//     "october",
+//     "november",
+//     "december",
+//   ];
 
-  return months[index];
-}
+//   return months[index];
+// }
 
-// Get number of ays in a month
-export function getDaysInMonth(month: number, year: number) {
-  return new Date(year, month, 0).getDate();
-}
+// // Get number of ays in a month
+// export function getDaysInMonth(month: number, year: number) {
+//   return new Date(year, month, 0).getDate();
+// }
 
 // Tw
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
+// export const cn = (...inputs: ClassValue[]) => {
+//   return twMerge(clsx(inputs));
+// };
