@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getUserTasks } from "~/api/tasks/getUserTasks";
-import { getUser } from "~/api/users/getUser";
+import { getUserTasks } from "~/api/tasks";
+import { getUser } from "~/api/users";
 
 // Get User
 export function useUser(slug: string) {
