@@ -1,3 +1,10 @@
+// Is current month
+export function isCurrentMonth(year: number, month: number) {
+  const { year: currentYear, month: currentMonth } = getToday();
+
+  return year === currentYear && month === currentMonth;
+}
+
 // Get number of dys in a month
 export function getDaysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
