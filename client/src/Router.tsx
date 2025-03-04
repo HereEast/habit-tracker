@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Timeline } from "./pages/Timeline";
 import { Login } from "./pages/Login";
-import { Layout } from "./components/Layout";
+import { Layout } from "./components/layout/Layout";
 
 import { ROUTE } from "./utils/constants";
 import { AuthProvider } from "./providers/AuthProvider";

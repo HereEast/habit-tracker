@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { User } from "../models/User.js";
 
-// Get User
+// Get user by slug
 export async function getUser(req: Request, res: Response) {
   const { slug } = req.params;
 
@@ -15,7 +15,7 @@ export async function getUser(req: Request, res: Response) {
       console.log("🔴 Error:", err.message);
 
       return res.status(500).json({
-        message: "Failed to fetch the user by slug.",
+        message: "Failed to fetch a user by slug.",
       });
     }
   }

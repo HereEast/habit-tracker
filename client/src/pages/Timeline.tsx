@@ -8,7 +8,6 @@ export function Timeline() {
   const { data, isError } = useUser(slug || "");
 
   console.log(data);
-  console.log(isError);
 
   return (
     <div>
