@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 
 import { MonthCardHeader } from "~/components/month-card/MonthCardHeader";
+import { MonthDays } from "~/components/month-card/MonthDays";
 import { Notice } from "~/components/Notice";
 import { RatingButtons } from "~/components/RatingButtons";
 
-import { useUser } from "~/hooks/useUser";
+import { useUser, useUserTasks } from "~/hooks/queries";
 import { getToday, isCurrentMonth } from "~/utils/handlers";
 
 // Remove timeline from user object > Move to separate table
@@ -14,12 +15,15 @@ export function Timeline() {
   const { slug } = useParams();
 
   const { data, isError } = useUser(slug!);
+  const { data: tasks } = useUserTasks(String(data?._id || ""));
+
+  console.log("TASKS", tasks);
+
   const monthTasks = [];
 
-  const { year } = getToday();
+  const { currentYear } = getToday();
 
-  const yearData = data?.timeline.find((data) => data.year === year);
-  console.log(yearData);
+  const yearData = data?.timeline.find((data) => data.year === currentYear);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -31,7 +35,8 @@ export function Timeline() {
             className="w-fit min-w-[680px] space-y-6 rounded-xl bg-stone-100/75 p-6"
             key={data.month}
           >
-            <MonthCardHeader year={year} month={data.month} />
+            <MonthCardHeader year={currentYear} month={data.month} />
+            <MonthDays year={currentYear} month={data.month} />
 
             <div>
               {monthTasks?.length === 0 && (
@@ -40,7 +45,7 @@ export function Timeline() {
             </div>
 
             {/* Form */}
-            {isCurrentMonth(year, data.month) && <div>Form</div>}
+            {isCurrentMonth(currentYear, data.month) && <div>Form</div>}
           </div>
         ))}
       </div>

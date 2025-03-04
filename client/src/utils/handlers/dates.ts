@@ -1,6 +1,6 @@
 // Is current month
 export function isCurrentMonth(year: number, month: number) {
-  const { year: currentYear, month: currentMonth } = getToday();
+  const { currentYear, currentMonth } = getToday();
 
   return year === currentYear && month === currentMonth;
 }
@@ -35,8 +35,8 @@ export function getToday() {
   const today = new Date();
 
   return {
-    day: today.getDate(),
-    month: today.getMonth() + 1,
-    year: today.getFullYear(),
+    currentDay: today.getDate(),
+    currentMonth: today.getMonth() + 1,
+    currentYear: today.getFullYear(),
   };
 }

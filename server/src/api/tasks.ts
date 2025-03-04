@@ -9,10 +9,12 @@ import { verifyToken } from "../controllers/login.js";
 const router = express.Router();
 
 // Get
-router.route("/user").get(verifyToken, getUserTasks);
+// router.route("/user").get(verifyToken, getUserTasks);
+router.route("/user/:userId").get(getUserTasks);
 
 // Create
-router.route("/").post(verifyToken, createTask);
+// router.route("/").post(verifyToken, createTask);
+router.route("/").post(createTask);
 
 // Update
 router.route("/:taskId").patch(verifyToken, updateTask);
