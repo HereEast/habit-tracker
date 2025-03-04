@@ -6,15 +6,15 @@ import { MonthContextProvider } from "~/context";
 import { useAuthContext } from "~/hooks";
 
 export default function TimelinePage() {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const { isAuth, isAuthLoading } = useAuthContext();
+  // const { isAuth, isAuthLoading } = useAuthContext();
 
-  useEffect(() => {
-    if (!isAuthLoading && !isAuth) {
-      router.replace("/login");
-    }
-  }, [isAuth, router, isAuthLoading]);
+  // useEffect(() => {
+  //   if (!isAuthLoading && !isAuth) {
+  //     router.replace("/login");
+  //   }
+  // }, [isAuth, router, isAuthLoading]);
 
   return (
     <MonthContextProvider>

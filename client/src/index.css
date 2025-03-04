@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brown-50: #f8f7f6;
+  --color-brown-100: #eeece9;
+  --color-brown-200: #d7d3d0;
+  --color-brown-300: #cbc7c2;
+  --color-brown-400: #b9b4af;
+  --color-brown-500: #96918b;
+  --color-brown-600: #6c665e;
+  --color-brown-700: #49433a;
+  --color-brown-800: #33302b;
+  --color-brown-900: #24211c;
+}
+
 html,
 body {
   box-sizing: border-box;

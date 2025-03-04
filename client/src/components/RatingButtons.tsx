@@ -1,0 +1,21 @@
+import { Status, STATUSES } from "~/server/models/Entry";
+
+export function RatingButtons() {
+  function handleSetRating(rating: Status) {
+    console.log("Selected rating", rating);
+  }
+
+  return (
+    <div className="bg-brown-100/20 flex gap-2 rounded-lg p-4">
+      {STATUSES.map((status) => (
+        <button
+          key={status}
+          className="bg-brown-100 text-brown-800 hover:bg-brown-800 hover:text-brown-50 flex size-10 h-10 cursor-pointer items-center justify-center rounded-md px-5 transition"
+          onClick={() => handleSetRating(status as Status)}
+        >
+          {status}
+        </button>
+      ))}
+    </div>
+  );
+}

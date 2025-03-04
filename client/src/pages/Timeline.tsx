@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 
+import { RatingButtons } from "~/components/RatingButtons";
+
 import { useUser } from "~/hooks/useUser";
 
 export function Timeline() {
@@ -10,9 +12,8 @@ export function Timeline() {
   console.log(data);
 
   return (
-    <div>
-      <h1>Timeline</h1>
-      <p>{slug}</p>
+    <div className="flex flex-col items-center gap-6">
+      <RatingButtons />
     </div>
   );
 }
