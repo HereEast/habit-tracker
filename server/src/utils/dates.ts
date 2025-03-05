@@ -1,3 +1,14 @@
+// Get today
+export function getToday() {
+  const today = new Date();
+
+  return {
+    currentDay: today.getDate(),
+    currentMonth: today.getMonth() + 1,
+    currentYear: today.getFullYear(),
+  };
+}
+
 // Get month from index
 export function getMonthFromIndex(index: number) {
   const months = [

@@ -5,7 +5,7 @@ import { User } from "../models/User.js";
 import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
 
-import { getDaysInMonth } from "../utils/handlers.js";
+import { getDaysInMonth } from "../utils/dates.js";
 import { NewEntryData } from "./createTask.js";
 
 // Get User year data

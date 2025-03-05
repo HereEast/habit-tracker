@@ -20,7 +20,10 @@ export function CreateTaskForm() {
   const { mutate } = useMutation({
     mutationKey: ["tasks"],
     mutationFn: createTask,
-    onSuccess: (data) => console.log("Created", data),
+    onSuccess: (data) => {
+      setTaskName("");
+      console.log("Created", data);
+    },
   });
 
   // Submit task
@@ -28,8 +31,6 @@ export function CreateTaskForm() {
     e.preventDefault();
 
     if (!taskName.trim()) return;
-
-    // console.log(taskName);
 
     mutate({ userId: String(user?._id), title: taskName });
 
