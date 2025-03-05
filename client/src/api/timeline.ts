@@ -3,19 +3,28 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { BASE_URL } from "~/utils/constants";
 import { IYearData } from "~/utils/types";
 
-export async function getUserYear(year: number) {
+export async function getYearData(userId: string, year: number) {
+  console.log(userId, year);
   try {
     const response: AxiosResponse<IYearData> = await axios.get(
-      `${BASE_URL}/users/timeline/${year}`,
+      `${BASE_URL}/api/timeline`,
+      {
+        params: {
+          userId,
+          year,
+        },
+      },
     );
 
     const data = response.data;
-    const sortedMonths = data.months.sort((a, b) => b.month - a.month);
+    // const sortedMonths = data.months.sort((a, b) => b.month - a.month);
 
-    return {
-      year: data.year,
-      months: sortedMonths,
-    };
+    // return {
+    //   year: data.year,
+    //   months: sortedMonths,
+    // };
+
+    return data;
   } catch (err) {
     if (err instanceof AxiosError && err.response) {
       console.log("🔴 Error:", err.response.data.message);

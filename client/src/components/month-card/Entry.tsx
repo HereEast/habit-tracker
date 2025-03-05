@@ -9,8 +9,8 @@ export function Entry({ entry }: EntryProps) {
   return (
     <div
       className={cn(
-        "flex size-6 shrink-0 items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
-        !entry && "opacity-30",
+        "flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
+        !entry && "cursor-default opacity-30",
         // currentRating > 0 && statusColor(currentRating),
         // isValidEntry && "hover:border-brown-600 hover:border",
         // selectedEntryId === entry._id
@@ -20,7 +20,7 @@ export function Entry({ entry }: EntryProps) {
       // onClick={handleClick}
       // title={`Rate: ${String(entry.status)}`}
     >
-      {entry?.day}
+      {entry?.status}
     </div>
   );
 }

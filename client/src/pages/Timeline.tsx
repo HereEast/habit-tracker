@@ -7,7 +7,7 @@ import { TaskEntries } from "~/components/month-card/TaskEntries";
 import { Notice } from "~/components/Notice";
 import { RatingButtons } from "~/components/RatingButtons";
 
-import { useUser, useUserTasks } from "~/hooks/queries";
+import { useUser, useUserTasks, useYearData } from "~/hooks/queries";
 import { getToday, isCurrentMonth } from "~/utils/handlers";
 
 // Remove timeline from user object > Move to separate table
@@ -16,12 +16,15 @@ import { getToday, isCurrentMonth } from "~/utils/handlers";
 export function Timeline() {
   const { slug } = useParams();
 
+  const { currentMonth, currentYear } = getToday();
+
   const { data: user, isError } = useUser(slug!);
   const { data: tasks } = useUserTasks(String(user?._id || ""));
 
-  console.log("TASKS", tasks);
+  // Year data
+  const { data: timeline } = useYearData(String(user?._id || ""), currentYear);
 
-  const { currentMonth, currentYear } = getToday();
+  console.log("TIMELINE", timeline);
 
   // const yearData = data?.timeline.find((data) => data.year === currentYear);
 
@@ -42,7 +45,10 @@ export function Timeline() {
 
           {tasks?.length &&
             tasks.map((task) => (
-              <div className="flex w-full items-center gap-6">
+              <div
+                className="flex w-full items-center gap-6"
+                key={String(task._id)}
+              >
                 <div className="w-32">
                   <h3>{task.title}</h3>
                 </div>

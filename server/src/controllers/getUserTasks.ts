@@ -4,7 +4,7 @@ import { Task } from "../models/Task.js";
 
 // Get user Tasks
 export async function getUserTasks(req: Request, res: Response) {
-  const { userId } = req.params;
+  const { userId } = req.query;
 
   try {
     const tasks = await Task.find({ userId }).exec();

@@ -6,12 +6,11 @@ import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
 
 import { getDaysInMonth } from "../utils/dates.js";
-import { NewEntryData } from "./createTask.js";
+import { EntryData } from "./createTask.js";
 
-// Get User year data
-export async function getUserYear(req: Request, res: Response) {
-  const { year } = req.params;
-  const userId = req.body.user._id;
+// Get year data
+export async function getYearData(req: Request, res: Response) {
+  const { userId, year } = req.params;
 
   const today = new Date();
   const currentMonth = today.getMonth() + 1;
@@ -37,7 +36,7 @@ export async function getUserYear(req: Request, res: Response) {
     // Create entries for a new month
     activeTasks.forEach(async (task) => {
       for (let i = 1; i <= daysInMonth; i++) {
-        const entryData: NewEntryData = {
+        const entryData: EntryData = {
           userId: new mongoose.Types.ObjectId(userId),
           taskId: task._id,
           year: Number(year),
