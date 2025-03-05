@@ -16,3 +16,10 @@ export interface CreateTaskInput {
   userId: string;
   title: string;
 }
+
+export interface MonthEntriesByTaskInput {
+  userId: string;
+  taskId: string;
+  year: number;
+  month: number;
+}

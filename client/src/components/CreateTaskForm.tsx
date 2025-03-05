@@ -1,14 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { createTask } from "~/api/tasks";
 import { useUser } from "~/hooks/queries";
-
-import { ITask } from "~/server/models/Task";
-
-// interface CreateTaskForm {
-//   handleOnCreate: (task: ITask) => void;
-// }
 
 export function CreateTaskForm() {
   const { slug } = useParams();
@@ -33,13 +28,6 @@ export function CreateTaskForm() {
     if (!taskName.trim()) return;
 
     mutate({ userId: String(user?._id), title: taskName });
-
-    // const newTask = await createTask(String(user?._id), taskName);
-
-    // if (newTask) {
-    //   handleOnCreate(newTask);
-    //   setTaskTitle("");
-    // }
   }
 
   return (
