@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
-import { CreateTaskForm } from "~/components/CreateTaskForm";
 
+import { CreateTaskForm } from "~/components/CreateTaskForm";
 import { MonthCardHeader } from "~/components/month-card/MonthCardHeader";
 import { MonthDays } from "~/components/month-card/MonthDays";
+import { TaskEntries } from "~/components/month-card/TaskEntries";
 import { Notice } from "~/components/Notice";
 import { RatingButtons } from "~/components/RatingButtons";
 
-import { useMonthEntriesByTask, useUser, useUserTasks } from "~/hooks/queries";
+import { useUser, useUserTasks } from "~/hooks/queries";
 import { getToday, isCurrentMonth } from "~/utils/handlers";
 
 // Remove timeline from user object > Move to separate table
@@ -41,8 +42,8 @@ export function Timeline() {
 
           {tasks?.length &&
             tasks.map((task) => (
-              <div className="flex w-full items-center gap-6 border">
-                <div className="w-32 border">
+              <div className="flex w-full items-center gap-6">
+                <div className="w-32">
                   <h3>{task.title}</h3>
                 </div>
 
@@ -63,19 +64,4 @@ export function Timeline() {
       </div>
     </div>
   );
-}
-
-export interface TaskEntriesProps {
-  userId: string;
-  taskId: string;
-  year: number;
-  month: number;
-}
-
-export function TaskEntries(entryInput: TaskEntriesProps) {
-  const { data } = useMonthEntriesByTask(entryInput);
-
-  console.log("ENTRIES", data);
-
-  return <div></div>;
 }
