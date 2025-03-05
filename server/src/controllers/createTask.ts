@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Request, Response } from "express";
 
 import { ITask, Task } from "../models/Task.js";
@@ -11,82 +10,83 @@ export type NewTaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
 
 // Create Task
 export async function createTask(req: Request, res: Response) {
-  const { title } = req.body;
-  const userId = req.body.user._id;
+  const { title, userId } = req.body;
 
-  try {
-    const taskData: NewTaskData = {
-      userId,
-      title,
-      entries: [],
-      stopped: false,
-    };
+  console.log("TASK IS CREATED!", title);
 
-    const task = new Task(taskData);
-    await task.save();
+  // try {
+  //   const taskData: NewTaskData = {
+  //     userId,
+  //     title,
+  //     entries: [],
+  //     stopped: false,
+  //   };
 
-    // Create Entries for the current month
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const todayDate = today.getDate();
+  //   const task = new Task(taskData);
+  //   await task.save();
 
-    const daysInMonth = getDaysInMonth(month, year);
+  //   // Create Entries for the current month
+  //   const today = new Date();
+  //   const year = today.getFullYear();
+  //   const month = today.getMonth() + 1;
+  //   const todayDate = today.getDate();
 
-    for (let i = todayDate; i <= daysInMonth; i++) {
-      const entryData: NewEntryData = {
-        userId,
-        taskId: task._id,
-        year,
-        month,
-        day: i,
-        status: 0,
-      };
+  //   const daysInMonth = getDaysInMonth(month, year);
 
-      const entry = new Entry(entryData);
-      await entry.save();
+  //   for (let i = todayDate; i <= daysInMonth; i++) {
+  //     const entryData: NewEntryData = {
+  //       userId,
+  //       taskId: task._id,
+  //       year,
+  //       month,
+  //       day: i,
+  //       status: 0,
+  //     };
 
-      task.entries.push(entry._id);
-      await task.save();
-    }
+  //     const entry = new Entry(entryData);
+  //     await entry.save();
 
-    // Add Task ID to tasks[]
-    const user = await User.findById(userId);
+  //     task.entries.push(entry._id);
+  //     await task.save();
+  //   }
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found (Create Task)." });
-    }
+  //   // Add Task ID to tasks[]
+  //   const user = await User.findById(userId);
 
-    user.tasks.push(task._id);
+  //   if (!user) {
+  //     return res.status(404).json({ message: "User not found (Create Task)." });
+  //   }
 
-    // Update User's timeline
-    const timelineYear = user.timeline.find((entry) => entry.year === year);
+  //   user.tasks.push(task._id);
 
-    if (!timelineYear) {
-      const yearEntry = { year, months: [{ month, tasks: [task._id] }] };
-      user.timeline.push(yearEntry);
-    }
+  //   // Update User's timeline
+  //   const timelineYear = user.timeline.find((entry) => entry.year === year);
 
-    const timelineMonth = timelineYear?.months.find((mon) => mon.month === month);
+  //   if (!timelineYear) {
+  //     const yearEntry = { year, months: [{ month, tasks: [task._id] }] };
+  //     user.timeline.push(yearEntry);
+  //   }
 
-    if (!timelineMonth) {
-      const monthEntry = { month, tasks: [task._id] };
-      timelineYear?.months.push(monthEntry);
-    } else {
-      timelineMonth?.tasks.push(task._id);
-    }
+  //   const timelineMonth = timelineYear?.months.find((mon) => mon.month === month);
 
-    // Save
-    await user.save();
+  //   if (!timelineMonth) {
+  //     const monthEntry = { month, tasks: [task._id] };
+  //     timelineYear?.months.push(monthEntry);
+  //   } else {
+  //     timelineMonth?.tasks.push(task._id);
+  //   }
 
-    return res.status(201).json(task);
-  } catch (err) {
-    if (err instanceof Error) {
-      console.log("🔴 Error:", err.message);
+  //   // Save
+  //   await user.save();
 
-      return res.status(500).json({
-        message: "Failed to create a new task.",
-      });
-    }
-  }
+  //   return res.status(201).json(task);
+  // } catch (err) {
+  //   if (err instanceof Error) {
+  //     console.log("🔴 Error:", err.message);
+
+  //     return res.status(500).json({
+  //       message: "Failed to create a new task.",
+  //     });
+  //   }
+  // }
 }

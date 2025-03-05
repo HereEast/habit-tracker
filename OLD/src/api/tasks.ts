@@ -21,6 +21,7 @@ export async function getUserTasks() {
 
     return data;
   } catch (err) {
+    console.log("OLD Error");
     if (err instanceof Error) {
       handleRequestError(err);
     }

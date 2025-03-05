@@ -9,3 +9,10 @@ export interface IYearData {
   year: number;
   months: IMonthData[];
 }
+
+//
+
+export interface CreateTaskInput {
+  userId: string;
+  title: string;
+}
