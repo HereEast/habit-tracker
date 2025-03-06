@@ -30,28 +30,30 @@ export async function getYearData(req: Request, res: Response) {
     const yearTasks = filterTasksByYear(tasks, Number(year));
 
     // YEAR DATA
-    const yearData = timeline.map((item) => {
-      const monthTasks = filterTasksByMonth(yearTasks, item.month);
+    const yearData = timeline
+      .map((item) => {
+        const monthTasks = filterTasksByMonth(yearTasks, item.month);
 
-      // Arrange Entries by months of the year
-      const mappedTasks = monthTasks.map((t) => {
-        const entries = t.entries as IEntry[];
+        // Arrange Entries by months of the year
+        const mappedTasks = monthTasks.map((t) => {
+          const entries = t.entries as IEntry[];
 
-        const monthEntries = entries.filter(
-          (entry) => entry.month === item.month && entry.year === Number(year),
-        );
+          const monthEntries = entries.filter(
+            (entry) => entry.month === item.month && entry.year === Number(year),
+          );
+
+          return {
+            task: t,
+            entries: [{ month: item.month, data: monthEntries }],
+          };
+        });
 
         return {
-          task: t.title,
-          entries: [{ month: item.month, data: monthEntries }],
+          ...item,
+          tasks: mappedTasks,
         };
-      });
-
-      return {
-        ...item,
-        tasks: mappedTasks,
-      };
-    });
+      })
+      .filter((data) => data.tasks.length);
 
     return res.json(yearData);
   } catch (err) {

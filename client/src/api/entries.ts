@@ -29,8 +29,6 @@ export async function getMonthEntriesByTask(input: MonthTaskEntriesInput) {
 
     const data = response.data;
 
-    console.log(data);
-
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {

@@ -1,3 +1,4 @@
+import { IEntry } from "~/server/models/Entry";
 import { ITask } from "~/server/models/Task";
 
 export interface IMonthData {
@@ -11,6 +12,16 @@ export interface IYearData {
 }
 
 //
+export interface MonthTimelineData {
+  month: number;
+  tasks: {
+    task: ITask;
+    entries: {
+      month: number;
+      data: IEntry[];
+    }[];
+  }[];
+}
 
 export interface CreateTaskInput {
   userId: string;
