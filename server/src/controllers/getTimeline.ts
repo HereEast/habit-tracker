@@ -5,11 +5,12 @@ import { IEntry } from "../models/Entry.js";
 
 import { getToday } from "../utils/dates.js";
 import { filterTasksByMonth, filterTasksByYear } from "../utils/handlers.js";
+import { mapPublicTask } from "../utils/mappers.js";
 
 const MAX_MONTHS = 12;
 
 // Get year data
-export async function getYearData(req: Request, res: Response) {
+export async function getTimeline(req: Request, res: Response) {
   const { userId, year } = req.query;
 
   if (!year || !userId) {
@@ -43,7 +44,7 @@ export async function getYearData(req: Request, res: Response) {
           );
 
           return {
-            task,
+            task: mapPublicTask(task),
             entries: [{ month: item.month, data: monthEntries }],
           };
         });
@@ -65,11 +66,4 @@ export async function getYearData(req: Request, res: Response) {
       });
     }
   }
-}
-
-export function mapTask(task: ITask) {
-  return {
-    title: task.title,
-    id: task._id,
-  };
 }
