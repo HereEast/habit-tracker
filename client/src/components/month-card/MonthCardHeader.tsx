@@ -16,7 +16,12 @@ export function MonthCardHeader({
   classNames,
 }: MonthCardHeaderProps) {
   return (
-    <div className={cn("flex w-full items-center justify-between", classNames)}>
+    <div
+      className={cn(
+        "mb-6 flex w-full items-center justify-between",
+        classNames,
+      )}
+    >
       <h2 className="text-xl font-semibold capitalize">{`${getMonthFromIndex(month)} ${year}`}</h2>
 
       <div className="space-x-1 text-sm">

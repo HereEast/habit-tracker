@@ -14,7 +14,7 @@ export function MonthDays({ year, month }: MonthCardDaysProps) {
   const isCurrentMonthAndYear = isCurrentMonth(year, month);
 
   return (
-    <div className="flex w-full items-center gap-6">
+    <div className="mb-6 flex w-full items-center gap-6">
       <div className="w-32" />
 
       <ul className="flex gap-0.5">

@@ -4,7 +4,6 @@ import { BASE_URL } from "~/utils/constants";
 import { IYearData } from "~/utils/types";
 
 export async function getYearData(userId: string, year: number) {
-  console.log(userId, year);
   try {
     const response: AxiosResponse<IYearData> = await axios.get(
       `${BASE_URL}/api/timeline`,

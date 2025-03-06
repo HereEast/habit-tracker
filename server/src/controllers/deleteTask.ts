@@ -42,8 +42,8 @@ export async function deleteTask(req: Request, res: Response) {
       return res.status(404).json({ message: "Task was not found while deleting a task." });
     }
 
-    task.stopped = true;
-    task.stoppedAt = today;
+    // task.stopped = true;
+    // task.stoppedAt = today;
 
     await task.save();
 

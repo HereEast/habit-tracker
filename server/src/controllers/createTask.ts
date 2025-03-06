@@ -4,6 +4,7 @@ import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
 // import { User } from "../models/User.js";
 import { getDaysInMonth, getToday } from "../utils/dates.js";
+import mongoose, { ObjectId } from "mongoose";
 
 export type EntryData = Omit<IEntry, "_id">;
 export type TaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
@@ -16,8 +17,8 @@ export async function createTask(req: Request, res: Response) {
     const taskData: TaskData = {
       userId,
       title,
-      // entries: [],
-      stopped: false,
+      entries: [],
+      // stopped: false,
       deleted: false,
     };
 
@@ -41,8 +42,8 @@ export async function createTask(req: Request, res: Response) {
       const entry = new Entry(entryData);
       await entry.save();
 
-      // task.entries.push(entry._id);
-      // await task.save();
+      task.entries.push(entry._id as mongoose.Types.ObjectId);
+      await task.save();
     }
 
     return res.status(201).json(task);

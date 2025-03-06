@@ -20,7 +20,7 @@ export async function updateUser(req: Request, res: Response) {
 
   const user = await User.findById({ userId });
 
-  console.log(user);
+  // console.log(user);
 
   // try {
   //   await User.updateOne({ _id: userId }, { $set: { title } }).exec();

@@ -28,7 +28,7 @@ export async function getYearData(req: Request, res: Response) {
     // TODO: New Year
 
     // Get active Tasks
-    const activeTasks = await Task.find({ userId, stopped: false }).exec();
+    const activeTasks = await Task.find({ userId }).exec();
     const activeTasksID = activeTasks.map((task) => task._id);
 
     const daysInMonth = getDaysInMonth(currentMonth, Number(year));
@@ -48,8 +48,8 @@ export async function getYearData(req: Request, res: Response) {
         const entry = new Entry(entryData);
         await entry.save();
 
-        task.entries.push(entry._id);
-        await task.save();
+        // task.entries.push(entry._id);
+        // await task.save();
       }
     });
 
