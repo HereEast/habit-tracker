@@ -12,10 +12,12 @@ export interface IYearData {
 }
 
 //
+export type PublicTask = Omit<ITask, "entries">;
+
 export interface MonthTimelineData {
   month: number;
   tasks: {
-    task: ITask;
+    task: PublicTask;
     entries: {
       month: number;
       data: IEntry[];

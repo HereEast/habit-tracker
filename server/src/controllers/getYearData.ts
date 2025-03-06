@@ -35,15 +35,15 @@ export async function getYearData(req: Request, res: Response) {
         const monthTasks = filterTasksByMonth(yearTasks, item.month);
 
         // Arrange Entries by months of the year
-        const mappedTasks = monthTasks.map((t) => {
-          const entries = t.entries as IEntry[];
+        const mappedTasks = monthTasks.map((task) => {
+          const entries = task.entries as IEntry[];
 
           const monthEntries = entries.filter(
             (entry) => entry.month === item.month && entry.year === Number(year),
           );
 
           return {
-            task: t,
+            task,
             entries: [{ month: item.month, data: monthEntries }],
           };
         });
@@ -53,7 +53,7 @@ export async function getYearData(req: Request, res: Response) {
           tasks: mappedTasks,
         };
       })
-      .filter((data) => data.tasks.length);
+      .filter((data) => data.month === currentMonth || data.tasks.length);
 
     return res.json(yearData);
   } catch (err) {
@@ -65,4 +65,11 @@ export async function getYearData(req: Request, res: Response) {
       });
     }
   }
+}
+
+export function mapTask(task: ITask) {
+  return {
+    title: task.title,
+    id: task._id,
+  };
 }

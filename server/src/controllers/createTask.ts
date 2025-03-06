@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 
 import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
-// import { User } from "../models/User.js";
 import { getDaysInMonth, getToday } from "../utils/dates.js";
-import mongoose, { ObjectId } from "mongoose";
 
 export type EntryData = Omit<IEntry, "_id">;
 export type TaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;

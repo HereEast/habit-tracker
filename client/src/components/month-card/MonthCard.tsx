@@ -29,8 +29,10 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
       {monthTasks && (
         <ul className="mb-6 space-y-0.5">
-          {monthTasks.map(({ task }, index) => {
-            const monthEntries = task.entries as IEntry[];
+          {monthTasks.map(({ task, entries }, index) => {
+            const monthEntries = entries.find(
+              (entry) => entry.month === month,
+            )?.data;
 
             return (
               <li className="flex w-full items-center gap-6" key={index}>
@@ -38,7 +40,11 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
                   <h3>{task.title}</h3>
                 </div>
 
-                <TaskEntries entries={monthEntries} year={year} month={month} />
+                <TaskEntries
+                  entries={monthEntries || []}
+                  year={year}
+                  month={month}
+                />
               </li>
             );
           })}
