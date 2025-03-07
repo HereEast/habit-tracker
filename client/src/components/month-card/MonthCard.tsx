@@ -22,7 +22,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
       <div>
         {monthTasks?.length === 0 && (
-          <Notice text="You haven't created any tasks yet." />
+          <Notice>You haven't created any tasks yet.</Notice>
         )}
       </div>
 

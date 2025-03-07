@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMonthEntriesByTask } from "~/api/entries";
 
 import { getUserTasks } from "~/api/tasks";
-import { getYearData } from "~/api/timeline";
+import { getCurrentMonthData, getYearData } from "~/api/timeline";
 import { getUser } from "~/api/users";
 
 import { UseMonthEntriesByTaskInput } from "~/utils/types";
@@ -44,6 +44,16 @@ export function useYearData(userId: string, year: number) {
   const { data, isLoading, isError } = useQuery({
     queryKey: [userId, year, "timeline"],
     queryFn: () => getYearData(userId, year),
+  });
+
+  return { data, isLoading, isError };
+}
+
+// Get year data
+export function useCurrentMonthData(userId: string) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["currentMonth"],
+    queryFn: () => getCurrentMonthData(userId),
   });
 
   return { data, isLoading, isError };

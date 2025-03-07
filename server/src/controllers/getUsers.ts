@@ -9,7 +9,16 @@ export async function getUser(req: Request, res: Response) {
   try {
     const user = await User.findOne({ username: slug }).exec();
 
-    return res.json(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const result = {
+      ...user.toObject(),
+      _id: String(user?._id),
+    };
+
+    return res.json(result);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

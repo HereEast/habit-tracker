@@ -26,6 +26,7 @@ export default tseslint
           { allowConstantExport: true },
         ],
         "@typescript-eslint/no-unused-vars": "warn",
+        "max-len": ["warn", { code: 80 }],
       },
     },
   )

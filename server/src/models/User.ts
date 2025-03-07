@@ -1,12 +1,10 @@
 import mongoose, { Schema, model } from "mongoose";
 
 export interface IUser {
-  _id: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId | string;
   username: string;
   email: string;
   password: string;
-  // tasks: mongoose.Types.ObjectId[];
-  // timeline: ITimeline[];
   createdAt: Date;
 }
 

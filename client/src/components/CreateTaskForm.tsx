@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { useUser } from "~/hooks/queries";
 
 export function CreateTaskForm() {
   const { slug } = useParams();
+  const queryClient = useQueryClient();
 
   const [taskName, setTaskName] = useState("");
 
@@ -16,6 +17,8 @@ export function CreateTaskForm() {
     mutationKey: ["tasks"],
     mutationFn: createTask,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["timeline"] });
+
       setTaskName("");
       console.log("Created", data);
     },
@@ -27,7 +30,7 @@ export function CreateTaskForm() {
 
     if (!taskName.trim()) return;
 
-    mutate({ userId: String(user?._id), title: taskName });
+    mutate({ userId: user?._id as string, title: taskName });
   }
 
   return (

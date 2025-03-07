@@ -26,7 +26,10 @@ export async function getTimeline(req: Request, res: Response) {
   }
 
   const { currentMonth, currentYear } = getToday();
-  const monthCount = currentYear === Number(year) ? currentMonth : MAX_MONTHS;
+
+  // Excluding current month
+  const monthCount =
+    currentYear === Number(year) ? currentMonth - 1 : MAX_MONTHS;
 
   const timeline = Array.from({ length: monthCount }, (_, i) => {
     return { month: i + 1 };
@@ -53,7 +56,7 @@ export async function getTimeline(req: Request, res: Response) {
         };
       });
 
-      if (month === currentMonth || tasksWithEntries.length) {
+      if (tasksWithEntries.length) {
         acc.push({ month, tasks: tasksWithEntries });
       }
 
