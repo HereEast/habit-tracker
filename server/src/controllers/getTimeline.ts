@@ -3,13 +3,19 @@ import { Request, Response } from "express";
 import { ITask, Task } from "../models/Task.js";
 import { IEntry } from "../models/Entry.js";
 
+import {
+  filterTasksByMonth,
+  filterTasksByYear,
+  getEntriesByMonth,
+} from "../utils/handlers.js";
+
 import { getToday } from "../utils/dates.js";
-import { filterTasksByMonth, filterTasksByYear } from "../utils/handlers.js";
 import { mapPublicTask } from "../utils/mappers.js";
+import { Timeline } from "../utils/types.js";
 
 const MAX_MONTHS = 12;
 
-// Get year data
+// Get Timeline
 export async function getTimeline(req: Request, res: Response) {
   const { userId, year } = req.query;
 
@@ -22,41 +28,39 @@ export async function getTimeline(req: Request, res: Response) {
   const { currentMonth, currentYear } = getToday();
   const monthCount = currentYear === Number(year) ? currentMonth : MAX_MONTHS;
 
-  const timeline = new Array(monthCount).fill(0).map((_, i) => {
+  const timeline = Array.from({ length: monthCount }, (_, i) => {
     return { month: i + 1 };
-  });
+  }).reverse();
 
   try {
-    const tasks: ITask[] = await Task.find({ userId }).populate("entries").exec();
+    const tasks: ITask[] = await Task.find({ userId })
+      .populate("entries")
+      .exec();
+
     const yearTasks = filterTasksByYear(tasks, Number(year));
 
-    // YEAR DATA
-    const yearData = timeline
-      .map((item) => {
-        const monthTasks = filterTasksByMonth(yearTasks, item.month);
+    // YEAR TIMELINE
+    const yearTimeline: Timeline = timeline.reduce((acc, { month }) => {
+      const monthTasks = filterTasksByMonth(yearTasks, month);
 
-        // Arrange Entries by months of the year
-        const mappedTasks = monthTasks.map((task) => {
-          const entries = task.entries as IEntry[];
-
-          const monthEntries = entries.filter(
-            (entry) => entry.month === item.month && entry.year === Number(year),
-          );
-
-          return {
-            task: mapPublicTask(task),
-            entries: [{ month: item.month, data: monthEntries }],
-          };
-        });
+      const tasksWithEntries = monthTasks.map((task) => {
+        const entries = task.entries as IEntry[];
+        const monthEntries = getEntriesByMonth(entries, month, Number(year));
 
         return {
-          ...item,
-          tasks: mappedTasks,
+          task: mapPublicTask(task),
+          entries: monthEntries,
         };
-      })
-      .filter((data) => data.month === currentMonth || data.tasks.length);
+      });
 
-    return res.json(yearData);
+      if (month === currentMonth || tasksWithEntries.length) {
+        acc.push({ month, tasks: tasksWithEntries });
+      }
+
+      return acc;
+    }, [] as Timeline);
+
+    return res.json(yearTimeline);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

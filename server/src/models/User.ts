@@ -5,31 +5,31 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  tasks: mongoose.Types.ObjectId[];
-  timeline: ITimeline[];
+  // tasks: mongoose.Types.ObjectId[];
+  // timeline: ITimeline[];
   createdAt: Date;
 }
 
-interface ITimeline {
-  year: number;
-  months: { month: number; tasks: mongoose.Types.ObjectId[] }[];
-}
+// interface ITimeline {
+//   year: number;
+//   months: { month: number; tasks: mongoose.Types.ObjectId[] }[];
+// }
 
-const MonthSchema = new Schema(
-  {
-    month: Number,
-    tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
-  },
-  { _id: false },
-);
+// const MonthSchema = new Schema(
+//   {
+//     month: Number,
+//     tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+//   },
+//   { _id: false },
+// );
 
-const YearSchema = new Schema(
-  {
-    year: Number,
-    months: [MonthSchema],
-  },
-  { _id: false },
-);
+// const YearSchema = new Schema(
+//   {
+//     year: Number,
+//     months: [MonthSchema],
+//   },
+//   { _id: false },
+// );
 
 const UserSchema = new Schema(
   {

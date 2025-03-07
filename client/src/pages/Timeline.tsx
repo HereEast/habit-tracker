@@ -20,7 +20,7 @@ export function Timeline() {
     <div className="flex flex-col items-center gap-6">
       <RatingButtons />
 
-      <div>
+      <div className="space-y-6">
         {timeline?.map((data, index) => (
           <MonthCard year={currentYear} monthData={data} key={index} />
         ))}

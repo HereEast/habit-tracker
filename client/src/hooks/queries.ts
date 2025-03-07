@@ -4,7 +4,8 @@ import { getMonthEntriesByTask } from "~/api/entries";
 import { getUserTasks } from "~/api/tasks";
 import { getYearData } from "~/api/timeline";
 import { getUser } from "~/api/users";
-import { MonthEntriesByTaskInput } from "~/utils/types";
+
+import { UseMonthEntriesByTaskInput } from "~/utils/types";
 
 // Get User
 export function useUser(slug: string) {
@@ -27,7 +28,7 @@ export function useUserTasks(userId: string) {
 }
 
 // Get month entries by Task
-export function useMonthEntriesByTask(input: MonthEntriesByTaskInput) {
+export function useMonthEntriesByTask(input: UseMonthEntriesByTaskInput) {
   const { userId, taskId, year, month } = input;
 
   const { data, isLoading, isError } = useQuery({

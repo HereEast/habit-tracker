@@ -4,9 +4,8 @@ import { MonthDays } from "./MonthDays";
 import { TaskEntries } from "./TaskEntries";
 import { CreateTaskForm } from "../CreateTaskForm";
 
-import { MonthTimelineData } from "~/utils/types";
 import { isCurrentMonth } from "~/utils/handlers";
-import { IEntry } from "~/server/models/Entry";
+import { MonthTimelineData } from "~/server/utils/types";
 
 interface MonthCardProps {
   year: number;
@@ -30,10 +29,6 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
       {monthTasks && (
         <ul className="mb-6 space-y-0.5">
           {monthTasks.map(({ task, entries }, index) => {
-            const monthEntries = entries.find(
-              (entry) => entry.month === month,
-            )?.data;
-
             return (
               <li className="flex w-full items-center gap-6" key={index}>
                 <div className="w-32">
@@ -41,7 +36,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
                 </div>
 
                 <TaskEntries
-                  entries={monthEntries || []}
+                  entries={entries || []}
                   year={year}
                   month={month}
                 />

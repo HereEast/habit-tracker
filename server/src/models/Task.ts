@@ -6,14 +6,15 @@ export interface ITask {
   userId: mongoose.Types.ObjectId;
   title: string;
   entries: (mongoose.Types.ObjectId | IEntry)[];
-  // stopped: boolean;
-  // stoppedAt?: Date;
-  // resumedAt?: Date;
   deleted: boolean;
   deletedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
+
+// stopped: boolean;
+// stoppedAt?: Date;
+// resumedAt?: Date;
 
 export const TaskSchema = new Schema(
   {

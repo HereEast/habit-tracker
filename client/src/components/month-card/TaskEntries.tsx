@@ -1,6 +1,5 @@
 import { Entry } from "./Entry";
 
-import { useMonthEntriesByTask } from "~/hooks/queries";
 import { IEntry } from "~/server/models/Entry";
 import { getDaysInMonth } from "~/utils/handlers";
 
@@ -11,7 +10,6 @@ export interface TaskEntriesProps {
 }
 
 export function TaskEntries(input: TaskEntriesProps) {
-  // const { data: entries } = useMonthEntriesByTask(input);
   const { entries, year, month } = input;
 
   const daysInMonth = getDaysInMonth(input.month, input.year);
