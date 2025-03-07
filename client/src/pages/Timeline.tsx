@@ -13,17 +13,18 @@ export function Timeline() {
   const { currentYear } = getToday();
 
   const { data: user } = useUser(slug!);
-  const { data: timeline } = useYearData(user?._id as string, currentYear);
+  const userId = String(user?._id || "");
 
+  const { data: timeline } = useYearData(userId, currentYear);
   const { data: currenMonthData, isLoading: isCurrentMonthLoading } =
-    useCurrentMonthData(String(user?._id));
+    useCurrentMonthData(userId);
 
   return (
     <div className="flex flex-col items-center gap-6">
       <RatingButtons />
 
       <div className="space-y-6">
-        {!isCurrentMonthLoading && <Notice>Loading...</Notice>}
+        {isCurrentMonthLoading && <Notice>Loading...</Notice>}
 
         {currenMonthData && (
           <MonthCard year={currentYear} monthData={currenMonthData} />

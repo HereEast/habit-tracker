@@ -9,6 +9,5 @@ const router = express.Router();
 // Get
 router.route("/").get(getTimeline);
 router.route("/month").get(getCurrentMonthData);
-// router.route("/timeline/:year").get(verifyToken, getUserYear);
 
 export { router as timelineRouter };

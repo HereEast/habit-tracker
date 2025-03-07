@@ -44,6 +44,7 @@ export function useYearData(userId: string, year: number) {
   const { data, isLoading, isError } = useQuery({
     queryKey: [userId, year, "timeline"],
     queryFn: () => getYearData(userId, year),
+    enabled: Boolean(userId),
   });
 
   return { data, isLoading, isError };
@@ -52,8 +53,9 @@ export function useYearData(userId: string, year: number) {
 // Get year data
 export function useCurrentMonthData(userId: string) {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["currentMonth"],
+    queryKey: ["current-month"],
     queryFn: () => getCurrentMonthData(userId),
+    enabled: Boolean(userId),
   });
 
   return { data, isLoading, isError };

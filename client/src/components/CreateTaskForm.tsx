@@ -17,7 +17,7 @@ export function CreateTaskForm() {
     mutationKey: ["tasks"],
     mutationFn: createTask,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["timeline"] });
+      queryClient.invalidateQueries({ queryKey: ["current-month"] });
 
       setTaskName("");
       console.log("Created", data);
@@ -30,7 +30,7 @@ export function CreateTaskForm() {
 
     if (!taskName.trim()) return;
 
-    mutate({ userId: user?._id as string, title: taskName });
+    mutate({ userId: String(user?._id), title: taskName });
   }
 
   return (
