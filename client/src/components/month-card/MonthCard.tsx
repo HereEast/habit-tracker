@@ -2,10 +2,10 @@ import { Notice } from "../Notice";
 import { MonthCardHeader } from "./MonthCardHeader";
 import { MonthDays } from "./MonthDays";
 import { TaskEntries } from "./TaskEntries";
-import { CreateTaskForm } from "../CreateTaskForm";
 
-import { isCurrentMonth } from "~/utils/handlers";
 import { MonthTimelineData } from "~/server/utils/types";
+import { CreateTaskForm } from "../CreateTaskForm";
+import { isCurrentMonth } from "~/utils/handlers";
 
 interface MonthCardProps {
   year: number;
@@ -46,7 +46,6 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         </ul>
       )}
 
-      {/* Form */}
       {isCurrentMonth(year, month) && <CreateTaskForm />}
     </div>
   );
