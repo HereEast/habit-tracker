@@ -23,8 +23,8 @@ export function useCreateTask() {
         (oldData: MonthTimelineData) => {
           if (!oldData) return [];
 
-          const tempTask = getTempTask(oldData, newTask.title);
-          return tempTask;
+          const tempData = getTempData(oldData, newTask.title);
+          return tempData;
         },
       );
 
@@ -36,7 +36,7 @@ export function useCreateTask() {
 }
 
 // Temporary task
-function getTempTask(oldData: MonthTimelineData, newTaskTitle: string) {
+function getTempData(oldData: MonthTimelineData, newTaskTitle: string) {
   const tempEntries = getTempEntries();
 
   return {

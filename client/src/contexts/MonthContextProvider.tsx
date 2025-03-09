@@ -1,5 +1,7 @@
 import { ReactNode, useState } from "react";
+
 import { MonthContext } from "./MonthContext";
+import { Status } from "~/server/models/Entry";
 
 interface MonthContextProviderProps {
   children: ReactNode;
@@ -7,13 +9,13 @@ interface MonthContextProviderProps {
 
 export function MonthContextProvider({ children }: MonthContextProviderProps) {
   const [selectedEntry, setSelectedEntry] = useState<string | null>(null);
-  // const [selectedRating, setSelectedRating] = useState<Status | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<Status | null>(null);
 
   const value = {
     selectedEntry,
     setSelectedEntry,
-    // selectedRating,
-    // setSelectedRating,
+    selectedStatus,
+    setSelectedStatus,
   };
 
   return (

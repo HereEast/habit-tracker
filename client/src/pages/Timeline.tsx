@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import { Notice } from "~/components/Notice";
-import { RatingButtons } from "~/components/RatingButtons";
+import { StatusButtons } from "~/components/StatusButtons";
 import { MonthCard } from "~/components/month-card/MonthCard";
 import { MonthContextProvider } from "~/contexts";
 
@@ -23,7 +23,7 @@ export function Timeline() {
   return (
     <div className="flex flex-col items-center gap-6">
       <MonthContextProvider>
-        <RatingButtons />
+        <StatusButtons />
 
         <div className="mb-6">
           {isCurrentMonthLoading && <Notice>Loading...</Notice>}

@@ -11,6 +11,7 @@ const router = express.Router();
 router.route("/").get(getMonthEntriesByTask);
 
 // Update
-router.route("/:entryId").patch(verifyToken, updateEntryStatus);
+router.route("/").patch(updateEntryStatus);
+// router.route("/:entryId").patch(verifyToken, updateEntryStatus);
 
 export { router as entriesRouter };

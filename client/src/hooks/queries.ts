@@ -18,26 +18,26 @@ export function useUser(slug: string) {
 }
 
 // Get user Tasks
-export function useUserTasks(userId: string) {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [userId, "tasks"],
-    queryFn: () => getUserTasks(userId),
-  });
+// export function useUserTasks(userId: string) {
+//   const { data, isLoading, isError } = useQuery({
+//     queryKey: [userId, "tasks"],
+//     queryFn: () => getUserTasks(userId),
+//   });
 
-  return { data, isLoading, isError };
-}
+//   return { data, isLoading, isError };
+// }
 
 // Get month entries by Task
-export function useMonthEntriesByTask(input: UseMonthEntriesByTaskInput) {
-  const { userId, taskId, year, month } = input;
+// export function useMonthEntriesByTask(input: UseMonthEntriesByTaskInput) {
+//   const { userId, taskId, year, month } = input;
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [userId, taskId, year, month, "entries"],
-    queryFn: () => getMonthEntriesByTask({ userId, taskId, year, month }),
-  });
+//   const { data, isLoading, isError } = useQuery({
+//     queryKey: [userId, taskId, year, month, "entries"],
+//     queryFn: () => getMonthEntriesByTask({ userId, taskId, year, month }),
+//   });
 
-  return { data, isLoading, isError };
-}
+//   return { data, isLoading, isError };
+// }
 
 // Get year data
 export function useYearData(userId: string, year: number) {
