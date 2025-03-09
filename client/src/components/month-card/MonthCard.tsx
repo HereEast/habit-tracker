@@ -5,7 +5,7 @@ import { TaskEntries } from "./TaskEntries";
 import { CreateTaskForm } from "./CreateTaskForm";
 
 import { MonthTimelineData } from "~/server/utils/types";
-import { isCurrentMonth } from "~/utils/helpers";
+import { calculateDonePercentage, isCurrentMonth } from "~/utils/helpers";
 
 interface MonthCardProps {
   year: number;
@@ -15,12 +15,19 @@ interface MonthCardProps {
 export function MonthCard({ year, monthData }: MonthCardProps) {
   const { month, tasks: monthTasks } = monthData;
 
+  const statusValues = monthTasks
+    .map((task) => task.entries.map((entry) => entry.status))
+    .flat();
+
+  const percent = calculateDonePercentage(statusValues);
+
   return (
     <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
       <MonthCardHeader
         year={year}
         month={month}
         tasksCount={monthTasks.length}
+        donePercentage={percent}
       />
       <MonthDays year={year} month={month} />
 

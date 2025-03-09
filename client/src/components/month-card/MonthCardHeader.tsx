@@ -3,7 +3,7 @@ import { cn, getMonthFromIndex } from "~/utils/helpers";
 interface MonthCardHeaderProps {
   year: number;
   month: number;
-  // monthPercentage: number;
+  donePercentage: number;
   tasksCount: number;
   classNames?: string;
 }
@@ -11,7 +11,7 @@ interface MonthCardHeaderProps {
 export function MonthCardHeader({
   year,
   month,
-  // monthPercentage,
+  donePercentage,
   tasksCount,
   classNames,
 }: MonthCardHeaderProps) {
@@ -27,11 +27,7 @@ export function MonthCardHeader({
       <div className="space-x-1 text-sm">
         <span>{`${tasksCount} tasks`}</span>
         <span>•</span>
-        <span>{`Num % month 🔥`}</span>
-
-        {/* <span>{`${tasksCount} tasks`}</span>
-        <span>•</span>
-        <span>{`${monthPercentage}% month 🔥`}</span> */}
+        <span>{`${donePercentage}% month 🔥`}</span>
       </div>
     </div>
   );

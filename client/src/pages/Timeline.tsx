@@ -25,22 +25,24 @@ export function Timeline() {
     useCurrentMonthData(userId);
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      <MonthContextProvider>
-        <StatusButtons />
+    <div className="pt-10">
+      <div className="flex flex-col items-center gap-6">
+        <MonthContextProvider>
+          <StatusButtons />
 
-        <div className="mb-6">
-          {isCurrentMonthLoading && <Notice>Loading...</Notice>}
-          {currenMonthData && (
-            <MonthCard year={currentYear} monthData={currenMonthData} />
-          )}
+          <div className="mb-6">
+            {isCurrentMonthLoading && <Notice>Loading...</Notice>}
+            {currenMonthData && (
+              <MonthCard year={currentYear} monthData={currenMonthData} />
+            )}
+          </div>
+        </MonthContextProvider>
+
+        <div className="space-y-6">
+          {timeline?.map((data, index) => (
+            <MonthCard year={currentYear} monthData={data} key={index} />
+          ))}
         </div>
-      </MonthContextProvider>
-
-      <div className="space-y-6">
-        {timeline?.map((data, index) => (
-          <MonthCard year={currentYear} monthData={data} key={index} />
-        ))}
       </div>
     </div>
   );
