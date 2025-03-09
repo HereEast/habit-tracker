@@ -17,7 +17,11 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
   return (
     <div className="w-fit min-w-[680px] rounded-xl bg-stone-100/75 p-6">
-      <MonthCardHeader year={year} month={month} />
+      <MonthCardHeader
+        year={year}
+        month={month}
+        tasksCount={monthTasks.length}
+      />
       <MonthDays year={year} month={month} />
 
       <div>

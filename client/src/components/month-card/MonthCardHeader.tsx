@@ -4,7 +4,7 @@ interface MonthCardHeaderProps {
   year: number;
   month: number;
   // monthPercentage: number;
-  // tasksCount: number;
+  tasksCount: number;
   classNames?: string;
 }
 
@@ -12,7 +12,7 @@ export function MonthCardHeader({
   year,
   month,
   // monthPercentage,
-  // tasksCount,
+  tasksCount,
   classNames,
 }: MonthCardHeaderProps) {
   return (
@@ -25,7 +25,7 @@ export function MonthCardHeader({
       <h2 className="text-xl font-semibold capitalize">{`${getMonthFromIndex(month)} ${year}`}</h2>
 
       <div className="space-x-1 text-sm">
-        <span>{`Num tasks`}</span>
+        <span>{`${tasksCount} tasks`}</span>
         <span>•</span>
         <span>{`Num % month 🔥`}</span>
 
