@@ -5,7 +5,7 @@ import { TaskEntries } from "./TaskEntries";
 import { CreateTaskForm } from "./CreateTaskForm";
 
 import { MonthTimelineData } from "~/server/utils/types";
-import { isCurrentMonth } from "~/utils/handlers";
+import { isCurrentMonth } from "~/utils/helpers";
 
 interface MonthCardProps {
   year: number;

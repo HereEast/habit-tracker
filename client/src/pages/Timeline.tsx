@@ -5,8 +5,12 @@ import { StatusButtons } from "~/components/StatusButtons";
 import { MonthCard } from "~/components/month-card/MonthCard";
 import { MonthContextProvider } from "~/contexts";
 
-import { useCurrentMonthData, useUser, useYearData } from "~/hooks/queries";
-import { getToday } from "~/utils/handlers";
+import {
+  useCurrentMonthData,
+  useTimelineData,
+} from "~/hooks/queries/useTimelineData";
+import { useUser } from "~/hooks/queries/useUser";
+import { getToday } from "~/utils/helpers";
 
 export function Timeline() {
   const { slug } = useParams();
@@ -16,7 +20,7 @@ export function Timeline() {
   const { data: user } = useUser(slug!);
   const userId = String(user?._id || "");
 
-  const { data: timeline } = useYearData(userId, currentYear);
+  const { data: timeline } = useTimelineData(userId, currentYear);
   const { data: currenMonthData, isLoading: isCurrentMonthLoading } =
     useCurrentMonthData(userId);
 

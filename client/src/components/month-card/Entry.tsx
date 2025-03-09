@@ -1,6 +1,6 @@
 import { useMonthContext } from "~/hooks/useMonthContext";
 import { IEntry } from "~/server/models/Entry";
-import { cn, statusColor } from "~/utils/handlers";
+import { cn, isEntryValid, statusColor } from "~/utils/helpers";
 
 interface EntryProps {
   entry?: IEntry;
@@ -11,8 +11,10 @@ export function Entry({ entry }: EntryProps) {
 
   const entryId = String(entry?._id);
 
+  const isValidEntry = entry && isEntryValid(entry);
+
   function handleClick() {
-    if (entry) {
+    if (entry && isValidEntry) {
       const value = selectedEntry !== entryId ? entryId : null;
       setSelectedEntry(value);
     }
@@ -21,14 +23,13 @@ export function Entry({ entry }: EntryProps) {
   return (
     <div
       className={cn(
-        "flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-[4px] bg-stone-300/50 text-sm",
-        !entry && "cursor-default opacity-30",
-        // currentRating > 0 && statusColor(currentRating),
-        // isValidEntry && "hover:border-brown-600 hover:border",
-        selectedEntry === entryId ? "border-brown-600 border" : "border-none",
+        "flex size-6 shrink-0 cursor-default items-center justify-center rounded-[4px] border bg-stone-300/50 text-sm",
+        entry && statusColor(entry?.status),
+        !entry && "opacity-30",
+        isValidEntry && "hover:border-stone-600/100",
+        selectedEntry === entryId ? "border-brown-600" : "border-brown-600/0",
       )}
       onClick={handleClick}
-      // title={`Rate: ${String(entry.status)}`}
     >
       {entry?.status}
     </div>

@@ -38,7 +38,7 @@ export function useUpdateEntry() {
   return { mutate };
 }
 
-// Temporary task
+// Temporary data
 function getTempData(
   oldData: MonthTimelineData,
   entryId: string,

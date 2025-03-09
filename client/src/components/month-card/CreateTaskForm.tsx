@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useCreateTask } from "~/hooks/mutations/useCreateTask";
-import { useUser } from "~/hooks/queries";
+import { useUser } from "~/hooks/queries/useUser";
 
 export function CreateTaskForm() {
   const { slug } = useParams();

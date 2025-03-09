@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { cn } from "~/utils/handlers";
+import { cn } from "~/utils/helpers";
 
 interface NoticeProps {
   children: ReactNode;

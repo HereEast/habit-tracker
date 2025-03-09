@@ -1,4 +1,4 @@
-import { cn, getDaysInMonth, getToday, isCurrentMonth } from "~/utils/handlers";
+import { cn, getDaysInMonth, getToday, isCurrentMonth } from "~/utils/helpers";
 
 interface MonthCardDaysProps {
   year: number;

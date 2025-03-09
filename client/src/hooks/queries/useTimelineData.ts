@@ -2,20 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getMonthEntriesByTask } from "~/api/entries";
 
 import { getUserTasks } from "~/api/tasks";
-import { getCurrentMonthData, getYearData } from "~/api/timeline";
-import { getUser } from "~/api/users";
+import { getCurrentMonthData, getTimelineData } from "~/api/timeline";
 
 import { UseMonthEntriesByTaskInput } from "~/utils/types";
-
-// Get User
-export function useUser(slug: string) {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: [slug],
-    queryFn: () => getUser(slug),
-  });
-
-  return { data, isLoading, isError };
-}
 
 // Get user Tasks
 // export function useUserTasks(userId: string) {
@@ -40,10 +29,10 @@ export function useUser(slug: string) {
 // }
 
 // Get year data
-export function useYearData(userId: string, year: number) {
+export function useTimelineData(userId: string, year: number) {
   const { data, isLoading, isError } = useQuery({
     queryKey: [userId, year, "timeline"],
-    queryFn: () => getYearData(userId, year),
+    queryFn: () => getTimelineData(userId, year),
     enabled: Boolean(userId),
   });
 

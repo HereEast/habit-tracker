@@ -28,7 +28,7 @@ export async function getCurrentMonthData(userId: string) {
 }
 
 // Year
-export async function getYearData(userId: string, year: number) {
+export async function getTimelineData(userId: string, year: number) {
   try {
     const response: AxiosResponse<MonthTimelineData[]> = await axios.get(
       `${BASE_URL}/api/timeline`,
