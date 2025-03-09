@@ -24,5 +24,10 @@ export function calculateDonePercentage(statuses: Status[]) {
   const totalScore = statuses.reduce<number>((sum, status) => sum + status, 0);
   const percentage = (totalScore / totalPossibleScore) * 100;
 
-  return Math.round(percentage);
+  return Math.ceil(percentage);
+}
+
+// Get fire icon
+export function getFireIcon(percent: number) {
+  return "🔥".repeat(percent >= 80 ? 3 : percent >= 60 ? 2 : 1);
 }

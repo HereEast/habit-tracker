@@ -1,4 +1,4 @@
-import { cn, getMonthFromIndex } from "~/utils/helpers";
+import { cn, getFireIcon, getMonthFromIndex } from "~/utils/helpers";
 
 interface MonthCardHeaderProps {
   year: number;
@@ -27,7 +27,12 @@ export function MonthCardHeader({
       <div className="space-x-1 text-sm">
         <span>{`${tasksCount} tasks`}</span>
         <span>•</span>
-        <span>{`${donePercentage}% month 🔥`}</span>
+        <span className="space-x-1">
+          <span>{`${donePercentage}% month`}</span>
+          <span className={cn(donePercentage === 0 && "grayscale")}>
+            {getFireIcon(donePercentage)}
+          </span>
+        </span>
       </div>
     </div>
   );
