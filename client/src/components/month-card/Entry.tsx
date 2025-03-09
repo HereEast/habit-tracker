@@ -6,6 +6,11 @@ interface EntryProps {
 }
 
 export function Entry({ entry }: EntryProps) {
+  function handleClick() {
+    console.log("CLick!");
+    console.log(entry?._id);
+  }
+
   return (
     <div
       className={cn(
@@ -17,7 +22,7 @@ export function Entry({ entry }: EntryProps) {
         //   ? "border-brown-600 border"
         //   : "border-none",
       )}
-      // onClick={handleClick}
+      onClick={handleClick}
       // title={`Rate: ${String(entry.status)}`}
     >
       {entry?.status}
