@@ -6,6 +6,7 @@ import { CreateTaskForm } from "./CreateTaskForm";
 
 import { MonthTimelineData } from "~/server/utils/types";
 import { calculateDonePercentage, isCurrentMonth } from "~/utils/helpers";
+import { DeleteTaskButton } from "./DeleteTaskButton";
 
 interface MonthCardProps {
   year: number;
@@ -46,11 +47,15 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
                   <h3>{task.title}</h3>
                 </div>
 
-                <TaskEntries
-                  entries={entries || []}
-                  year={year}
-                  month={month}
-                />
+                <div className="flex gap-6">
+                  <TaskEntries
+                    entries={entries || []}
+                    year={year}
+                    month={month}
+                  />
+
+                  <DeleteTaskButton taskId={String(task._id)} />
+                </div>
               </li>
             );
           })}
