@@ -1,10 +1,15 @@
+import { useDeleteTask } from "~/hooks/mutations/useDeleteTask";
+
 interface DeleteTaskButtonProps {
   taskId: string;
+  createdAt: Date;
 }
 
-export function DeleteTaskButton({ taskId }: DeleteTaskButtonProps) {
+export function DeleteTaskButton({ taskId, createdAt }: DeleteTaskButtonProps) {
+  const { mutate: deleteTask } = useDeleteTask();
+
   function handleDelete() {
-    console.log("Delete", taskId);
+    deleteTask({ taskId, createdAt });
   }
 
   return (

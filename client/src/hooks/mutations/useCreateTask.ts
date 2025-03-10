@@ -8,7 +8,7 @@ export function useCreateTask() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationKey: ["tasks"],
+    mutationKey: ["tasks", "current-month"],
     mutationFn: createTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["current-month"] });

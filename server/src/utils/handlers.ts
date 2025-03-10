@@ -20,7 +20,7 @@ export function filterTasksByMonth(tasks: ITask[], month: number) {
       ? new Date(task.deletedAt).getMonth() + 1
       : null;
 
-    const isDeleted = deletedAtMonth !== null && deletedAtMonth < month;
+    const isDeleted = deletedAtMonth !== null && deletedAtMonth <= month;
     const isCreated = createdAtMonth <= month;
 
     return !isDeleted && isCreated;

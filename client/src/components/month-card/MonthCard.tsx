@@ -54,7 +54,12 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
                     month={month}
                   />
 
-                  <DeleteTaskButton taskId={String(task._id)} />
+                  {isCurrentMonth(year, month) && (
+                    <DeleteTaskButton
+                      taskId={String(task._id)}
+                      createdAt={task.createdAt}
+                    />
+                  )}
                 </div>
               </li>
             );

@@ -6,6 +6,11 @@ export interface CreateTaskInput {
   title: string;
 }
 
+export interface DeleteTaskInput {
+  taskId: string;
+  createdAt: Date;
+}
+
 export interface UpdateEntryInput {
   entryId: string;
   status: Status;

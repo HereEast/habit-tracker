@@ -34,6 +34,8 @@ export function MonthDays({ year, month }: MonthCardDaysProps) {
           />
         ))}
       </ul>
+
+      <div className="size-6" />
     </div>
   );
 }

@@ -10,7 +10,6 @@ export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
   const entryId = String(entry?._id);
-
   const isValidEntry = entry && isEntryValid(entry);
 
   function handleClick() {

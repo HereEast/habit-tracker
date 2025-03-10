@@ -30,19 +30,21 @@ export function Timeline() {
         <MonthContextProvider>
           <StatusButtons />
 
+          {/* Current Month */}
           <div className="mb-6">
             {isCurrentMonthLoading && <Notice>Loading...</Notice>}
             {currenMonthData && (
               <MonthCard year={currentYear} monthData={currenMonthData} />
             )}
           </div>
-        </MonthContextProvider>
 
-        <div className="space-y-6">
-          {timeline?.map((data, index) => (
-            <MonthCard year={currentYear} monthData={data} key={index} />
-          ))}
-        </div>
+          {/* Prev Months */}
+          <div className="space-y-6">
+            {timeline?.map((data, index) => (
+              <MonthCard year={currentYear} monthData={data} key={index} />
+            ))}
+          </div>
+        </MonthContextProvider>
       </div>
     </div>
   );
