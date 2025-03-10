@@ -1,4 +1,4 @@
-import { Status } from "~/server/models/Entry";
+// import { Status } from "~/server/models/Entry";
 
 // APIs
 export interface CreateTaskInput {
@@ -16,6 +16,17 @@ export interface UpdateEntryInput {
   status: Status;
 }
 
+// DB Data
+export type PublicTask = Omit<ITask, "entries" | "userId">;
+
+export interface MonthTimelineData {
+  month: number;
+  tasks: {
+    task: PublicTask;
+    entries: IEntry[];
+  }[];
+}
+
 // Hooks
 export interface UseMonthEntriesByTaskInput {
   userId: string;
@@ -25,6 +36,8 @@ export interface UseMonthEntriesByTaskInput {
 }
 
 // Models
+export type Status = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
 export interface IEntry {
   _id: string;
   userId: string;

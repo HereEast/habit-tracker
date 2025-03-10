@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { ITask } from "~/server/models/Task";
+// import { ITask } from "~/server/models/Task";
 import { BASE_URL } from "~/utils/constants";
 import { getToday } from "~/utils/helpers";
-import { CreateTaskInput, DeleteTaskInput } from "~/utils/types";
+import { CreateTaskInput, DeleteTaskInput, ITask } from "~/utils/types";
 
 // Get user's tasks
 export async function getUserTasks(userId: string) {

@@ -4,9 +4,10 @@ import { MonthDays } from "./MonthDays";
 import { TaskEntries } from "./TaskEntries";
 import { CreateTaskForm } from "./CreateTaskForm";
 
-import { MonthTimelineData } from "~/server/utils/types";
+// import { MonthTimelineData } from "~/server/utils/types";
 import { calculateDonePercentage, isCurrentMonth } from "~/utils/helpers";
 import { DeleteTaskButton } from "./DeleteTaskButton";
+import { MonthTimelineData } from "~/utils/types";
 
 interface MonthCardProps {
   year: number;

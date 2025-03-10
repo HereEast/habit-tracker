@@ -1,6 +1,6 @@
-import { Status } from "~/server/models/Entry";
+// import { Status } from "~/server/models/Entry";
 import { getToday } from "./dates";
-import { IEntry } from "../types";
+import { IEntry, Status } from "../types";
 
 // Is entry active
 export function isEntryValid(entry: IEntry) {
