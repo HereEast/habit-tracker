@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { IEntry } from "~/server/models/Entry";
 import { BASE_URL } from "~/utils/constants";
-import { UpdateEntryInput } from "~/utils/types";
+import { IEntry, UpdateEntryInput } from "~/utils/types";
 
 export interface MonthTaskEntriesInput {
   userId: string;

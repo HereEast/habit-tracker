@@ -1,7 +1,7 @@
 import { Entry } from "./Entry";
 
-import { IEntry } from "~/server/models/Entry";
 import { getDaysInMonth } from "~/utils/helpers";
+import { IEntry } from "~/utils/types";
 
 export interface TaskEntriesProps {
   entries: IEntry[];

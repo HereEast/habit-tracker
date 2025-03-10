@@ -1,6 +1,6 @@
 import { useMonthContext } from "~/hooks/useMonthContext";
-import { IEntry } from "~/server/models/Entry";
 import { cn, isEntryValid, statusColor } from "~/utils/helpers";
+import { IEntry } from "~/utils/types";
 
 interface EntryProps {
   entry?: IEntry;
