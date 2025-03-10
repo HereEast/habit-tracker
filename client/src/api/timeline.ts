@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
-import { MonthTimelineData } from "~/server/utils/types";
+import { MonthTimelineData } from "~/utils/types";
+// import { MonthTimelineData } from "~/server/utils/types";
 
 // Current month
 export async function getCurrentMonthData(userId: string) {
