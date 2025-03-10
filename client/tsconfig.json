@@ -13,30 +13,8 @@
     "jsxImportSource": "react",
     "paths": {
       "~/*": ["src/*"],
-      "~/server/*": ["../server/dist/*"]
+      // "~/server/*": ["../server/dist/*"]
     }
   },
   "include": ["src"]
 }
-
-// {
-//   "files": [],
-//   "references": [
-//     { "path": "./tsconfig.app.json" },
-//     { "path": "./tsconfig.node.json" }
-//   ],
-//   "compilerOptions": {
-//     "outDir": "./dist",
-//     "module": "ES2020",
-//     "moduleResolution": "bundler",
-//     "esModuleInterop": true,
-//     "skipLibCheck": true,
-//     "resolveJsonModule": true,
-//     "baseUrl": ".",
-//     "paths": {
-//       "~/*": ["src/*"],
-//       "~/server/*": ["../server/src/*"]
-//     }
-//   },
-//   "include": ["src", "../server/src"]
-// }
