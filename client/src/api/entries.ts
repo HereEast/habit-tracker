@@ -11,33 +11,37 @@ export interface MonthTaskEntriesInput {
 }
 
 // Get month task Entries
-export async function getMonthEntriesByTask(input: MonthTaskEntriesInput) {
-  const { userId, taskId, year, month } = input;
+// export async function getMonthEntriesByTask(input: MonthTaskEntriesInput) {
+//   const { userId, taskId, year, month } = input;
 
-  try {
-    const response: AxiosResponse<IEntry[]> = await axios.get(
-      `${BASE_URL}/api/entries`,
-      {
-        params: {
-          userId,
-          taskId,
-          year,
-          month,
-        },
-      },
-    );
+//   try {
+//     const response = await axios.get(`${BASE_URL}/api/entries`, {
+//       params: {
+//         userId,
+//         taskId,
+//         year,
+//         month,
+//       },
+//     });
 
-    const data = response.data;
+//     const data = response.data;
 
-    return data;
-  } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
+//     const result = {
+//       ...data,
+//       _id: String(data._id),
+//     };
 
-      throw new Error(err.response?.data.message);
-    }
-  }
-}
+//     console.log(result);
+
+//     return data;
+//   } catch (err) {
+//     if (err instanceof AxiosError) {
+//       console.log("🔴 Error:", err.response?.data.message);
+
+//       throw new Error(err.response?.data.message);
+//     }
+//   }
+// }
 
 // Update entry status
 export async function updateEntryStatus({ entryId, status }: UpdateEntryInput) {

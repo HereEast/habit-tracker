@@ -13,7 +13,7 @@
     "jsxImportSource": "react",
     "paths": {
       "~/*": ["src/*"],
-      "~/server/*": ["../server/src/*"]
+      "~/server/*": ["../server/dist/*"]
     }
   },
   "include": ["src"]
