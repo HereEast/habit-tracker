@@ -2,7 +2,7 @@ import express from "express";
 
 import { getMonthEntriesByTask } from "../controllers/getEntries.js";
 import { updateEntryStatus } from "../controllers/updateEntry.js";
-import { verifyToken } from "../controllers/login.js";
+// import { verifyToken } from "../controllers/login.js";
 
 const router = express.Router();
 

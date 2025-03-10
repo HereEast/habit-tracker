@@ -11,10 +11,6 @@ const SALT_ROUNDS = 10;
 export async function createUser(req: Request, res: Response) {
   const { username, email, password } = req.body;
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
-
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
 
   const takenEmail = await User.findOne({ email });
@@ -36,8 +32,6 @@ export async function createUser(req: Request, res: Response) {
     username,
     email,
     password: hash,
-    tasks: [],
-    timeline: [{ year, months: [{ month: month + 1, tasks: [] }] }],
   };
 
   try {

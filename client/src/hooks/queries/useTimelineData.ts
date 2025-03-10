@@ -1,10 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMonthEntriesByTask } from "~/api/entries";
 
-import { getUserTasks } from "~/api/tasks";
 import { getCurrentMonthData, getTimelineData } from "~/api/timeline";
-
-import { UseMonthEntriesByTaskInput } from "~/utils/types";
 
 // Get user Tasks
 // export function useUserTasks(userId: string) {
