@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateEntryStatus } from "~/api/entries";
-import { MonthTimelineData, Status } from "~/utils/types";
-// import { Status } from "~/server/models/Entry";
-// import { MonthTimelineData } from "~/server/utils/types";
+import { MonthTimelineData, Status } from "~/utils/types/data";
 
 export function useUpdateEntry() {
   const queryClient = useQueryClient();
@@ -49,7 +47,7 @@ function getTempData(
     tasks: oldData.tasks.map((task) => ({
       ...task,
       entries: task.entries.map((entry) =>
-        String(entry._id) === entryId ? { ...entry, status: newStatus } : entry,
+        entry._id === entryId ? { ...entry, status: newStatus } : entry,
       ),
     })),
   };

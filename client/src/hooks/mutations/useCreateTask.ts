@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createTask } from "~/api/tasks";
-// import { MonthTimelineData } from "~/server/utils/types";
 import { getDaysInMonth, getToday } from "~/utils/helpers";
-import { MonthTimelineData } from "~/utils/types";
+import { MonthTimelineData } from "~/utils/types/data";
 
 export function useCreateTask() {
   const queryClient = useQueryClient();
@@ -61,6 +60,7 @@ function getTempData(oldData: MonthTimelineData, newTaskTitle: string) {
 // Temporary entries
 function getTempEntries() {
   const { currentDay, currentMonth, currentYear } = getToday();
+
   const daysInMonth = getDaysInMonth(currentMonth, currentYear);
   const entriesCount = daysInMonth - currentDay + 1;
 

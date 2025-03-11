@@ -7,7 +7,7 @@ import { CreateTaskForm } from "./CreateTaskForm";
 // import { MonthTimelineData } from "~/server/utils/types";
 import { calculateDonePercentage, isCurrentMonth } from "~/utils/helpers";
 import { DeleteTaskButton } from "./DeleteTaskButton";
-import { MonthTimelineData } from "~/utils/types";
+import { MonthTimelineData } from "~/utils/types/data";
 
 interface MonthCardProps {
   year: number;
@@ -57,7 +57,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
 
                   {isCurrentMonth(year, month) && (
                     <DeleteTaskButton
-                      taskId={String(task._id)}
+                      taskId={task._id}
                       createdAt={task.createdAt}
                     />
                   )}

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { Task } from "../models/Task.js";
+import { mapTaskWithoutEntries } from "../utils/mappers.js";
 
 // Delete from the current month (update "deleted" and "deletedAt")
 export async function updateTask(req: Request, res: Response) {
@@ -17,13 +18,17 @@ export async function updateTask(req: Request, res: Response) {
       { _id: taskId },
       { $set: { deleted: true, deletedAt: new Date() } },
       { new: true },
-    ).exec();
+    )
+      .lean()
+      .exec();
 
     if (!deletedTask) {
       return res.status(404).json({ message: "Task not found." });
     }
 
-    return res.status(201).json(deletedTask);
+    const mappedTask = mapTaskWithoutEntries(deletedTask);
+
+    return res.status(201).json(mappedTask);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

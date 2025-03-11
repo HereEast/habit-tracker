@@ -1,24 +1,25 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 import { ITask, Task } from "../models/Task.js";
 import { Entry, IEntry } from "../models/Entry.js";
 import { getDaysInMonth, getToday } from "../utils/dates.js";
+import { mapTask } from "../utils/mappers.js";
 
-export type EntryData = Omit<IEntry, "_id">;
-export type TaskData = Omit<ITask, "_id" | "createdAt" | "updatedAt">;
+export type NewEntryData = Omit<IEntry, "_id">;
+export type NewTaskData = Omit<ITask, "_id">;
 
 // Create Task
 export async function createTask(req: Request, res: Response) {
   const { title, userId } = req.body;
 
   try {
-    const taskData: TaskData = {
+    const taskData: NewTaskData = {
       userId,
       title,
       entries: [],
-      // stopped: false,
       deleted: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     const task = new Task(taskData);
@@ -29,7 +30,7 @@ export async function createTask(req: Request, res: Response) {
     const daysInMonth = getDaysInMonth(currentMonth, currentYear);
 
     for (let i = currentDay; i <= daysInMonth; i++) {
-      const entryData: EntryData = {
+      const entryData: NewEntryData = {
         userId,
         taskId: task._id,
         year: currentYear,
@@ -41,11 +42,13 @@ export async function createTask(req: Request, res: Response) {
       const entry = new Entry(entryData);
       await entry.save();
 
-      task.entries.push(entry._id as mongoose.Types.ObjectId);
+      task.entries.push(entry._id);
       await task.save();
     }
 
-    return res.status(201).json(task);
+    const mappedTask = mapTask(task.toObject());
+
+    return res.status(201).json(mappedTask);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);
@@ -56,31 +59,3 @@ export async function createTask(req: Request, res: Response) {
     }
   }
 }
-
-// Add Task ID to tasks[]
-// const user = await User.findById(userId);
-
-// if (!user) {
-//   return res.status(404).json({ message: "User not found (Create Task)." });
-// }
-
-// user.tasks.push(task._id);
-
-// Update User's timeline
-// const timelineYear = user.timeline.find((entry) => entry.year === year);
-
-// if (!timelineYear) {
-//   const yearEntry = { year, months: [{ month, tasks: [task._id] }] };
-//   user.timeline.push(yearEntry);
-// }
-
-// const timelineMonth = timelineYear?.months.find((mon) => mon.month === month);
-
-// if (!timelineMonth) {
-//   const monthEntry = { month, tasks: [task._id] };
-//   timelineYear?.months.push(monthEntry);
-// } else {
-//   timelineMonth?.tasks.push(task._id);
-// }
-
-// await user.save();

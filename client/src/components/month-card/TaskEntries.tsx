@@ -1,7 +1,7 @@
 import { Entry } from "./Entry";
 
+import { IEntry } from "~/utils/types/data";
 import { getDaysInMonth } from "~/utils/helpers";
-import { IEntry } from "~/utils/types";
 
 export interface TaskEntriesProps {
   entries: IEntry[];
@@ -22,9 +22,7 @@ export function TaskEntries(input: TaskEntriesProps) {
           <Entry key={i} />
         ))}
 
-        {entries?.map((entry) => (
-          <Entry entry={entry} key={String(entry._id)} />
-        ))}
+        {entries?.map((entry) => <Entry entry={entry} key={entry._id} />)}
       </div>
     </div>
   );

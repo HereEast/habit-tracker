@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteTask } from "~/api/tasks";
-import { MonthTimelineData } from "~/utils/types";
-// import { MonthTimelineData } from "~/server/utils/types";
+import { MonthTimelineData } from "~/utils/types/data";
 
 // Forever delete (w Entries)
 export function useDeleteTaskFromCurrentMonth() {
@@ -25,7 +24,7 @@ export function useDeleteTaskFromCurrentMonth() {
           if (!oldData) return [];
 
           const tempTasks = oldData.tasks.map(({ task }) => {
-            if (String(task._id) === input.taskId) {
+            if (task._id === input.taskId) {
               return {
                 ...task,
                 deleted: true,
@@ -73,7 +72,7 @@ export function useDeleteTask() {
           if (!oldData) return [];
 
           const tempTasks = oldData.tasks.filter(
-            ({ task }) => String(task._id) !== input.taskId,
+            ({ task }) => task._id !== input.taskId,
           );
 
           const tempData = {

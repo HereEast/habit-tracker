@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { Entry } from "../models/Entry.js";
+import { mapEntry } from "../utils/mappers.js";
 
 // Update status
 export async function updateEntryStatus(req: Request, res: Response) {
@@ -17,13 +18,17 @@ export async function updateEntryStatus(req: Request, res: Response) {
       { _id: entryId },
       { $set: { status } },
       { new: true },
-    ).exec();
+    )
+      .lean()
+      .exec();
 
     if (!updatedEntry) {
       return res.status(404).json({ message: "Entry not found." });
     }
 
-    return res.status(200).json(updatedEntry);
+    const mappedEntry = mapEntry(updatedEntry);
+
+    return res.status(200).json(mappedEntry);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

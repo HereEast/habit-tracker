@@ -1,12 +1,11 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-// import { IUser } from "~/server/models/User";
 import { BASE_URL } from "~/utils/constants";
-import { IUser } from "~/utils/types";
+import { IUser } from "~/utils/types/data";
 
 export async function getUser(slug: string) {
   try {
-    const response: AxiosResponse<IUser | null> = await axios.get(
+    const response: AxiosResponse<IUser> = await axios.get(
       `${BASE_URL}/api/users/${slug}`,
     );
 

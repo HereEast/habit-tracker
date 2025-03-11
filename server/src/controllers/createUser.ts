@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 
 import { IUser, User } from "../models/User.js";
+import { mapUser } from "../utils/mappers.js";
 
 type NewUserData = Omit<IUser, "_id" | "createdAt">;
 
@@ -38,7 +39,9 @@ export async function createUser(req: Request, res: Response) {
     const newUser = new User(userData);
     await newUser.save();
 
-    return res.status(201).json(newUser);
+    const mappedUser = mapUser(newUser.toObject());
+
+    return res.status(201).json(mappedUser);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

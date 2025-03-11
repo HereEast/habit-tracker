@@ -1,9 +1,7 @@
-// import { Status, STATUSES } from "~/server/models/Entry";
-
 import { useUpdateEntry } from "~/hooks/mutations/useUpdateEntry";
 import { useMonthContext } from "~/hooks/useMonthContext";
 import { STATUSES } from "~/utils/constants";
-import { Status } from "~/utils/types";
+import { Status } from "~/utils/types/data";
 
 export function StatusButtons() {
   const { selectedEntry, setSelectedEntry } = useMonthContext();

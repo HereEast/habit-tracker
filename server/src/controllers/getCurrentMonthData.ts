@@ -10,7 +10,7 @@ import {
 } from "../utils/handlers.js";
 
 import { getToday } from "../utils/dates.js";
-import { mapPublicTask } from "../utils/mappers.js";
+import { mapEntry, mapTask } from "../utils/mappers.js";
 import { MonthTimelineData } from "../utils/types.js";
 
 // Get Timeline
@@ -28,12 +28,13 @@ export async function getCurrentMonthData(req: Request, res: Response) {
   try {
     const tasks: ITask[] = await Task.find({ userId })
       .populate("entries")
+      .lean()
       .exec();
 
     const yearTasks = filterTasksByYear(tasks, currentYear);
     const monthTasks = filterTasksByMonth(yearTasks, currentMonth);
 
-    const tasksWithEntries = monthTasks.map((task) => {
+    const data = monthTasks.map((task) => {
       const entries = task.entries as IEntry[];
 
       const monthEntries = getEntriesByMonth(
@@ -42,15 +43,18 @@ export async function getCurrentMonthData(req: Request, res: Response) {
         currentYear,
       );
 
+      const mappedTask = mapTask(task);
+      const mappedEntries = monthEntries.map(mapEntry);
+
       return {
-        task: mapPublicTask(task),
-        entries: monthEntries,
+        task: mappedTask,
+        entries: mappedEntries,
       };
     });
 
     const currentMonthData: MonthTimelineData = {
       month: currentMonth,
-      tasks: tasksWithEntries,
+      tasks: data,
     };
 
     return res.json(currentMonthData);

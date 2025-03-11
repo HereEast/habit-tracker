@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
-import { MonthTimelineData } from "~/utils/types";
-// import { MonthTimelineData } from "~/server/utils/types";
+import { MonthTimelineData } from "~/utils/types/data";
 
 // Current month
 export async function getCurrentMonthData(userId: string) {
@@ -17,6 +16,8 @@ export async function getCurrentMonthData(userId: string) {
     );
 
     const data = response.data;
+
+    console.log(data);
 
     return data;
   } catch (err) {

@@ -18,11 +18,10 @@ export function Timeline() {
   const { currentYear } = getToday();
 
   const { data: user } = useUser(slug!);
-  const userId = String(user?._id || "");
 
-  const { data: timeline } = useTimelineData(userId, currentYear);
+  const { data: timeline } = useTimelineData(user?._id, currentYear);
   const { data: currenMonthData, isLoading: isCurrentMonthLoading } =
-    useCurrentMonthData(userId);
+    useCurrentMonthData(user?._id);
 
   return (
     <div className="pt-10">

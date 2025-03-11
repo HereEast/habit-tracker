@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "baseUrl": ".",
     "outDir": "./dist",
-    "module": "preserve",
+    // "module": "preserve",
+    // "moduleResolution": "bundler",
+    "module": "ESNext",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -13,7 +15,6 @@
     "jsxImportSource": "react",
     "paths": {
       "~/*": ["src/*"],
-      // "~/server/*": ["../server/dist/*"]
     }
   },
   "include": ["src"]

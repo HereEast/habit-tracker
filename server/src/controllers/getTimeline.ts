@@ -10,7 +10,7 @@ import {
 } from "../utils/handlers.js";
 
 import { getToday } from "../utils/dates.js";
-import { mapPublicTask } from "../utils/mappers.js";
+import { mapEntry, mapTask } from "../utils/mappers.js";
 import { Timeline } from "../utils/types.js";
 
 const MAX_MONTHS = 12;
@@ -38,6 +38,7 @@ export async function getTimeline(req: Request, res: Response) {
   try {
     const tasks: ITask[] = await Task.find({ userId })
       .populate("entries")
+      .lean()
       .exec();
 
     const yearTasks = filterTasksByYear(tasks, Number(year));
@@ -46,18 +47,21 @@ export async function getTimeline(req: Request, res: Response) {
     const yearTimeline: Timeline = timeline.reduce((acc, { month }) => {
       const monthTasks = filterTasksByMonth(yearTasks, month);
 
-      const tasksWithEntries = monthTasks.map((task) => {
+      const data = monthTasks.map((task) => {
         const entries = task.entries as IEntry[];
         const monthEntries = getEntriesByMonth(entries, month, Number(year));
 
+        const mappedTask = mapTask(task);
+        const mappedEntries = monthEntries.map(mapEntry);
+
         return {
-          task: mapPublicTask(task),
-          entries: monthEntries,
+          task: mappedTask,
+          entries: mappedEntries,
         };
       });
 
-      if (tasksWithEntries.length) {
-        acc.push({ month, tasks: tasksWithEntries });
+      if (data.length) {
+        acc.push({ month, tasks: data });
       }
 
       return acc;

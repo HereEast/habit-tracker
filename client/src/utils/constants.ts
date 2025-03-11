@@ -1,4 +1,4 @@
-import { Status } from "./types";
+import { Status } from "./types/data";
 
 export const BASE_URL = "http://localhost:5050";
 

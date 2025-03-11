@@ -18,7 +18,7 @@ export function CreateTaskForm() {
 
     if (!taskName.trim()) return;
 
-    createTask({ userId: String(user?._id), title: taskName });
+    createTask({ userId: user?._id, title: taskName });
     setTaskName("");
   }
 
@@ -40,8 +40,6 @@ export function CreateTaskForm() {
           </button>
         </div>
       </form>
-
-      {/* {isPending && <div>{variables.title}</div>} */}
     </>
   );
 }

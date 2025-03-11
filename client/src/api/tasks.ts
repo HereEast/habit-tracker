@@ -1,14 +1,14 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-// import { ITask } from "~/server/models/Task";
 import { BASE_URL } from "~/utils/constants";
 import { getToday } from "~/utils/helpers";
-import { CreateTaskInput, DeleteTaskInput, ITask } from "~/utils/types";
+import { CreateTaskInput, DeleteTaskInput } from "~/utils/types/api";
+import { BasicTask, ITask } from "~/utils/types/data";
 
 // Get user's tasks
 export async function getUserTasks(userId: string) {
   try {
-    const response: AxiosResponse<ITask[]> = await axios.get(
+    const response: AxiosResponse<BasicTask[]> = await axios.get(
       `${BASE_URL}/api/tasks/user/${userId}`,
     );
 
@@ -60,7 +60,7 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
   try {
     // Delete forever (w Entries)
     if (currentMonth === createdAtMonth) {
-      const response: AxiosResponse<ITask> = await axios.delete(
+      const response: AxiosResponse<BasicTask> = await axios.delete(
         `${BASE_URL}/api/tasks/${taskId}`,
         {
           headers: {
@@ -75,7 +75,7 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
     }
 
     // Delete from the current month (update "deleted" field)
-    const response: AxiosResponse<ITask> = await axios.patch(
+    const response: AxiosResponse<BasicTask> = await axios.patch(
       `${BASE_URL}/api/tasks/${taskId}`,
       {
         headers: {
@@ -95,30 +95,3 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
     }
   }
 }
-
-// export async function deleteTask({ userId, taskId }: DeleteTaskInput) {
-//   try {
-//     const response: AxiosResponse<ITask> = await axios.patch(
-//       `${BASE_URL}/api/tasks`,
-//       {
-//         userId,
-//         taskId,
-//       },
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       },
-//     );
-
-//     const data = response.data;
-
-//     return data;
-//   } catch (err) {
-//     if (err instanceof AxiosError) {
-//       console.log("🔴 Error:", err.response?.data.message);
-
-//       throw new Error(err.response?.data.message);
-//     }
-//   }
-// }

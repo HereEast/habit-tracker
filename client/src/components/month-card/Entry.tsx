@@ -1,6 +1,6 @@
 import { useMonthContext } from "~/hooks/useMonthContext";
 import { cn, isEntryValid, statusColor } from "~/utils/helpers";
-import { IEntry } from "~/utils/types";
+import { IEntry } from "~/utils/types/data";
 
 interface EntryProps {
   entry?: IEntry;
@@ -9,7 +9,7 @@ interface EntryProps {
 export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
-  const entryId = String(entry?._id);
+  const entryId = entry?._id;
   const isValidEntry = entry && isEntryValid(entry);
 
   function handleClick() {
