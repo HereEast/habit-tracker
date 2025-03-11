@@ -1,56 +1,16 @@
-import axios, { AxiosResponse } from "axios";
-import mongoose from "mongoose";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { BASE_URL, handleRequestError } from "~/utils";
-import { IEntry, Status } from "~/~/models/Entry";
-
-type UpdateResponse = {
-  message: string;
-};
-
-type MongooseId = mongoose.Types.ObjectId;
-
-interface GetEntriesParams {
-  taskId?: MongooseId;
-  year: number;
-  month: number;
-  day?: number;
-}
-
-// Get Entries
-export async function getEntries(params: GetEntriesParams) {
-  const { taskId, year, month, day } = params;
-
-  try {
-    const response: AxiosResponse<IEntry[]> = await axios.get(
-      `${BASE_URL}/entries`,
-      {
-        params: {
-          taskId,
-          year,
-          month,
-          day,
-        },
-      },
-    );
-
-    const data = response.data;
-
-    return data;
-  } catch (err) {
-    if (err instanceof Error) {
-      handleRequestError(err);
-    }
-  }
-}
+import { BASE_URL } from "~/utils/constants";
+import { UpdateEntryInput, IEntry } from "~/utils/types";
 
 // Update entry status
-export async function updateEntryStatus(entryId: MongooseId, status: Status) {
+export async function updateEntryStatus({ entryId, status }: UpdateEntryInput) {
   try {
-    const response: AxiosResponse<UpdateResponse> = await axios.patch(
-      `${BASE_URL}/entries/${entryId}`,
+    const response: AxiosResponse<IEntry> = await axios.patch(
+      `${BASE_URL}/api/entries`,
       {
-        status: String(status),
+        entryId,
+        status,
       },
     );
 
@@ -58,8 +18,10 @@ export async function updateEntryStatus(entryId: MongooseId, status: Status) {
 
     return data;
   } catch (err) {
-    if (err instanceof Error) {
-      handleRequestError(err);
+    if (err instanceof AxiosError) {
+      console.log("🔴 Error:", err.response?.data.message);
+
+      throw new Error(err.response?.data.message);
     }
   }
 }

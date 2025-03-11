@@ -1,15 +1,15 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
-import { COLLECTION } from "../utils/constants.js";
 import { ITask } from "./Task.js";
+import { IdType } from "../utils/types.js";
 
 export type Status = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export const STATUSES: Status[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export interface IEntry {
-  _id: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
-  taskId: mongoose.Types.ObjectId | ITask;
+  _id: IdType;
+  userId: IdType;
+  taskId: IdType<ITask>;
   year: number;
   month: number;
   day: number;
@@ -29,7 +29,7 @@ export const EntrySchema = new Schema(
     status: { type: Number, enum: STATUSES, default: 0, required: true },
     notes: String,
   },
-  { timestamps: true, collection: COLLECTION.entries },
+  { timestamps: true, collection: "entries" },
 );
 
-export const Entry = model<IEntry>("Entry", EntrySchema);
+export const Entry = model<IEntry>("Entry", EntrySchema, "entries");

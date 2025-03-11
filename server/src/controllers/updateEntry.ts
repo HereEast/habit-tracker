@@ -1,24 +1,34 @@
 import { Request, Response } from "express";
 
 import { Entry } from "../models/Entry.js";
+import { mapEntry } from "../utils/mappers.js";
 
 // Update status
 export async function updateEntryStatus(req: Request, res: Response) {
-  const { entryId } = req.params;
-  const { status } = req.body;
+  const { entryId, status } = req.body;
 
-  if (!status) {
+  if (status === undefined || !entryId) {
     return res.status(500).json({
-      message: "Some parameters are missing: status.",
+      message: "Some parameters are missing: status, entryId",
     });
   }
 
   try {
-    await Entry.updateOne({ _id: entryId }, { $set: { status } }).exec();
+    const updatedEntry = await Entry.findOneAndUpdate(
+      { _id: entryId },
+      { $set: { status } },
+      { new: true },
+    )
+      .lean()
+      .exec();
 
-    return res.status(201).json({
-      message: "Entry successfully updated.",
-    });
+    if (!updatedEntry) {
+      return res.status(404).json({ message: "Entry not found." });
+    }
+
+    const mappedEntry = mapEntry(updatedEntry);
+
+    return res.status(200).json(mappedEntry);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

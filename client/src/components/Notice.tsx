@@ -1,21 +1,23 @@
-import { cn } from "~/utils";
+import { ReactNode } from "react";
+
+import { cn } from "~/utils/helpers";
 
 interface NoticeProps {
-  text: string;
+  children: ReactNode;
   isError?: boolean;
-  classes?: string;
+  classNames?: string;
 }
 
-export function Notice({ text, isError, classes }: NoticeProps) {
+export function Notice({ children, isError, classNames = "" }: NoticeProps) {
   return (
     <div
       className={cn(
-        "flex w-full justify-center rounded-md border border-stone-300 p-4 text-sm",
+        "flex w-full justify-center rounded-lg border border-stone-400 p-4 text-sm",
         isError && "border-red-600 text-red-600",
-        classes || "",
+        classNames,
       )}
     >
-      {text}
+      {children}
     </div>
   );
 }

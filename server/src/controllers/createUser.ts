@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 
 import { IUser, User } from "../models/User.js";
+import { mapUser } from "../utils/mappers.js";
 
 type NewUserData = Omit<IUser, "_id" | "createdAt">;
 
@@ -10,10 +11,6 @@ const SALT_ROUNDS = 10;
 // Create User
 export async function createUser(req: Request, res: Response) {
   const { username, email, password } = req.body;
-
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
 
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -36,15 +33,15 @@ export async function createUser(req: Request, res: Response) {
     username,
     email,
     password: hash,
-    tasks: [],
-    timeline: [{ year, months: [{ month: month + 1, tasks: [] }] }],
   };
 
   try {
     const newUser = new User(userData);
     await newUser.save();
 
-    return res.status(201).json(newUser);
+    const mappedUser = mapUser(newUser.toObject());
+
+    return res.status(201).json(mappedUser);
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);
