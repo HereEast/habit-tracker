@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
-import { IdType } from "../utils/types.js";
+import { ID } from "../utils/types.js";
 
 export interface IUser {
-  _id: IdType;
+  _id: ID;
   username: string;
   email: string;
   password: string;

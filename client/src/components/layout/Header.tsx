@@ -3,6 +3,8 @@
 
 import { Link } from "react-router-dom";
 
+import { ROUTE } from "~/utils/constants";
+
 export function Header() {
   const isAuth = true;
 
@@ -22,17 +24,26 @@ export function Header() {
         <Link to="/">Habit Tracker</Link>
       </h1>
       <div className="flex items-center gap-2">
-        <div>
+        <div className="flex items-center gap-6">
+          <Link to={ROUTE.login} className="hover:opacity-50">
+            Log in
+          </Link>
+          <Link to={ROUTE.register} className="hover:opacity-50">
+            Register
+          </Link>
+          <span className="flex items-center gap-4">Hello 👋</span>
+        </div>
+
+        {/* <div>
           {isAuth ? (
             <div className="flex items-center gap-4">
-              Hello 👋
-              {/* {user && <span className="text-sm font-medium">👋 {user}</span>}
-              <Button onClick={handleLogout}>Log out</Button> */}
+              {user && <span className="text-sm font-medium">👋 {user}</span>}
+              <Button onClick={handleLogout}>Log out</Button>
             </div>
           ) : (
             <Link to="/login">Log in</Link>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

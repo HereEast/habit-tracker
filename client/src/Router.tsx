@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Timeline } from "./pages/Timeline";
 import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 import { Layout } from "./components/layout/Layout";
 
 import { ROUTE } from "./utils/constants";
@@ -21,6 +22,7 @@ export function Router() {
         </Route>
 
         <Route path={ROUTE.login} element={<Login />} />
+        <Route path={ROUTE.register} element={<Register />} />
       </Route>
     </Routes>
   );
