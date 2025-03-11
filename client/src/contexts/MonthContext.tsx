@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { Status } from "~/utils/types/data";
+import { Status } from "~/utils/types";
 
 // Month Context
 export interface MonthContextProps {

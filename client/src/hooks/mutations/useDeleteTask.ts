@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteTask } from "~/api/tasks";
-import { MonthTimelineData } from "~/utils/types/data";
+import { MonthTimelineData } from "~/utils/types";
 
 // Forever delete (w Entries)
 export function useDeleteTaskFromCurrentMonth() {

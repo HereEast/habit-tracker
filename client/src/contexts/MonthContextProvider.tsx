@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 
 import { MonthContext } from "./MonthContext";
-import { Status } from "~/utils/types/data";
+import { Status } from "~/utils/types";
 
 interface MonthContextProviderProps {
   children: ReactNode;

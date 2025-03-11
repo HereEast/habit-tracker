@@ -1,4 +1,3 @@
-// import { Status } from "~/server/models/Entry";
 import { getToday } from "./dates";
 import { IEntry, Status } from "../types";
 

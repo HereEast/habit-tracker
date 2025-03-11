@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
-import { IUser } from "~/utils/types/data";
+import { IUser } from "~/utils/types";
 
 export async function getUser(slug: string) {
   try {

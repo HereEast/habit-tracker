@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
-import { UpdateEntryInput } from "~/utils/types/api";
-import { IEntry } from "~/utils/types/data";
+import { UpdateEntryInput, IEntry } from "~/utils/types";
 
 // Update entry status
 export async function updateEntryStatus({ entryId, status }: UpdateEntryInput) {

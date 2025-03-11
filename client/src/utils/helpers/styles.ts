@@ -3,8 +3,6 @@ import { twMerge } from "tailwind-merge";
 
 import { Status } from "../types";
 
-// import { Status } from "~/server/models/Entry";
-
 // Status color
 export const statusColor = (status: Status): string => {
   if (status === 0) {
