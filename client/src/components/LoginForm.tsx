@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useLogin } from "~/hooks/mutations/useCreateUser";
+import { useLogin } from "~/hooks/mutations/useLogin";
 
 export function LoginForm() {
   // const router = useRouter();
@@ -19,28 +19,6 @@ export function LoginForm() {
     e.preventDefault();
 
     mutate(user);
-
-    // try {
-    //   const token = await login(email, password);
-
-    //   if (token) {
-    //     localStorage.setItem("token", token);
-    //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-    //     // To update Header
-    //     setIsAuth(true);
-
-    //     const decodedUser = jwt.decode(token) as JwtPayload;
-
-    //     if (decodedUser) {
-    //       router.replace(`/${decodedUser.username}`);
-    //     }
-    //   }
-    // } catch (err) {
-    //   // Err if username exists
-    //   // Err if email exists
-    //   console.log(err);
-    // }
   }
 
   return (

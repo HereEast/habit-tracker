@@ -9,7 +9,7 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
 
   if (!token) {
     return res.status(401).json({
-      message: "Authentication token is missing.",
+      message: "Auth token is missing.",
     });
   }
 

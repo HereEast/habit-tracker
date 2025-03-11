@@ -15,23 +15,3 @@ export function useCreateUser() {
 
   return { mutate, error };
 }
-
-export function useLogin() {
-  const navigate = useNavigate();
-
-  const { mutate, error } = useMutation({
-    mutationKey: ["user"],
-    mutationFn: login,
-    onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-
-      if (data) {
-        const decodedUser = jwtDecode(data.token) as JwtPayload;
-        navigate(`/${decodedUser.username}`);
-      }
-    },
-  });
-
-  return { mutate, error };
-}

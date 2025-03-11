@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { jwtDecode } from "jwt-decode";
 
 import { BASE_URL } from "~/utils/constants";
 import { LoginInput } from "~/utils/types";
@@ -22,8 +21,6 @@ export async function login(input: LoginInput) {
     );
 
     const data = response.data;
-
-    console.log("CLient", jwtDecode(data.token));
 
     return data;
   } catch (err) {
