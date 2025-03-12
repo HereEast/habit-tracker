@@ -12,7 +12,8 @@ interface AuthContextProviderProps {
 }
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState<IUser | null>();
+  const [user, setUser] = useState<IUser | null>(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,10 +26,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     } else {
       setUser(null);
     }
+
+    setIsUserLoading(false);
   }, []);
 
   const value = {
     user,
+    isUserLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

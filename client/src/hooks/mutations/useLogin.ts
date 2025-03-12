@@ -14,8 +14,12 @@ export function useLogin() {
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
 
+      console.log("Success", data);
+
       if (data) {
         const decodedUser = jwtDecode(data.token) as JwtPayload;
+
+        console.log("Decoded", decodedUser.username);
         navigate(`/${decodedUser.username}`);
       }
     },

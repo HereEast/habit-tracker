@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Notice } from "~/components/Notice";
@@ -17,13 +16,6 @@ export function Timeline() {
   useNavigate();
 
   const { user } = useAuthContext();
-
-  useEffect(() => {
-    if (!user) {
-      console.log("No User");
-    }
-  }, [user]);
-
   const { currentYear } = getToday();
 
   const { data: timeline } = useTimelineData(user?._id, currentYear);
