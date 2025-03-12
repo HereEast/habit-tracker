@@ -1,11 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+
 import { useLogin } from "~/hooks/mutations/useLogin";
 
 export function LoginForm() {
-  // const router = useRouter();
-
-  // const { setIsAuth } = useAuthContext();
-
   const [user, setUser] = useState({ email: "", password: "" });
 
   const { mutate } = useLogin();

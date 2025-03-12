@@ -5,25 +5,30 @@ import { Timeline } from "./pages/Timeline";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Layout } from "./components/layout/Layout";
+import { RestrictedRoute } from "./components/layout/RestrictedRoute";
 
+import { AuthContextProvider } from "./contexts/AuthContextProvider";
 import { ROUTE } from "./utils/constants";
-import { AuthProvider } from "./providers/AuthProvider";
 
 export function Router() {
   return (
-    <Routes>
-      <Route path={ROUTE.home} element={<Layout />}>
-        <Route index element={<Home />} />
+    <AuthContextProvider>
+      <Routes>
+        <Route path={ROUTE.home} element={<Layout />}>
+          <Route index element={<Home />} />
 
-        <Route path=":slug">
-          <Route element={<AuthProvider />}>
-            <Route index element={<Timeline />} />
+          <Route element={<RestrictedRoute redirectLink={ROUTE.login} />}>
+            <Route path=":slug">
+              <Route index element={<Timeline />} />
+            </Route>
+          </Route>
+
+          <Route element={<RestrictedRoute requireAuth={false} />}>
+            <Route path={ROUTE.login} element={<Login />} />
+            <Route path={ROUTE.register} element={<Register />} />
           </Route>
         </Route>
-
-        <Route path={ROUTE.login} element={<Login />} />
-        <Route path={ROUTE.register} element={<Register />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </AuthContextProvider>
   );
 }

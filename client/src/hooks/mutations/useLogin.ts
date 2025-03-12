@@ -4,13 +4,9 @@ import { JwtPayload } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
 
 import { login } from "~/api/login";
-import { useAuthContext } from "../useAuthContext";
-import { IUser } from "~/utils/types";
 
 export function useLogin() {
   const navigate = useNavigate();
-
-  const { setUser } = useAuthContext();
 
   const { mutate, error } = useMutation({
     mutationKey: ["user"],
@@ -20,15 +16,6 @@ export function useLogin() {
 
       if (data) {
         const decodedUser = jwtDecode(data.token) as JwtPayload;
-
-        const userData: IUser = {
-          _id: String(decodedUser._id),
-          username: String(decodedUser.username),
-          email: String(decodedUser.email),
-          createdAt: new Date(decodedUser.createdAt),
-        };
-
-        setUser(userData);
         navigate(`/${decodedUser.username}`);
       }
     },
