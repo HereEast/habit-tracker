@@ -12,13 +12,13 @@ export function RestrictedRoute({
   redirectLink,
   requireAuth = true,
 }: ProtectedRouteProps) {
-  const { user, isUserLoading } = useAuthContext();
+  const { user, isLoading } = useAuthContext();
 
-  if (!isUserLoading && !user && requireAuth) {
+  if (!isLoading && !user && requireAuth) {
     return <Navigate to={redirectLink} replace />;
   }
 
-  if (!isUserLoading && user && !requireAuth) {
+  if (!isLoading && user && !requireAuth) {
     return <Navigate to={ROUTE.home} replace />;
   }
 

@@ -13,7 +13,7 @@ export function useLogin() {
 
       if (data) {
         const decodedUser = jwtDecode(data.token) as JwtPayload;
-        
+
         window.location.replace(`/${decodedUser.username}`);
       }
     },

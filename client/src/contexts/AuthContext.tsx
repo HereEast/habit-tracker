@@ -4,7 +4,8 @@ import { IUser } from "~/utils/types";
 
 export interface AuthContextProps {
   user: IUser | null;
-  isUserLoading: boolean;
+  isLoading: boolean;
+  signOut: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
