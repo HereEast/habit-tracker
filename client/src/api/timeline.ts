@@ -17,8 +17,6 @@ export async function getCurrentMonthData(userId: string) {
 
     const data = response.data;
 
-    console.log(data);
-
     return data;
   } catch (err) {
     if (err instanceof AxiosError && err.response) {

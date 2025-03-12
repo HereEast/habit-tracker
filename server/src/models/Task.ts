@@ -1,13 +1,13 @@
 import { Schema, model } from "mongoose";
 
 import { IEntry } from "./Entry.js";
-import { IdType } from "../utils/types.js";
+import { ID } from "../utils/types.js";
 
 export interface ITask {
-  _id: IdType;
-  userId: IdType;
+  _id: ID;
+  userId: ID;
   title: string;
-  entries: IdType<IEntry>[];
+  entries: ID<IEntry>[];
   deleted: boolean;
   deletedAt?: Date;
   createdAt: Date;

@@ -24,7 +24,7 @@ app.use("/api/tasks", tasksRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/entries", entriesRouter);
 app.use("/api/timeline", timelineRouter);
-app.use("api/login", loginRouter);
+app.use("/api/login", loginRouter);
 
 async function start() {
   try {

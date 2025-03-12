@@ -36,14 +36,10 @@ export async function getTimeline(req: Request, res: Response) {
   }).reverse();
 
   try {
-    const tasks: ITask[] = await Task.find({ userId })
-      .populate("entries")
-      .lean()
-      .exec();
+    const tasks = await Task.find({ userId }).populate("entries").lean().exec();
 
     const yearTasks = filterTasksByYear(tasks, Number(year));
 
-    // YEAR TIMELINE
     const yearTimeline: Timeline = timeline.reduce((acc, { month }) => {
       const monthTasks = filterTasksByMonth(yearTasks, month);
 

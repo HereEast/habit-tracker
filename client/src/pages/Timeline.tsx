@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Notice } from "~/components/Notice";
 import { StatusButtons } from "~/components/StatusButtons";
@@ -9,15 +9,14 @@ import {
   useCurrentMonthData,
   useTimelineData,
 } from "~/hooks/queries/useTimelineData";
-import { useUser } from "~/hooks/queries/useUser";
+import { useAuthContext } from "~/hooks/useAuthContext";
 import { getToday } from "~/utils/helpers";
 
 export function Timeline() {
-  const { slug } = useParams();
+  useNavigate();
 
+  const { user } = useAuthContext();
   const { currentYear } = getToday();
-
-  const { data: user } = useUser(slug!);
 
   const { data: timeline } = useTimelineData(user?._id, currentYear);
   const { data: currenMonthData, isLoading: isCurrentMonthLoading } =

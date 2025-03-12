@@ -28,7 +28,7 @@ export async function getCurrentMonthData(req: Request, res: Response) {
   try {
     const tasks: ITask[] = await Task.find({ userId })
       .populate("entries")
-      .lean()
+      .lean() // Converts to plain object
       .exec();
 
     const yearTasks = filterTasksByYear(tasks, currentYear);
