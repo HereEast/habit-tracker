@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
-import { Home } from "./pages/Home";
-import { Timeline } from "./pages/Timeline";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
+import { Home } from "./components/layout/Home";
+import { Timeline } from "./components/layout/Timeline";
+import { Login } from "./components/layout/Login";
+import { Register } from "./components/layout/Register";
 import { Layout } from "./components/layout/Layout";
 import { RestrictedRoute } from "./components/layout/RestrictedRoute";
 

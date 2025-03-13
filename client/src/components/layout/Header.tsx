@@ -19,7 +19,9 @@ export function Header() {
 
         {isUser && (
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">👋 {user.username}</span>
+            <span className="shrink-0 text-sm font-medium">
+              👋 {user.username}
+            </span>
             <Button onClick={signOut}>Log out</Button>
           </div>
         )}

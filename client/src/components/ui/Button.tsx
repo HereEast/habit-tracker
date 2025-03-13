@@ -10,13 +10,19 @@ interface ButtonProps {
   to?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  size?: "base" | "md";
+  variant?: "primary" | "secondary";
 }
 
 const styles = {
   size: {
     md: "h-12 px-10",
-    base: "px-6 h-10",
+    base: "px-4 h-10",
     sm: "",
+  },
+  variant: {
+    primary: "bg-brown-900 text-stone-50 hover:opacity-90",
+    secondary: "bg-brown-300 text-stone-900 hover:opacity-90",
   },
 };
 
@@ -25,8 +31,11 @@ export const Button = forwardRef<
   ButtonProps
 >(({ onClick, className, ...rest }, ref) => {
   const classes = cn(
-    "group/button inline-flex items-center outline-none relative justify-center leading-none bg-brown-900 text-stone-50 w-fit py-4 px-4 transition text-sm hover:opacity-90 font-mono",
+    "group/button inline-flex items-center outline-none relative justify-center leading-none w-fit transition text-lg",
+    styles.variant.primary,
     styles.size.base,
+    rest.size && styles.size[rest.size],
+    rest.variant && styles.variant[rest.variant],
     className,
   );
 
