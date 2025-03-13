@@ -1,4 +1,4 @@
-import { FocusEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useCreateTask } from "~/hooks/mutations/useCreateTask";
@@ -24,12 +24,6 @@ export function CreateTaskForm() {
     setValue("");
   }
 
-  function handleFocus(e: FocusEvent<HTMLInputElement>) {
-    if (value && !e.relatedTarget.closest("button")) {
-      setIsFocus(false);
-    }
-  }
-
   return (
     <>
       <form onSubmit={(e) => onSubmit(e)}>
@@ -42,7 +36,6 @@ export function CreateTaskForm() {
               required={true}
               onChange={(e) => setValue(e.target.value)}
               onFocus={() => setIsFocus(true)}
-              onBlur={handleFocus}
               className="border-brown-400 placeholder:text-brown-500 focus:border-brown-900 h-10 w-full border px-4 outline-0"
             />
 
@@ -50,7 +43,10 @@ export function CreateTaskForm() {
               <Button
                 type="button"
                 className="hover:bg-brown-900/10 text-brown-900 absolute top-1 right-1 size-8 bg-transparent"
-                onClick={() => setValue("")}
+                onClick={() => {
+                  setValue("");
+                  setIsFocus(false);
+                }}
               >
                 X
               </Button>
