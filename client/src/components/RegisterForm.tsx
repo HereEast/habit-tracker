@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { useCreateUser } from "~/hooks/mutations/useCreateUser";
+import { Button, Input } from "./ui";
 
 const defaultValue = { email: "", username: "", password: "" };
 
@@ -22,37 +23,36 @@ export function RegisterForm() {
     }
 
     mutate(user);
-    // setUser(defaultValue);
   }
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-[400px]">
       <div className="mb-6 space-y-2">
-        <input
+        <Input
           name="email"
           value={user.email}
           placeholder="Email"
           required
           onChange={handleChange}
-          className="h-10 w-full rounded-md border px-4"
+          className="h-14 text-lg"
         />
 
-        <input
+        <Input
           name="username"
           value={user.username}
           placeholder="Username"
           required
           onChange={handleChange}
-          className="h-10 w-full rounded-md border px-4"
+          className="h-14 text-lg"
         />
 
-        <input
+        <Input
           name="password"
           value={user.password}
           placeholder="Password"
           required
           onChange={handleChange}
-          className="h-10 w-full rounded-md border px-4"
+          className="h-14 text-lg"
         />
       </div>
 
@@ -60,9 +60,9 @@ export function RegisterForm() {
         <div className="mb-6 text-center text-red-600">{error.message}</div>
       )}
 
-      <button className="h-10 w-full cursor-pointer rounded-md bg-zinc-800 px-5 text-zinc-50 transition hover:opacity-75">
-        Create Account
-      </button>
+      <Button size="md" className="w-full">
+        Create Account ➝
+      </Button>
     </form>
   );
 }

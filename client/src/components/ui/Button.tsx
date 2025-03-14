@@ -10,13 +10,14 @@ interface ButtonProps {
   to?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
-  size?: "base" | "md";
+  size?: "md" | "lg";
   variant?: "primary" | "secondary";
 }
 
 const styles = {
   size: {
-    md: "h-12 px-10",
+    lg: "h-16 px-10 text-lg",
+    md: "h-14 px-10 text-lg",
     base: "px-4 h-10",
     sm: "",
   },
@@ -31,7 +32,7 @@ export const Button = forwardRef<
   ButtonProps
 >(({ onClick, className, ...rest }, ref) => {
   const classes = cn(
-    "group/button inline-flex items-center outline-none relative justify-center leading-none w-fit transition text-lg",
+    "group/button inline-flex items-center outline-none relative justify-center leading-none w-fit transition text-base",
     styles.variant.primary,
     styles.size.base,
     rest.size && styles.size[rest.size],

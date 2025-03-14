@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { useLogin } from "~/hooks/mutations/useLogin";
-import { Button } from "./ui/Button";
+import { Button, Input } from "./ui";
 
 export function LoginForm() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -20,28 +20,30 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-[400px]">
+    <form onSubmit={handleSubmit}>
       <div className="mb-6 space-y-2">
-        <input
+        <Input
           name="email"
           value={user.email}
           placeholder="Email"
           required
           onChange={handleChange}
-          className="h-10 w-full border px-4"
+          className="h-14 text-lg"
         />
 
-        <input
+        <Input
           name="password"
           value={user.password}
           placeholder="Password"
           required
           onChange={handleChange}
-          className="h-10 w-full border px-4"
+          className="h-14 text-lg"
         />
       </div>
 
-      <Button size="md">Login</Button>
+      <Button size="md" className="w-full">
+        Get in to account ➝
+      </Button>
     </form>
   );
 }
