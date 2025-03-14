@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useCreateTask } from "~/hooks/mutations/useCreateTask";
 import { useUser } from "~/hooks/queries/useUser";
 import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 
 export function CreateTaskForm() {
   const { slug } = useParams();
@@ -29,14 +30,12 @@ export function CreateTaskForm() {
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="flex gap-2">
           <div className="relative w-full">
-            <input
-              name="new-task"
+            <Input
+              name="task"
               value={value}
               placeholder="New task..."
-              required={true}
               onChange={(e) => setValue(e.target.value)}
               onFocus={() => setIsFocus(true)}
-              className="border-brown-400 placeholder:text-brown-500 focus:border-brown-900 h-10 w-full border px-4 outline-0"
             />
 
             {isFocus && value && (
