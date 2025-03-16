@@ -22,7 +22,7 @@ export async function login(req: Request, res: Response) {
 
     if (!passwordMatch) {
       return res.status(409).json({
-        message: "Password is not correct.",
+        message: "Email and password don't match.",
       });
     }
 

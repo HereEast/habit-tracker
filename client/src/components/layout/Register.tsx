@@ -6,7 +6,7 @@ import { ROUTE } from "~/utils/constants";
 export function Register() {
   return (
     <div className="mt-10 flex justify-center">
-      <div className="bg-brown-100 w-fit max-w-[480px] p-10">
+      <div className="bg-brown-100 w-full max-w-[480px] p-10">
         <div className="mb-10">
           <h2 className="text-brown-900 text-center text-4xl font-semibold">
             Register, pls 😊

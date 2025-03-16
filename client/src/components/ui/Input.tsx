@@ -3,7 +3,7 @@ import { ChangeEvent, FocusEvent, forwardRef, Ref } from "react";
 import { cn } from "~/utils/helpers";
 
 interface InputProps {
-  value: string;
+  value?: string;
   name: string;
   disabled?: boolean;
   required?: boolean;

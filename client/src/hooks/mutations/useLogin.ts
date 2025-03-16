@@ -9,9 +9,8 @@ export function useLogin() {
     mutationKey: ["user"],
     mutationFn: login,
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-
       if (data) {
+        localStorage.setItem("token", data.token);
         const decodedUser = jwtDecode(data.token) as JwtPayload;
 
         window.location.replace(`/${decodedUser.username}`);
