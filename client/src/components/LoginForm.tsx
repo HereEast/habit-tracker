@@ -9,9 +9,9 @@ import { useLogin } from "~/hooks/mutations/useLogin";
 const LoginSchema = z.object({
   email: z
     .string()
-    .min(1, { message: "Email is required." })
-    .email({ message: "Email value is not valid." }),
-  password: z.string().min(1, { message: "Password is required." }),
+    .nonempty("Email is required.")
+    .email("Please enter a valid email address."),
+  password: z.string().nonempty("Password is required."),
 });
 
 type FormInputs = z.infer<typeof LoginSchema>;
@@ -55,7 +55,7 @@ export function LoginForm() {
 
         <div>
           <Input
-            // type="password"
+            type="password"
             placeholder="Password"
             disabled={isSubmitting}
             className="h-14 text-lg"

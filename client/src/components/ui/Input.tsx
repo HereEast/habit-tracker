@@ -7,6 +7,7 @@ interface InputProps {
   name: string;
   disabled?: boolean;
   required?: boolean;
+  type?: "text" | "password";
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;

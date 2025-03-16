@@ -1,6 +1,16 @@
 import { getToday } from "./dates";
 import { IEntry, Status } from "../types";
 
+// Is valid password
+export function isValidPassword(password: string) {
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+}
+
 // Is entry active
 export function isEntryValid(entry: IEntry) {
   const { currentDay, currentMonth, currentYear } = getToday();

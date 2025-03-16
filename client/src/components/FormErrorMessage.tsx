@@ -6,7 +6,7 @@ interface FormErrorMessageProps {
 
 export function FormErrorMessage({ children }: FormErrorMessageProps) {
   return (
-    <div className="mt-2 mb-4">
+    <div className="mt-1 mb-4">
       <p className="text-sm text-red-600">{children}</p>
     </div>
   );
