@@ -18,9 +18,11 @@ export function Timeline() {
   const { user } = useAuthContext();
   const { currentYear } = getToday();
 
-  const { data: timeline } = useTimelineData(user?._id, currentYear);
+  const userId = user?._id || "";
+
+  const { data: timeline } = useTimelineData(userId, currentYear);
   const { data: currenMonthData, isLoading: isCurrentMonthLoading } =
-    useCurrentMonthData(user?._id);
+    useCurrentMonthData(userId);
 
   return (
     <div className="pt-10">

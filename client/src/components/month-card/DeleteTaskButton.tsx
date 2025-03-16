@@ -14,7 +14,7 @@ export function DeleteTaskButton({ taskId, createdAt }: DeleteTaskButtonProps) {
 
   return (
     <button
-      className="bg-brown-500 hover:bg-brown-400 size-6 cursor-pointer items-center justify-center rounded-[4px] transition"
+      className="bg-brown-500 hover:bg-brown-400 size-entry cursor-pointer items-center justify-center rounded-xs transition"
       onClick={handleDelete}
     >
       X

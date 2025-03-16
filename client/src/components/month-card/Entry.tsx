@@ -9,7 +9,7 @@ interface EntryProps {
 export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
-  const entryId = entry?._id;
+  const entryId = entry?._id || "";
   const isValidEntry = entry && isEntryValid(entry);
 
   function handleClick() {
@@ -22,7 +22,7 @@ export function Entry({ entry }: EntryProps) {
   return (
     <div
       className={cn(
-        "flex size-6 shrink-0 cursor-default items-center justify-center rounded-[4px] border bg-stone-300/50 text-sm",
+        "size-entry flex shrink-0 cursor-default items-center justify-center rounded-sm border bg-stone-300/50 text-sm",
         entry && statusColor(entry?.status),
         !entry && "opacity-30",
         isValidEntry && "hover:border-stone-600/100",

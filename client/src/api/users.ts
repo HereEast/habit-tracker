@@ -24,7 +24,7 @@ export async function getUser(slug: string) {
 export async function createUser(input: CreateUserInput) {
   const { email, username, password } = input;
   try {
-    const response: AxiosResponse<IUser> = await axios.post(
+    const response: AxiosResponse<{ token: string }> = await axios.post(
       `${BASE_URL}/api/users`,
       {
         username,

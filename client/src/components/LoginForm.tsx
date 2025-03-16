@@ -1,48 +1,80 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
+import { Button, Input } from "./ui";
+import { FormErrorMessage } from "./FormErrorMessage";
 import { useLogin } from "~/hooks/mutations/useLogin";
 
+const LoginSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Email is required.")
+    .email("Please enter a valid email address."),
+  password: z.string().nonempty("Password is required."),
+});
+
+type FormInputs = z.infer<typeof LoginSchema>;
+
 export function LoginForm() {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormInputs>({
+    resolver: zodResolver(LoginSchema),
+  });
 
   const { mutate } = useLogin();
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  }
-
   // Submit
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    mutate(user);
+  async function onSubmit(data: FormInputs) {
+    mutate(data, {
+      onError: (err) => {
+        setError("root", { message: err.message });
+      },
+    });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-[400px]">
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-6 space-y-2">
-        <input
-          name="email"
-          value={user.email}
-          placeholder="Email"
-          required
-          onChange={handleChange}
-          className="h-10 w-full rounded-md border px-4"
-        />
+        <div>
+          <Input
+            placeholder="Email"
+            disabled={isSubmitting}
+            className="h-14 text-lg"
+            {...register("email")}
+          />
 
-        <input
-          name="password"
-          value={user.password}
-          placeholder="Password"
-          required
-          onChange={handleChange}
-          className="h-10 w-full rounded-md border px-4"
-        />
+          {errors.email && (
+            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+          )}
+        </div>
+
+        <div>
+          <Input
+            type="password"
+            placeholder="Password"
+            disabled={isSubmitting}
+            className="h-14 text-lg"
+            {...register("password")}
+          />
+
+          {errors.password && (
+            <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+          )}
+        </div>
       </div>
 
-      <button className="h-10 w-full rounded-md bg-zinc-800 px-5 text-zinc-50">
-        Login
-      </button>
+      {errors.root && (
+        <FormErrorMessage>{errors.root.message}</FormErrorMessage>
+      )}
+
+      <Button disabled={isSubmitting} size="md" className="w-full">
+        Get in to account ➝
+      </Button>
     </form>
   );
 }

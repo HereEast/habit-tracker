@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { useAuthContext } from "~/hooks/useAuthContext";
 import { ROUTE } from "~/utils/constants";
+import { Button } from "../ui/Button";
 
 export function Header() {
   const { user, isLoading, signOut } = useAuthContext();
@@ -14,18 +15,14 @@ export function Header() {
         <Link to={ROUTE.home}>Habit Tracker</Link>
       </h1>
       <div className="flex items-center gap-2">
-        {!isUser && (
-          <Link to={ROUTE.login} className="hover:opacity-50">
-            Log in
-          </Link>
-        )}
+        {!isUser && <Button to={ROUTE.login}>Login</Button>}
 
         {isUser && (
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">👋 {user.username}</span>
-            <button className="hover:opacity-50" onClick={signOut}>
-              Log out
-            </button>
+            <span className="shrink-0 text-sm font-medium">
+              👋 {user.username}
+            </span>
+            <Button onClick={signOut}>Log out</Button>
           </div>
         )}
       </div>

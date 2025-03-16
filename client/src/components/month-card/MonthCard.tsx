@@ -45,7 +45,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
             return (
               <li className="flex w-full items-center gap-6" key={index}>
                 <div className="w-32">
-                  <h3>{task.title}</h3>
+                  <h3 className="leading-none">{task.title}</h3>
                 </div>
 
                 <div className="flex gap-6">
