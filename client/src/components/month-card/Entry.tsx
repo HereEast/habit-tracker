@@ -9,7 +9,7 @@ interface EntryProps {
 export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
-  const entryId = entry?._id;
+  const entryId = entry?._id || "";
   const isValidEntry = entry && isEntryValid(entry);
 
   function handleClick() {

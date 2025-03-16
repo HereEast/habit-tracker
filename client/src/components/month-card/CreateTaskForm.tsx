@@ -20,7 +20,7 @@ export function CreateTaskForm() {
 
     if (!value.trim()) return;
 
-    createTask({ userId: user?._id, title: value });
+    createTask({ userId: user?._id || "", title: value });
     setValue("");
   }
 

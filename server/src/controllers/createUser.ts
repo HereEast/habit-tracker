@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { IUser, User } from "../models/User.js";
-import { mapUser } from "../utils/mappers.js";
+import { SECRET_KEY } from "../config.js";
 
 type NewUserData = Omit<IUser, "_id" | "createdAt">;
 
@@ -39,9 +40,16 @@ export async function createUser(req: Request, res: Response) {
     const newUser = new User(userData);
     await newUser.save();
 
-    const mappedUser = mapUser(newUser.toObject());
+    const payload = {
+      _id: newUser._id,
+      email: newUser.email,
+      username: newUser.username,
+      createdAt: newUser.createdAt,
+    };
 
-    return res.status(201).json(mappedUser);
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "7d" });
+
+    return res.status(201).json({ token });
   } catch (err) {
     if (err instanceof Error) {
       console.log("🔴 Error:", err.message);

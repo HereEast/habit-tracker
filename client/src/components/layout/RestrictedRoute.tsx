@@ -15,7 +15,7 @@ export function RestrictedRoute({
   const { user, isLoading } = useAuthContext();
 
   if (!isLoading && !user && requireAuth) {
-    return <Navigate to={redirectLink} replace />;
+    return <Navigate to={redirectLink || ""} replace />;
   }
 
   if (!isLoading && user && !requireAuth) {

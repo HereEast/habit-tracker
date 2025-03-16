@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useCreateUser } from "~/hooks/mutations/useCreateUser";
 import { Button, Input } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
+import { useCreateUser } from "~/hooks/mutations/useCreateUser";
 import { isValidPassword } from "~/utils/helpers";
 
 const RegisterSchema = z.object({
