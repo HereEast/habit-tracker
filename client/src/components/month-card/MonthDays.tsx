@@ -44,14 +44,16 @@ export function MonthDays({ year, month }: MonthCardDaysProps) {
 interface DayItemProps {
   children?: number;
   isToday: boolean;
+  className?: string;
 }
 
-function DayItem({ children, isToday }: DayItemProps) {
+function DayItem({ children, isToday, className }: DayItemProps) {
   return (
     <li
       className={cn(
-        "flex size-6 shrink-0 items-center justify-center rounded-sm border bg-transparent text-xs text-stone-400",
-        isToday && "rounded-full bg-stone-50 font-medium text-stone-800",
+        "size-entry flex shrink-0 items-center justify-center rounded-xs bg-transparent text-sm text-stone-400",
+        isToday && "rounded-full bg-stone-50 font-semibold text-stone-800",
+        className || "",
       )}
     >
       {children || ""}

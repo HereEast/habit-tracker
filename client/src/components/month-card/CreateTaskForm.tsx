@@ -14,13 +14,15 @@ export function CreateTaskForm() {
   const { data: user } = useUser(slug!);
   const { mutate: createTask } = useCreateTask();
 
-  // Submit task
+  const userId = user?._id || "";
+
+  // Submit
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!value.trim()) return;
 
-    createTask({ userId: user?._id || "", title: value });
+    createTask({ userId, title: value });
     setValue("");
   }
 
@@ -35,6 +37,7 @@ export function CreateTaskForm() {
               placeholder="New task..."
               onChange={(e) => setValue(e.target.value)}
               onFocus={() => setIsFocus(true)}
+              className="px-3"
             />
 
             {isFocus && value && (
