@@ -1,6 +1,7 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
+import { handleApiError } from "~/utils/helpers/api";
 import { CreateUserInput, IUser } from "~/utils/types";
 
 export async function getUser(slug: string) {
@@ -12,11 +13,7 @@ export async function getUser(slug: string) {
     const data = response.data;
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }
 
@@ -42,10 +39,6 @@ export async function createUser(input: CreateUserInput) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }

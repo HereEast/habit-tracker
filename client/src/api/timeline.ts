@@ -1,6 +1,7 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
+import { handleApiError } from "~/utils/helpers/api";
 import { MonthTimelineData } from "~/utils/types";
 
 // Current month
@@ -19,11 +20,7 @@ export async function getCurrentMonthData(userId: string) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError && err.response) {
-      console.log("🔴 Error:", err.response.data.message);
-
-      throw new Error(err.response.data.message);
-    }
+    handleApiError(err);
   }
 }
 
@@ -44,10 +41,6 @@ export async function getTimelineData(userId: string, year: number) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError && err.response) {
-      console.log("🔴 Error:", err.response.data.message);
-
-      throw new Error(err.response.data.message);
-    }
+    handleApiError(err);
   }
 }
