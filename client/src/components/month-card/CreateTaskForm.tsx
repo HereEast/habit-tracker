@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { Button, Input } from "~/components/ui";
 import { useCreateTask } from "~/hooks/mutations/useCreateTask";
@@ -43,13 +44,14 @@ export function CreateTaskForm() {
             {isFocus && value && (
               <Button
                 type="button"
-                className="hover:bg-brown-900/10 text-brown-900 absolute top-1 right-1 size-8 bg-transparent"
+                size="icon"
+                className="hover:bg-brown-900/10 text-brown-900 absolute top-1 right-1 size-8 bg-transparent p-0"
                 onClick={() => {
                   setValue("");
                   setIsFocus(false);
                 }}
               >
-                X
+                <XMarkIcon className="size-5" />
               </Button>
             )}
           </div>

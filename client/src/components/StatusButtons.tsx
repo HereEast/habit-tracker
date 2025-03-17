@@ -16,7 +16,7 @@ export function StatusButtons() {
   }
 
   return (
-    <div className="bg-brown-100/20 flex gap-2 rounded-lg p-4">
+    <div className="bg-brown-100/20 flex gap-1 rounded-lg p-4">
       {STATUSES.map((status) => (
         <button
           key={status}

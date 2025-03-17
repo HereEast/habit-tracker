@@ -44,7 +44,7 @@ export function LoginForm() {
           <Input
             placeholder="Email"
             disabled={isSubmitting}
-            className="h-14 text-lg"
+            className="h-14"
             {...register("email")}
           />
 
@@ -58,7 +58,7 @@ export function LoginForm() {
             type="password"
             placeholder="Password"
             disabled={isSubmitting}
-            className="h-14 text-lg"
+            className="h-14"
             {...register("password")}
           />
 

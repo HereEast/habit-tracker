@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Button, Input } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { useCreateUser } from "~/hooks/mutations/useCreateUser";
-import { isValidPassword } from "~/utils/helpers";
+import { capitalize, isValidPassword } from "~/utils/helpers";
 
 const RegisterSchema = z.object({
   email: z
@@ -23,6 +23,7 @@ const RegisterSchema = z.object({
 });
 
 type FormInputs = z.infer<typeof RegisterSchema>;
+type InputName = keyof FormInputs;
 
 export function RegisterForm() {
   const {
@@ -45,48 +46,26 @@ export function RegisterForm() {
     });
   }
 
+  const INPUTS = ["email", "username", "password"] as InputName[];
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-[400px]">
       <div className="mb-6 space-y-2">
-        <div>
-          <Input
-            placeholder="Email"
-            disabled={isSubmitting}
-            className="h-14 text-lg"
-            {...register("email")}
-          />
+        {INPUTS.map((inputName) => (
+          <div key={inputName}>
+            <Input
+              type={inputName === "password" ? "password" : "text"}
+              placeholder={capitalize(inputName)}
+              disabled={isSubmitting}
+              className="h-14"
+              {...register(inputName)}
+            />
 
-          {errors.email && (
-            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-          )}
-        </div>
-
-        <div>
-          <Input
-            placeholder="Username"
-            disabled={isSubmitting}
-            {...register("username")}
-            className="h-14 text-lg"
-          />
-
-          {errors.username && (
-            <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-          )}
-        </div>
-
-        <div>
-          <Input
-            type="password"
-            placeholder="Password"
-            disabled={isSubmitting}
-            {...register("password")}
-            className="h-14 text-lg"
-          />
-        </div>
-
-        {errors.password && (
-          <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-        )}
+            {errors[inputName] && (
+              <FormErrorMessage>{errors[inputName].message}</FormErrorMessage>
+            )}
+          </div>
+        ))}
       </div>
 
       {errors.root && (

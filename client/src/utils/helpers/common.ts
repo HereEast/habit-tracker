@@ -37,6 +37,11 @@ export function calculateDonePercentage(statuses: Status[]) {
   return Math.ceil(percentage);
 }
 
+// Capitalize
+export function capitalize(string: string) {
+  return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
+}
+
 // Get fire icon
 export function getFireIcon(percent: number) {
   return "🔥".repeat(percent >= 80 ? 3 : percent >= 60 ? 2 : 1);
