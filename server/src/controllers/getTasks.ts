@@ -8,7 +8,10 @@ export async function getTasks(req: Request, res: Response) {
   const { userId } = req.params;
 
   try {
-    const tasks = await Task.find({ userId }).lean().exec();
+    const tasks = await Task.find({ userId })
+      .select("_id userId title deleted deletedAt createdAt updatedAt")
+      .lean()
+      .exec();
 
     const mappedTask = tasks.map(mapTaskWithoutEntries);
 

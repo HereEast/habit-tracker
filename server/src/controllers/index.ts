@@ -1,6 +1,6 @@
 export * from "./createTask.js";
 export * from "./createUser.js";
-export * from "./deleteFromCurrentMonth.js";
+export * from "./deleteTaskFromCurrentMonth.js";
 export * from "./deleteTask.js";
 export * from "./getCurrentMonthData.js";
 export * from "./getTasks.js";

@@ -4,7 +4,7 @@ import { Task } from "../models/Task.js";
 import { mapTaskWithoutEntries } from "../utils/mappers.js";
 
 // Update "deleted" and "deletedAt"
-export async function deleteFromCurrentMonth(req: Request, res: Response) {
+export async function deleteTaskFromCurrentMonth(req: Request, res: Response) {
   const { taskId } = req.params;
 
   if (!taskId) {
@@ -19,6 +19,7 @@ export async function deleteFromCurrentMonth(req: Request, res: Response) {
       { $set: { deleted: true, deletedAt: new Date() } },
       { new: true },
     )
+      .select("_id userId title deleted deletedAt createdAt updatedAt")
       .lean()
       .exec();
 

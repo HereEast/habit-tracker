@@ -19,6 +19,7 @@ export async function updateTask(req: Request, res: Response) {
       { $set: { title } },
       { new: true },
     )
+      .select("_id userId title deleted deletedAt createdAt updatedAt")
       .lean()
       .exec();
 

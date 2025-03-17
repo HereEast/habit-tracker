@@ -4,7 +4,7 @@ import {
   getTasks,
   createTask,
   deleteTask,
-  deleteFromCurrentMonth,
+  deleteTaskFromCurrentMonth,
   updateTask,
   verifyToken,
 } from "../controllers/index.js";
@@ -19,7 +19,7 @@ router.route("/").post(verifyToken, createTask);
 
 // Update
 router.route("/:taskId").patch(verifyToken, updateTask);
-router.route("/delete/:taskId").patch(verifyToken, deleteFromCurrentMonth);
+router.route("/delete/:taskId").patch(verifyToken, deleteTaskFromCurrentMonth);
 
 // Delete
 router.route("/:taskId").delete(verifyToken, deleteTask);

@@ -17,6 +17,7 @@ export async function deleteTask(req: Request, res: Response) {
 
   try {
     const deletedTask = await Task.findOneAndDelete({ _id: taskId })
+      .select("_id userId title deleted deletedAt createdAt updatedAt")
       .lean()
       .exec();
 
