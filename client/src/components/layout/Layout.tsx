@@ -8,7 +8,7 @@ export function Layout() {
     <div className="flex h-full flex-col bg-stone-300">
       <Header />
 
-      <main className="mt-16 grow px-10">
+      <main className="mt-16 grow px-3 sm:px-10">
         <Outlet />
       </main>
 

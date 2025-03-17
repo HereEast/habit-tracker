@@ -10,7 +10,7 @@ export function Header() {
   const isUser = !isLoading && user;
 
   return (
-    <div className="fixed flex h-16 w-full items-center justify-between px-10">
+    <div className="fixed flex h-16 w-full items-center justify-between px-3 sm:px-10">
       <h1 className="font-medium hover:opacity-50">
         <Link to={ROUTE.home}>Habit Tracker</Link>
       </h1>
