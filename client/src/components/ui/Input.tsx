@@ -10,6 +10,7 @@ interface InputProps {
   type?: "text" | "password";
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;
 }

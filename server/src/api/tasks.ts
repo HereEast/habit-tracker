@@ -1,10 +1,13 @@
 import express from "express";
 
-import { createTask } from "../controllers/createTask.js";
-import { getTasks } from "../controllers/getTasks.js";
-import { deleteTask } from "../controllers/deleteTask.js";
-import { updateTask } from "../controllers/updateTask.js";
-import { verifyToken } from "../controllers/verifyToken.js";
+import {
+  getTasks,
+  createTask,
+  deleteTask,
+  deleteFromCurrentMonth,
+  updateTask,
+  verifyToken,
+} from "../controllers/index.js";
 
 const router = express.Router();
 
@@ -16,6 +19,7 @@ router.route("/").post(verifyToken, createTask);
 
 // Update
 router.route("/:taskId").patch(verifyToken, updateTask);
+router.route("/delete/:taskId").patch(verifyToken, deleteFromCurrentMonth);
 
 // Delete
 router.route("/:taskId").delete(verifyToken, deleteTask);

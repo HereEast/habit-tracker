@@ -7,6 +7,7 @@ import {
   ITask,
   CreateTaskInput,
   DeleteTaskInput,
+  UpdateTaskInput,
 } from "~/utils/types";
 
 // Get user's tasks
@@ -56,7 +57,7 @@ export async function createTask({ userId, title }: CreateTaskInput) {
   }
 }
 
-// Delete task (update "deleted" and "deletedAt")
+// Delete task
 export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
   const { currentMonth } = getToday();
   const createdAtMonth = new Date(createdAt).getMonth() + 1;
@@ -80,7 +81,32 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
 
     // Delete from the current month (update "deleted" field)
     const response: AxiosResponse<BasicTask> = await axios.patch(
+      `${BASE_URL}/api/tasks/delete/${taskId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = response.data;
+
+    return data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      console.log("🔴 Error:", err.response?.data.message);
+
+      throw new Error(err.response?.data.message);
+    }
+  }
+}
+
+// Update task (title)
+export async function updateTaskTitle({ taskId, title }: UpdateTaskInput) {
+  try {
+    const response: AxiosResponse<BasicTask> = await axios.patch(
       `${BASE_URL}/api/tasks/${taskId}`,
+      { title },
       {
         headers: {
           "Content-Type": "application/json",
