@@ -1,12 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { createTask } from "~/api/tasks";
+import { queryClient } from "~/services";
 import { getDaysInMonth, getToday } from "~/utils/helpers";
 import { MonthTimelineData } from "~/utils/types";
 
 export function useCreateTask() {
-  const queryClient = useQueryClient();
-
   const { mutate } = useMutation({
     mutationKey: ["tasks", "current-month"],
     mutationFn: createTask,

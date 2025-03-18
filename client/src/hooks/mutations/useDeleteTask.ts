@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { deleteTask } from "~/api/tasks";
+import { queryClient } from "~/services";
 import { MonthTimelineData } from "~/utils/types";
 
 export function useDeleteTask() {
-  const queryClient = useQueryClient();
-
   const { mutate } = useMutation({
     mutationKey: ["tasks", "current-month"],
     mutationFn: deleteTask,

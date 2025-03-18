@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { updateEntryStatus } from "~/api/entries";
+import { queryClient } from "~/services";
 import { MonthTimelineData, Status } from "~/utils/types";
 
 export function useUpdateEntry() {
-  const queryClient = useQueryClient();
-
   const { mutate } = useMutation({
     mutationKey: ["entries", "current-month"],
     mutationFn: updateEntryStatus,
