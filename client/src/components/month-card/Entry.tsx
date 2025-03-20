@@ -1,3 +1,5 @@
+import { FocusEvent } from "react";
+
 import { useMonthContext } from "~/hooks/useMonthContext";
 import { cn, isEntryValid, statusColor } from "~/utils/helpers";
 import { IEntry } from "~/utils/types/data";
@@ -19,8 +21,19 @@ export function Entry({ entry }: EntryProps) {
     }
   }
 
+  function handleBlur(e: FocusEvent<HTMLButtonElement>) {
+    const isStatusButton = e.relatedTarget
+      ?.closest("button")
+      ?.id.includes("status-button");
+
+    if (!isStatusButton) {
+      setSelectedEntry(null);
+    }
+  }
+
   return (
-    <div
+    <button
+      id={`entry-${entryId}`}
       className={cn(
         "size-entry flex shrink-0 cursor-default items-center justify-center rounded-sm border bg-stone-300/50 text-sm",
         entry && statusColor(entry?.status),
@@ -29,8 +42,9 @@ export function Entry({ entry }: EntryProps) {
         selectedEntry === entryId ? "border-brown-600" : "border-brown-600/0",
       )}
       onClick={handleClick}
+      onBlur={handleBlur}
     >
       {entry?.status}
-    </div>
+    </button>
   );
 }
