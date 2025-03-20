@@ -1,22 +1,23 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Button, Input } from "./ui";
+import { Button, Input, PasswordViewToggle } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
+
+import { capitalize, cn } from "~/utils/helpers";
+import { LoginSchema } from "~/utils/schemas";
 import { useLogin } from "~/hooks";
 
-const LoginSchema = z.object({
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-  password: z.string().nonempty("Password is required."),
-});
-
 type FormInputs = z.infer<typeof LoginSchema>;
+type InputName = keyof FormInputs;
+
+const INPUTS = ["email", "password"] as InputName[];
 
 export function LoginForm() {
+  const [isHidden, setIsHidden] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -40,32 +41,28 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-6 space-y-2">
-        <div>
-          <Input
-            placeholder="Email"
-            disabled={isSubmitting}
-            className="h-14"
-            {...register("email")}
-          />
+        {INPUTS.map((inputName) => (
+          <div className="relative" key={inputName}>
+            <Input
+              type={inputName === "password" && isHidden ? "password" : "text"}
+              placeholder={capitalize(inputName)}
+              disabled={isSubmitting}
+              className={cn("h-14", inputName === "password" && "pr-14")}
+              {...register(inputName)}
+            />
 
-          {errors.email && (
-            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-          )}
-        </div>
+            {inputName === "password" && (
+              <PasswordViewToggle
+                isHidden={isHidden}
+                toggleView={() => setIsHidden((prev) => !prev)}
+              />
+            )}
 
-        <div>
-          <Input
-            type="password"
-            placeholder="Password"
-            disabled={isSubmitting}
-            className="h-14"
-            {...register("password")}
-          />
-
-          {errors.password && (
-            <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-          )}
-        </div>
+            {errors[inputName] && (
+              <FormErrorMessage>{errors[inputName].message}</FormErrorMessage>
+            )}
+          </div>
+        ))}
       </div>
 
       {errors.root && (

@@ -1,32 +1,21 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Button, Input } from "./ui";
+import { Button, Input, PasswordViewToggle } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
 
+import { capitalize, cn } from "~/utils/helpers";
+import { RegisterSchema } from "~/utils/schemas";
 import { useCreateUser } from "~/hooks";
-import { capitalize, isValidPassword } from "~/utils/helpers";
-
-const RegisterSchema = z.object({
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-  username: z.string().nonempty("Username is required."),
-  password: z
-    .string()
-    .nonempty("Password is required.")
-    .min(8, { message: "Password must include at least 8 characters." })
-    .refine(isValidPassword, {
-      message: "Password must include A-Z, a-z, 0-9, and a special symbol.",
-    }),
-});
 
 type FormInputs = z.infer<typeof RegisterSchema>;
 type InputName = keyof FormInputs;
 
 export function RegisterForm() {
+  const [isHidden, setIsHidden] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -53,14 +42,21 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-[400px]">
       <div className="mb-6 space-y-2">
         {INPUTS.map((inputName) => (
-          <div key={inputName}>
+          <div className="relative" key={inputName}>
             <Input
-              type={inputName === "password" ? "password" : "text"}
+              type={inputName === "password" && isHidden ? "password" : "text"}
               placeholder={capitalize(inputName)}
               disabled={isSubmitting}
-              className="h-14"
+              className={cn("h-14", inputName === "password" && "pr-14")}
               {...register(inputName)}
             />
+
+            {inputName === "password" && (
+              <PasswordViewToggle
+                isHidden={isHidden}
+                toggleView={() => setIsHidden((prev) => !prev)}
+              />
+            )}
 
             {errors[inputName] && (
               <FormErrorMessage>{errors[inputName].message}</FormErrorMessage>
