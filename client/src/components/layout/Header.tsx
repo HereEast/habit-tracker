@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 
-import { useAuthContext } from "~/hooks/useAuthContext";
-import { ROUTE } from "~/utils/constants";
 import { Button } from "../ui/Button";
+
+import { useAuthContext } from "~/hooks";
+import { ROUTE } from "~/utils/constants";
 
 export function Header() {
   const { user, isLoading, signOut } = useAuthContext();

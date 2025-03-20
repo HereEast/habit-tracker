@@ -4,7 +4,8 @@ import { z } from "zod";
 
 import { Button, Input } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
-import { useCreateUser } from "~/hooks/mutations/useCreateUser";
+
+import { useCreateUser } from "~/hooks";
 import { capitalize, isValidPassword } from "~/utils/helpers";
 
 const RegisterSchema = z.object({

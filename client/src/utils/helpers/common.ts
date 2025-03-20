@@ -12,7 +12,7 @@ export function isValidPassword(password: string) {
 }
 
 // Is entry active
-export function isEntryValid(entry: IEntry) {
+export function isValidEntry(entry: IEntry) {
   const { currentDay, currentMonth, currentYear } = getToday();
 
   return (

@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { Button, Input } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
-import { useLogin } from "~/hooks/mutations/useLogin";
+import { useLogin } from "~/hooks";
 
 const LoginSchema = z.object({
   email: z

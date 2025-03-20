@@ -1,8 +1,8 @@
 import { FocusEvent } from "react";
 
-import { useMonthContext } from "~/hooks/useMonthContext";
-import { cn, isEntryValid, statusColor } from "~/utils/helpers";
+import { useMonthContext } from "~/hooks";
 import { IEntry } from "~/utils/types/data";
+import { cn, isValidEntry, statusColor } from "~/utils/helpers";
 
 interface EntryProps {
   entry?: IEntry;
@@ -12,10 +12,10 @@ export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
   const entryId = entry?._id || "";
-  const isValidEntry = entry && isEntryValid(entry);
+  const isEntryValid = entry && isValidEntry(entry);
 
   function handleClick() {
-    if (entry && isValidEntry) {
+    if (isEntryValid) {
       const value = selectedEntry !== entryId ? entryId : null;
       setSelectedEntry(value);
     }
@@ -38,7 +38,7 @@ export function Entry({ entry }: EntryProps) {
         "size-entry flex shrink-0 cursor-default items-center justify-center rounded-sm border bg-stone-300/50 text-sm",
         entry && statusColor(entry?.status),
         !entry && "opacity-30",
-        isValidEntry && "hover:border-stone-600/100",
+        isEntryValid && "hover:border-stone-600/100",
         selectedEntry === entryId ? "border-brown-600" : "border-brown-600/0",
       )}
       onClick={handleClick}

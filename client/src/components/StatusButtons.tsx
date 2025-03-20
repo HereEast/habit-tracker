@@ -1,5 +1,4 @@
-import { useUpdateEntry } from "~/hooks/mutations/useUpdateEntry";
-import { useMonthContext } from "~/hooks/useMonthContext";
+import { useUpdateEntry, useMonthContext } from "~/hooks";
 import { STATUSES } from "~/utils/constants";
 import { Status } from "~/utils/types";
 

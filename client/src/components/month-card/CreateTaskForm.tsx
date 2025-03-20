@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { Button, Input } from "~/components/ui";
-import { useCreateTask } from "~/hooks/mutations/useCreateTask";
-import { useUser } from "~/hooks/queries/useUser";
+import { useCreateTask, useUser } from "~/hooks";
 
 export function CreateTaskForm() {
   const { slug } = useParams();

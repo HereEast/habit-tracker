@@ -6,8 +6,7 @@ import { Button, Input, Modal } from "../ui";
 
 import { BasicTask, IEntry } from "~/utils/types";
 import { isCurrentMonth } from "~/utils/helpers";
-import { useUpdateTask } from "~/hooks/mutations/useUpdateTask";
-import { useDeleteTask } from "~/hooks/mutations/useDeleteTask";
+import { useUpdateTask, useDeleteTask } from "~/hooks";
 
 interface TaskListItemProps {
   task: BasicTask;
