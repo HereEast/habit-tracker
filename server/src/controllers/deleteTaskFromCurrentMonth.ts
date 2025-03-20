@@ -3,31 +3,32 @@ import { Request, Response } from "express";
 import { Task } from "../models/Task.js";
 import { mapTaskWithoutEntries } from "../utils/mappers.js";
 
-export async function updateTask(req: Request, res: Response) {
+// Update "deleted" and "deletedAt"
+export async function deleteTaskFromCurrentMonth(req: Request, res: Response) {
   const { taskId } = req.params;
-  const { title } = req.body;
 
-  if (!taskId || !title) {
+  if (!taskId) {
     return res.status(500).json({
-      message: "Some parameters are missing: taskId, title.",
+      message: "Some parameters are missing: taskId.",
     });
   }
 
   try {
-    const updatedTask = await Task.findOneAndUpdate(
+    const deletedTask = await Task.findOneAndUpdate(
       { _id: taskId },
-      { $set: { title } },
+      { $set: { deleted: true, deletedAt: new Date() } },
       { new: true },
     )
       .select("_id userId title deleted deletedAt createdAt updatedAt")
       .lean()
       .exec();
 
-    if (!updatedTask) {
+    if (!deletedTask) {
       return res.status(404).json({ message: "Task not found." });
     }
 
-    const mappedTask = mapTaskWithoutEntries(updatedTask);
+    const mappedTask = mapTaskWithoutEntries(deletedTask);
+
     return res.status(201).json(mappedTask);
   } catch (err) {
     if (err instanceof Error) {

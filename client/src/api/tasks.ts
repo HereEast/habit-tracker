@@ -1,12 +1,14 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
 import { getToday } from "~/utils/helpers";
+import { handleApiError } from "~/utils/helpers/api";
 import {
   BasicTask,
   ITask,
   CreateTaskInput,
   DeleteTaskInput,
+  UpdateTaskInput,
 } from "~/utils/types";
 
 // Get user's tasks
@@ -20,11 +22,7 @@ export async function getUserTasks(userId: string) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }
 
@@ -48,39 +46,44 @@ export async function createTask({ userId, title }: CreateTaskInput) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }
 
-// Delete task (update "deleted" and "deletedAt")
+// Delete task
 export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
   const { currentMonth } = getToday();
   const createdAtMonth = new Date(createdAt).getMonth() + 1;
 
+  const isCurrentMonth = currentMonth === createdAtMonth;
+
+  const url = isCurrentMonth
+    ? `${BASE_URL}/api/tasks/${taskId}` // Permanent delete
+    : `${BASE_URL}/api/tasks/delete/${taskId}`; // Soft delete
+
+  const method = isCurrentMonth ? "DELETE" : "PATCH";
+
   try {
-    // Delete forever (w Entries)
-    if (currentMonth === createdAtMonth) {
-      const response: AxiosResponse<BasicTask> = await axios.delete(
-        `${BASE_URL}/api/tasks/${taskId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+    const response: AxiosResponse<BasicTask> = await axios({
+      method,
+      url,
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const data = response.data;
+    const data = response.data;
 
-      return data;
-    }
+    return data;
+  } catch (err) {
+    handleApiError(err);
+  }
+}
 
-    // Delete from the current month (update "deleted" field)
+// Update task (title)
+export async function updateTaskTitle({ taskId, title }: UpdateTaskInput) {
+  try {
     const response: AxiosResponse<BasicTask> = await axios.patch(
       `${BASE_URL}/api/tasks/${taskId}`,
+      { title },
       {
         headers: {
           "Content-Type": "application/json",
@@ -92,10 +95,6 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }

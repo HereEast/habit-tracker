@@ -1,30 +1,21 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Button, Input } from "./ui";
+import { Button, Input, PasswordViewToggle } from "./ui";
 import { FormErrorMessage } from "./FormErrorMessage";
-import { useCreateUser } from "~/hooks/mutations/useCreateUser";
-import { isValidPassword } from "~/utils/helpers";
 
-const RegisterSchema = z.object({
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-  username: z.string().nonempty("Username is required."),
-  password: z
-    .string()
-    .nonempty("Password is required.")
-    .min(8, { message: "Password must include at least 8 characters." })
-    .refine(isValidPassword, {
-      message: "Password must include A-Z, a-z, 0-9, and a special symbol.",
-    }),
-});
+import { capitalize, cn } from "~/utils/helpers";
+import { RegisterSchema } from "~/utils/schemas";
+import { useCreateUser } from "~/hooks";
 
 type FormInputs = z.infer<typeof RegisterSchema>;
+type InputName = keyof FormInputs;
 
 export function RegisterForm() {
+  const [isHidden, setIsHidden] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -45,48 +36,33 @@ export function RegisterForm() {
     });
   }
 
+  const INPUTS = ["email", "username", "password"] as InputName[];
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-[400px]">
       <div className="mb-6 space-y-2">
-        <div>
-          <Input
-            placeholder="Email"
-            disabled={isSubmitting}
-            className="h-14 text-lg"
-            {...register("email")}
-          />
+        {INPUTS.map((inputName) => (
+          <div className="relative" key={inputName}>
+            <Input
+              type={inputName === "password" && isHidden ? "password" : "text"}
+              placeholder={capitalize(inputName)}
+              disabled={isSubmitting}
+              className={cn("h-14", inputName === "password" && "pr-14")}
+              {...register(inputName)}
+            />
 
-          {errors.email && (
-            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-          )}
-        </div>
+            {inputName === "password" && (
+              <PasswordViewToggle
+                isHidden={isHidden}
+                toggleView={() => setIsHidden((prev) => !prev)}
+              />
+            )}
 
-        <div>
-          <Input
-            placeholder="Username"
-            disabled={isSubmitting}
-            {...register("username")}
-            className="h-14 text-lg"
-          />
-
-          {errors.username && (
-            <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-          )}
-        </div>
-
-        <div>
-          <Input
-            type="password"
-            placeholder="Password"
-            disabled={isSubmitting}
-            {...register("password")}
-            className="h-14 text-lg"
-          />
-        </div>
-
-        {errors.password && (
-          <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-        )}
+            {errors[inputName] && (
+              <FormErrorMessage>{errors[inputName].message}</FormErrorMessage>
+            )}
+          </div>
+        ))}
       </div>
 
       {errors.root && (

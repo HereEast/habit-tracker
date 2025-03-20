@@ -5,7 +5,7 @@ import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
 import { mapTaskWithoutEntries } from "../utils/mappers.js";
 
-// Delete task by ID (forever)
+// Permanently delete
 export async function deleteTask(req: Request, res: Response) {
   const { taskId } = req.params;
 
@@ -17,6 +17,7 @@ export async function deleteTask(req: Request, res: Response) {
 
   try {
     const deletedTask = await Task.findOneAndDelete({ _id: taskId })
+      .select("_id userId title deleted deletedAt createdAt updatedAt")
       .lean()
       .exec();
 

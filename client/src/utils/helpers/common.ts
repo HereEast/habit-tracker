@@ -12,7 +12,7 @@ export function isValidPassword(password: string) {
 }
 
 // Is entry active
-export function isEntryValid(entry: IEntry) {
+export function isValidEntry(entry: IEntry) {
   const { currentDay, currentMonth, currentYear } = getToday();
 
   return (
@@ -35,6 +35,11 @@ export function calculateDonePercentage(statuses: Status[]) {
   const percentage = (totalScore / totalPossibleScore) * 100;
 
   return Math.ceil(percentage);
+}
+
+// Capitalize
+export function capitalize(string: string) {
+  return `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`;
 }
 
 // Get fire icon

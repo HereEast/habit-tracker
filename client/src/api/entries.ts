@@ -1,6 +1,7 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { BASE_URL } from "~/utils/constants";
+import { handleApiError } from "~/utils/helpers/api";
 import { UpdateEntryInput, IEntry } from "~/utils/types";
 
 // Update entry status
@@ -18,10 +19,6 @@ export async function updateEntryStatus({ entryId, status }: UpdateEntryInput) {
 
     return data;
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log("🔴 Error:", err.response?.data.message);
-
-      throw new Error(err.response?.data.message);
-    }
+    handleApiError(err);
   }
 }

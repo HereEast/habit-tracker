@@ -1,8 +1,10 @@
 import express from "express";
 
-import { getTimeline } from "../controllers/getTimeline.js";
-import { getCurrentMonthData } from "../controllers/getCurrentMonthData.js";
-import { verifyToken } from "../controllers/verifyToken.js";
+import {
+  getTimeline,
+  getCurrentMonthData,
+  verifyToken,
+} from "../controllers/index.js";
 
 const router = express.Router();
 
