@@ -24,7 +24,7 @@ const styles = {
   },
   variant: {
     primary: "bg-brown-900 text-stone-50 hover:opacity-90",
-    secondary: "bg-brown-300 text-stone-900 hover:opacity-90",
+    secondary: "bg-brown-900/10 text-stone-900 hover:opacity-90",
   },
 };
 

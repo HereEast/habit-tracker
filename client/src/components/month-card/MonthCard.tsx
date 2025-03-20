@@ -2,7 +2,7 @@ import { Notice } from "../Notice";
 import { MonthCardHeader } from "./MonthCardHeader";
 import { MonthDays } from "./MonthDays";
 import { CreateTaskForm } from "./CreateTaskForm";
-import { TasksList } from "./TasksList";
+import { TaskListItem } from "./TaskListItem";
 
 import { calculateDonePercentage, isCurrentMonth } from "~/utils/helpers";
 import { MonthTimelineData } from "~/utils/types/data";
@@ -37,7 +37,22 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
         )}
       </div>
 
-      {monthTasks && <TasksList monthData={monthData} year={year} />}
+      {/* Tasks */}
+      {monthTasks && (
+        <ul className="mb-6 space-y-0.5">
+          {monthTasks.map(({ task, entries }, index) => {
+            return (
+              <TaskListItem
+                task={task}
+                entries={entries}
+                year={year}
+                month={month}
+                key={index}
+              />
+            );
+          })}
+        </ul>
+      )}
 
       {isCurrentMonth(year, month) && <CreateTaskForm />}
     </div>
