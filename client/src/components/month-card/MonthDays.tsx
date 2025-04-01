@@ -28,10 +28,7 @@ export function MonthDays({ year, month }: MonthCardDaysProps) {
         ))}
 
         {new Array(MAX_DAYS - daysInMonth).fill(0).map((_, i) => (
-          <DayItem
-            isToday={isCurrentMonthAndYear && currentDay === i + 1}
-            key={i}
-          />
+          <DayItem key={i} />
         ))}
       </ul>
 
@@ -43,7 +40,7 @@ export function MonthDays({ year, month }: MonthCardDaysProps) {
 // Day item
 interface DayItemProps {
   children?: number;
-  isToday: boolean;
+  isToday?: boolean;
   className?: string;
 }
 
