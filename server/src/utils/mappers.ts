@@ -18,25 +18,10 @@ export function mapUser(user: IUser) {
   };
 }
 
-// Task wo entries
-export function mapTaskWithoutEntries(task: ITask) {
+export function mapTask(task: ITask) {
   return {
     ...task,
     _id: String(task._id),
     userId: String(task._id),
-  };
-}
-
-// Task w entries
-export function mapTask(task: ITask) {
-  const { entries, ...rest } = task;
-
-  const mappedEntries = (entries as IEntry[]).map(mapEntry);
-
-  return {
-    ...rest,
-    _id: String(rest._id),
-    userId: String(rest._id),
-    entries: mappedEntries,
   };
 }

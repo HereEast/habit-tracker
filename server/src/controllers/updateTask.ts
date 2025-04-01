@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { Task } from "../models/Task.js";
-import { mapTaskWithoutEntries } from "../utils/mappers.js";
+import { mapTask } from "../utils/mappers.js";
 
 export async function updateTask(req: Request, res: Response) {
   const { taskId } = req.params;
@@ -27,7 +27,7 @@ export async function updateTask(req: Request, res: Response) {
       return res.status(404).json({ message: "Task not found." });
     }
 
-    const mappedTask = mapTaskWithoutEntries(updatedTask);
+    const mappedTask = mapTask(updatedTask);
     return res.status(201).json(mappedTask);
   } catch (err) {
     if (err instanceof Error) {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { Task } from "../models/Task.js";
-import { mapTaskWithoutEntries } from "../utils/mappers.js";
+import { mapTask } from "../utils/mappers.js";
 
 // Get user Tasks
 export async function getTasks(req: Request, res: Response) {
@@ -13,7 +13,7 @@ export async function getTasks(req: Request, res: Response) {
       .lean()
       .exec();
 
-    const mappedTask = tasks.map(mapTaskWithoutEntries);
+    const mappedTask = tasks.map(mapTask);
 
     return res.json(mappedTask);
   } catch (err) {
