@@ -12,7 +12,7 @@ export function Entry({ entry }: EntryProps) {
   const { selectedEntry, setSelectedEntry } = useMonthContext();
 
   const entryId = entry?._id || "";
-  const isEntryValid = entry && isValidEntry(entry);
+  const isEntryValid = isValidEntry(entry);
 
   function handleClick() {
     if (isEntryValid) {
@@ -37,14 +37,12 @@ export function Entry({ entry }: EntryProps) {
       className={cn(
         "size-entry flex shrink-0 cursor-default items-center justify-center rounded-sm border bg-stone-300/50 text-sm",
         entry && statusColor(entry?.status),
-        !entry && "opacity-30",
-        isEntryValid && "hover:border-stone-600/100",
-        selectedEntry === entryId ? "border-brown-600" : "border-brown-600/0",
+        !entry && "opacity-20",
+        isEntryValid && "hover:border-brown-900/100 hover:cursor-pointer",
+        selectedEntry === entryId ? "border-brown-900" : "border-brown-900/0",
       )}
       onClick={handleClick}
       onBlur={handleBlur}
-    >
-      {entry?.status}
-    </button>
+    />
   );
 }

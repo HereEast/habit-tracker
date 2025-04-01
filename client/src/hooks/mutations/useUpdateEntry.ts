@@ -2,31 +2,31 @@ import { useMutation } from "@tanstack/react-query";
 
 import { updateEntryStatus } from "~/api/entries";
 import { queryClient } from "~/services";
+import { getCurrentMonthQueryKeys } from "~/utils/helpers";
 import { MonthTimelineData, Status } from "~/utils/types";
 
 export function useUpdateEntry() {
+  const queryKey = getCurrentMonthQueryKeys();
+
   const { mutate } = useMutation({
     mutationKey: ["entries", "current-month"],
     mutationFn: updateEntryStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["current-month"] });
+      queryClient.invalidateQueries({ queryKey });
     },
     onMutate: async (updatedEntry) => {
-      await queryClient.cancelQueries({ queryKey: ["current-month"] });
-      const previousData = queryClient.getQueryData(["current-month"]);
+      await queryClient.cancelQueries({ queryKey });
+      const previousData = queryClient.getQueryData(queryKey);
 
       const { entryId, status } = updatedEntry;
 
       // Optimistically update the cache
-      queryClient.setQueryData(
-        ["current-month"],
-        (oldData: MonthTimelineData) => {
-          if (!oldData) return [];
+      queryClient.setQueryData(queryKey, (oldData: MonthTimelineData) => {
+        if (!oldData) return [];
 
-          const tempData = getTempData(oldData, entryId, status);
-          return tempData;
-        },
-      );
+        const tempData = getTempData(oldData, entryId, status);
+        return tempData;
+      });
 
       return previousData;
     },
