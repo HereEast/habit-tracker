@@ -1,13 +1,13 @@
 export type Status = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-export type BasicTask = Omit<ITask, "entries">;
+export interface ITaskData {
+  task: ITask;
+  entries: IEntry[];
+}
 
 export interface MonthTimelineData {
   month: number;
-  tasks: {
-    task: BasicTask;
-    entries: IEntry[];
-  }[];
+  tasks: ITaskData[];
 }
 
 // Models
@@ -28,7 +28,6 @@ export interface ITask {
   _id: string;
   userId: string;
   title: string;
-  entries: (string | IEntry)[];
   deleted: boolean;
   deletedAt?: Date;
   createdAt: Date;

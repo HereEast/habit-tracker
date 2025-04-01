@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateTaskTitle } from "~/api/tasks";
 import { queryClient } from "~/services";
 import { getToday } from "~/utils/helpers";
-import { MonthTimelineData } from "~/utils/types";
+import { ITaskData, MonthTimelineData } from "~/utils/types";
 
 // Forever delete (w Entries)
 export function useUpdateTask() {
@@ -30,14 +30,22 @@ export function useUpdateTask() {
       queryClient.setQueryData(
         queryKeyCurrentMonth,
         (oldData: MonthTimelineData) =>
-          updateCurrentMonthCacheData(input.taskId, input.title, oldData),
+          getCurrentMonthUpdatedData({
+            taskId: input.taskId,
+            title: input.title,
+            data: oldData,
+          }),
       );
 
       // Optimistically update timeline cache
       queryClient.setQueryData(
         queryKeyTimeline,
         (oldData: MonthTimelineData[]) =>
-          updateTimelineCacheData(input.taskId, input.title, oldData),
+          getTimelineUpdatedData({
+            taskId: input.taskId,
+            title: input.title,
+            data: oldData,
+          }),
       );
 
       return { previousTimelineData, previousMonthData };
@@ -47,15 +55,65 @@ export function useUpdateTask() {
   return { mutate };
 }
 
-// Update timeline cache
-function updateCurrentMonthCacheData(
-  taskId: string,
-  title: string,
-  oldData: MonthTimelineData,
-) {
+// Get updated current month data
+interface UpdateCacheInput {
+  taskId: string;
+  title: string;
+  data: MonthTimelineData | MonthTimelineData[];
+}
+
+function getCurrentMonthUpdatedData(input: UpdateCacheInput) {
+  const { data: oldData, taskId, title } = input;
+
   if (!oldData) return [];
 
-  const tempTasks = oldData.tasks.map((data) => {
+  const tempTasks = getUpdatedTasks({
+    tasks: (oldData as MonthTimelineData).tasks,
+    taskId,
+    title,
+  });
+
+  const tempData = {
+    ...oldData,
+    tasks: tempTasks,
+  };
+
+  return tempData;
+}
+
+// Get updated timeline data
+function getTimelineUpdatedData(input: UpdateCacheInput) {
+  const { data: oldData, taskId, title } = input;
+
+  if (!oldData) return [];
+
+  const tempData = (oldData as MonthTimelineData[]).map((monthData) => {
+    const tempTasks = getUpdatedTasks({
+      tasks: monthData.tasks,
+      taskId,
+      title,
+    });
+
+    return {
+      ...monthData,
+      tasks: tempTasks,
+    };
+  });
+
+  return tempData;
+}
+
+// Get updated tasks
+interface UpdatedTasksInput {
+  tasks: ITaskData[];
+  taskId: string;
+  title: string;
+}
+
+function getUpdatedTasks(input: UpdatedTasksInput) {
+  const { tasks, taskId, title } = input;
+
+  const updatedTasks = tasks.map((data) => {
     if (data.task._id === taskId) {
       const updatedTask = {
         ...data.task,
@@ -71,44 +129,5 @@ function updateCurrentMonthCacheData(
     return data;
   });
 
-  const tempData = {
-    ...oldData,
-    tasks: tempTasks,
-  };
-
-  return tempData;
-}
-
-// Update timeline cache
-function updateTimelineCacheData(
-  taskId: string,
-  title: string,
-  oldData: MonthTimelineData[],
-) {
-  if (!oldData) return [];
-
-  const tempTasks = oldData.map((monthData) => {
-    const tasks = monthData.tasks.map((data) => {
-      if (data.task._id === taskId) {
-        const updatedTask = {
-          ...data.task,
-          title,
-        };
-
-        return {
-          ...data,
-          task: updatedTask,
-        };
-      }
-
-      return data;
-    });
-
-    return {
-      ...monthData,
-      tasks,
-    };
-  });
-
-  return tempTasks;
+  return updatedTasks;
 }
