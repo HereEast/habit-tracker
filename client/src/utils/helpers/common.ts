@@ -39,9 +39,9 @@ export function calculateDonePercentage(statuses: Status[]) {
 
 // Current month query keys
 export function getCurrentMonthQueryKeys() {
-  const { currentMonth, currentYear } = getToday();
+  const { currentMonth } = getToday();
 
-  return ["current-month", currentMonth, currentYear];
+  return ["current-month", currentMonth];
 }
 
 // Capitalize

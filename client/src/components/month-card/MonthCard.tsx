@@ -16,7 +16,7 @@ export function MonthCard({ year, monthData }: MonthCardProps) {
   const { month, tasks: monthTasks } = monthData;
 
   const statusValues = monthTasks
-    .map((task) => task.entries.map((entry) => entry.status))
+    .map((task) => task.entries?.map((entry) => entry.status))
     .flat();
 
   const percent = calculateDonePercentage(statusValues);
