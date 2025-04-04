@@ -16,7 +16,6 @@ export async function createTask(req: Request, res: Response) {
     const taskData: NewTaskData = {
       userId,
       title,
-      entries: [],
       deleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -41,9 +40,6 @@ export async function createTask(req: Request, res: Response) {
 
       const entry = new Entry(entryData);
       await entry.save();
-
-      task.entries.push(entry._id);
-      await task.save();
     }
 
     const mappedTask = mapTask(task.toObject());

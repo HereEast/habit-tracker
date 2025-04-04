@@ -2,49 +2,132 @@ import { useMutation } from "@tanstack/react-query";
 
 import { updateTaskTitle } from "~/api/tasks";
 import { queryClient } from "~/services";
-import { MonthTimelineData } from "~/utils/types";
+import { getToday } from "~/utils/helpers";
+import { ITaskData, MonthTimelineData } from "~/utils/types";
 
-// Forever delete (w Entries)
+// Update task title
 export function useUpdateTask() {
+  const { currentMonth, currentYear } = getToday();
+
+  const queryKeyCurrentMonth = ["current-month", currentMonth];
+  const queryKeyTimeline = ["timeline", currentYear];
+
   const { mutate } = useMutation({
-    mutationKey: ["tasks", "current-month"],
+    mutationKey: ["current-month"],
     mutationFn: updateTaskTitle,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["current-month"] });
+      queryClient.invalidateQueries({ queryKey: queryKeyCurrentMonth });
+      queryClient.invalidateQueries({ queryKey: queryKeyTimeline });
     },
     onMutate: async (input) => {
-      await queryClient.cancelQueries({ queryKey: ["current-month"] });
-      const previousData = queryClient.getQueryData(["current-month"]);
+      await queryClient.cancelQueries({ queryKey: queryKeyTimeline });
+      await queryClient.cancelQueries({ queryKey: queryKeyCurrentMonth });
 
-      // Optimistically update the cache
+      const previousTimelineData = queryClient.getQueryData(queryKeyTimeline);
+      const previousMonthData = queryClient.getQueryData(queryKeyCurrentMonth);
+
+      // Optimistically update current month cache
       queryClient.setQueryData(
-        ["current-month"],
-        (oldData: MonthTimelineData) => {
-          if (!oldData) return [];
-
-          const tempTasks = oldData.tasks.map(({ task }) => {
-            if (task._id === input.taskId) {
-              return {
-                ...task,
-                title: input.title,
-              };
-            }
-
-            return task;
-          });
-
-          const tempData = {
-            ...oldData,
-            tasks: tempTasks,
-          };
-
-          return tempData;
-        },
+        queryKeyCurrentMonth,
+        (oldData: MonthTimelineData) =>
+          getCurrentMonthUpdatedData({
+            taskId: input.taskId,
+            title: input.title,
+            data: oldData,
+          }),
       );
 
-      return previousData;
+      // Optimistically update timeline cache
+      queryClient.setQueryData(
+        queryKeyTimeline,
+        (oldData: MonthTimelineData[]) =>
+          getTimelineUpdatedData({
+            taskId: input.taskId,
+            title: input.title,
+            data: oldData,
+          }),
+      );
+
+      return { previousTimelineData, previousMonthData };
     },
   });
 
   return { mutate };
+}
+
+// Get updated current month data
+interface UpdateCacheInput {
+  taskId: string;
+  title: string;
+  data: MonthTimelineData | MonthTimelineData[];
+}
+
+function getCurrentMonthUpdatedData(input: UpdateCacheInput) {
+  const { data: oldData, taskId, title } = input;
+
+  if (!oldData) return [];
+
+  const tempTasks = getUpdatedTasks({
+    tasks: (oldData as MonthTimelineData).tasks,
+    taskId,
+    title,
+  });
+
+  const tempData = {
+    ...oldData,
+    tasks: tempTasks,
+  };
+
+  return tempData;
+}
+
+// Get updated timeline data
+function getTimelineUpdatedData(input: UpdateCacheInput) {
+  const { data: oldData, taskId, title } = input;
+
+  if (!oldData) return [];
+
+  const tempData = (oldData as MonthTimelineData[]).map((monthData) => {
+    const tempTasks = getUpdatedTasks({
+      tasks: monthData.tasks,
+      taskId,
+      title,
+    });
+
+    return {
+      ...monthData,
+      tasks: tempTasks,
+    };
+  });
+
+  return tempData;
+}
+
+// Get updated tasks
+interface UpdatedTasksInput {
+  tasks: ITaskData[];
+  taskId: string;
+  title: string;
+}
+
+function getUpdatedTasks(input: UpdatedTasksInput) {
+  const { tasks, taskId, title } = input;
+
+  const updatedTasks = tasks.map((data) => {
+    if (data.task._id === taskId) {
+      const updatedTask = {
+        ...data.task,
+        title,
+      };
+
+      return {
+        ...data,
+        task: updatedTask,
+      };
+    }
+
+    return data;
+  });
+
+  return updatedTasks;
 }

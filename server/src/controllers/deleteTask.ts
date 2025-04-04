@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 import { Task } from "../models/Task.js";
 import { Entry } from "../models/Entry.js";
-import { mapTaskWithoutEntries } from "../utils/mappers.js";
+import { mapTask } from "../utils/mappers.js";
 
 // Permanently delete
 export async function deleteTask(req: Request, res: Response) {
@@ -27,7 +27,7 @@ export async function deleteTask(req: Request, res: Response) {
       return res.status(404).json({ message: "Task not found." });
     }
 
-    const mappedTask = mapTaskWithoutEntries(deletedTask);
+    const mappedTask = mapTask(deletedTask);
 
     return res.status(201).json(mappedTask);
   } catch (err) {

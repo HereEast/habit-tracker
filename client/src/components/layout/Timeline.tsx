@@ -20,29 +20,36 @@ export function Timeline() {
 
   const userId = user?._id || "";
 
-  const { data: timeline } = useTimelineData(userId, currentYear);
-  const { data: currenMonthData, isLoading: isCurrentMonthLoading } =
+  const { data: timeline, isLoading: timelineIsLoading } = useTimelineData(
+    userId,
+    currentYear,
+  );
+
+  const { data: currenMonthData, isLoading: currentMonthIsLoading } =
     useCurrentMonthData(userId);
 
+  const isLoading = timelineIsLoading || currentMonthIsLoading;
+
   return (
-    <div className="pt-10">
-      <div className="flex flex-col items-center gap-6">
+    <div className="py-10">
+      <div className="flex flex-col items-center gap-10">
         <MonthContextProvider>
           <StatusButtons />
 
-          {/* Current Month */}
-          <div className="mb-6">
-            {isCurrentMonthLoading && <Notice>Loading...</Notice>}
+          {isLoading && <Notice classNames="w-full">Loading...</Notice>}
+
+          <div className="flex flex-col items-center gap-6">
+            {/* Current Month */}
             {currenMonthData && (
               <MonthCard year={currentYear} monthData={currenMonthData} />
             )}
-          </div>
 
-          {/* Prev Months */}
-          <div className="space-y-6">
-            {timeline?.map((data, index) => (
-              <MonthCard year={currentYear} monthData={data} key={index} />
-            ))}
+            {/* Prev Months */}
+            <div className="space-y-6">
+              {timeline?.map((data, index) => (
+                <MonthCard year={currentYear} monthData={data} key={index} />
+              ))}
+            </div>
           </div>
         </MonthContextProvider>
       </div>

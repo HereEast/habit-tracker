@@ -9,11 +9,15 @@ export interface TaskEntriesProps {
   month: number;
 }
 
+const MAX_DAYS = 31;
+
 export function TaskEntries(input: TaskEntriesProps) {
   const { entries } = input;
 
   const daysInMonth = getDaysInMonth(input.month, input.year);
+
   const emptyEntries = new Array(daysInMonth - (entries?.length || 0)).fill(0);
+  const restEntries = new Array(MAX_DAYS - daysInMonth).fill(0);
 
   return (
     <div>
@@ -23,6 +27,11 @@ export function TaskEntries(input: TaskEntriesProps) {
         ))}
 
         {entries?.map((entry) => <Entry entry={entry} key={entry._id} />)}
+
+        {/* Rest days */}
+        {restEntries.map((_, i) => (
+          <Entry key={i} />
+        ))}
       </div>
     </div>
   );

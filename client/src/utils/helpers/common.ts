@@ -12,7 +12,7 @@ export function isValidPassword(password: string) {
 }
 
 // Is entry active
-export function isValidEntry(entry: IEntry) {
+export function isValidEntry(entry?: IEntry) {
   const { currentDay, currentMonth, currentYear } = getToday();
 
   return (
@@ -35,6 +35,13 @@ export function calculateDonePercentage(statuses: Status[]) {
   const percentage = (totalScore / totalPossibleScore) * 100;
 
   return Math.ceil(percentage);
+}
+
+// Current month query keys
+export function getCurrentMonthQueryKeys() {
+  const { currentMonth } = getToday();
+
+  return ["current-month", currentMonth];
 }
 
 // Capitalize

@@ -1,13 +1,9 @@
 import { Request, Response } from "express";
 
-import { ITask, Task } from "../models/Task.js";
-import { IEntry } from "../models/Entry.js";
+import { Task } from "../models/Task.js";
+import { Entry } from "../models/Entry.js";
 
-import {
-  filterTasksByMonth,
-  filterTasksByYear,
-  getEntriesByMonth,
-} from "../utils/handlers.js";
+import { filterTasksByMonth, filterTasksByYear } from "../utils/handlers.js";
 
 import { getToday } from "../utils/dates.js";
 import { mapEntry, mapTask } from "../utils/mappers.js";
@@ -36,32 +32,40 @@ export async function getTimeline(req: Request, res: Response) {
   }).reverse();
 
   try {
-    const tasks = await Task.find({ userId }).populate("entries").lean().exec();
+    const tasks = await Task.find({ userId }).lean().exec();
 
     const yearTasks = filterTasksByYear(tasks, Number(year));
+    const yearTimeline: Timeline = [];
 
-    const yearTimeline: Timeline = timeline.reduce((acc, { month }) => {
+    for (const item of timeline) {
+      const { month } = item;
+
       const monthTasks = filterTasksByMonth(yearTasks, month);
 
-      const data = monthTasks.map((task) => {
-        const entries = task.entries as IEntry[];
-        const monthEntries = getEntriesByMonth(entries, month, Number(year));
+      if (monthTasks.length) {
+        const data = await Promise.all(
+          monthTasks.map(async (task) => {
+            const taskEntries = await Entry.find({
+              userId,
+              taskId: task._id,
+              month,
+              year: Number(year),
+            })
+              .lean()
+              .exec();
 
-        const mappedTask = mapTask(task);
-        const mappedEntries = monthEntries.map(mapEntry);
+            return {
+              task: mapTask(task),
+              entries: taskEntries.map(mapEntry),
+            };
+          }),
+        );
 
-        return {
-          task: mappedTask,
-          entries: mappedEntries,
-        };
-      });
-
-      if (data.length) {
-        acc.push({ month, tasks: data });
+        if (data.length) {
+          yearTimeline.push({ month, tasks: data });
+        }
       }
-
-      return acc;
-    }, [] as Timeline);
+    }
 
     return res.json(yearTimeline);
   } catch (err) {

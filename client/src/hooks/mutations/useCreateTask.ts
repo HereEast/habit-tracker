@@ -2,30 +2,33 @@ import { useMutation } from "@tanstack/react-query";
 
 import { createTask } from "~/api/tasks";
 import { queryClient } from "~/services";
-import { getDaysInMonth, getToday } from "~/utils/helpers";
+import {
+  getCurrentMonthQueryKeys,
+  getDaysInMonth,
+  getToday,
+} from "~/utils/helpers";
 import { MonthTimelineData } from "~/utils/types";
 
 export function useCreateTask() {
+  const queryKey = getCurrentMonthQueryKeys();
+
   const { mutate } = useMutation({
     mutationKey: ["tasks", "current-month"],
     mutationFn: createTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["current-month"] });
+      queryClient.invalidateQueries({ queryKey });
     },
     onMutate: async (newTask) => {
-      await queryClient.cancelQueries({ queryKey: ["current-month"] });
-      const previousData = queryClient.getQueryData(["current-month"]);
+      await queryClient.cancelQueries({ queryKey });
+      const previousData = queryClient.getQueryData(queryKey);
 
       // Optimistically update the cache
-      queryClient.setQueryData(
-        ["current-month"],
-        (oldData: MonthTimelineData) => {
-          if (!oldData) return [];
+      queryClient.setQueryData(queryKey, (oldData: MonthTimelineData) => {
+        if (!oldData) return [];
 
-          const tempData = getTempData(oldData, newTask.title);
-          return tempData;
-        },
-      );
+        const tempData = getTempData(oldData, newTask.title);
+        return tempData;
+      });
 
       return previousData;
     },

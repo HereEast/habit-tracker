@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { TaskEntries } from "./TaskEntries";
 import { Button, Input, Modal } from "../ui";
 
-import { BasicTask, IEntry } from "~/utils/types";
-import { isCurrentMonth } from "~/utils/helpers";
+import { ITask, IEntry } from "~/utils/types";
+import { cn, isCurrentMonth } from "~/utils/helpers";
 import { useUpdateTask, useDeleteTask } from "~/hooks";
 
 interface TaskListItemProps {
-  task: BasicTask;
+  task: ITask;
   entries: IEntry[];
   year: number;
   month: number;
@@ -23,6 +23,10 @@ export function TaskListItem(data: TaskListItemProps) {
 
   const { mutate: updateTitle } = useUpdateTask();
   const { mutate: deleteTask } = useDeleteTask();
+
+  useEffect(() => {
+    setValue(task?.title);
+  }, [task?.title]);
 
   // Update
   function handleUpdateTitle() {
@@ -41,14 +45,18 @@ export function TaskListItem(data: TaskListItemProps) {
 
   return (
     <>
-      <li className="flex w-full items-center gap-6">
+      <li className="h-entry flex w-full items-center gap-6">
         <div className="w-32">
           <Input
             name="task"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={handleUpdateTitle}
-            className="focus:bg-brown-50 hover:bg-brown-50 h-6 cursor-default truncate rounded-sm border-transparent px-0 focus:border-transparent focus:px-1"
+            disabled={!isCurrentMonth(year, month)}
+            className={cn(
+              "focus:bg-brown-50 h-full cursor-default truncate rounded-sm border-transparent px-0 focus:border-transparent focus:px-1",
+              isCurrentMonth(year, month) && "hover:bg-brown-50",
+            )}
           />
         </div>
 
