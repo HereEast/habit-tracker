@@ -5,7 +5,7 @@ import { queryClient } from "~/services";
 import { getToday } from "~/utils/helpers";
 import { ITaskData, MonthTimelineData } from "~/utils/types";
 
-// Forever delete (w Entries)
+// Update task title
 export function useUpdateTask() {
   const { currentMonth, currentYear } = getToday();
 

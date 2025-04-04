@@ -11,8 +11,12 @@
   --color-brown-700: #49433a;
   --color-brown-800: #33302b;
   --color-brown-900: #24211c;
+  /* --color-brown-700: #49433a;
+  --color-brown-800: #33302b;
+  --color-brown-900: #24211c; */
 
-  --size-entry: 24px;
+  --size-entry: 22px;
+  --height-entry: var(--size-entry);
 }
 
 html,

@@ -4,7 +4,6 @@ import { BASE_URL } from "~/utils/constants";
 import { getToday } from "~/utils/helpers";
 import { handleApiError } from "~/utils/helpers/api";
 import {
-  BasicTask,
   ITask,
   CreateTaskInput,
   DeleteTaskInput,
@@ -14,7 +13,7 @@ import {
 // Get user's tasks
 export async function getUserTasks(userId: string) {
   try {
-    const response: AxiosResponse<BasicTask[]> = await axios.get(
+    const response: AxiosResponse<ITask[]> = await axios.get(
       `${BASE_URL}/api/tasks/user/${userId}`,
     );
 
@@ -64,7 +63,7 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
   const method = isCurrentMonth ? "DELETE" : "PATCH";
 
   try {
-    const response: AxiosResponse<BasicTask> = await axios({
+    const response: AxiosResponse<ITask> = await axios({
       method,
       url,
       headers: { "Content-Type": "application/json" },
@@ -81,7 +80,7 @@ export async function deleteTask({ taskId, createdAt }: DeleteTaskInput) {
 // Update task (title)
 export async function updateTaskTitle({ taskId, title }: UpdateTaskInput) {
   try {
-    const response: AxiosResponse<BasicTask> = await axios.patch(
+    const response: AxiosResponse<ITask> = await axios.patch(
       `${BASE_URL}/api/tasks/${taskId}`,
       { title },
       {
