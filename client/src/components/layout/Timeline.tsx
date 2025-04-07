@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 import { Notice } from "~/components/Notice";
 import { StatusButtons } from "~/components/StatusButtons";
 import { MonthCard } from "~/components/month-card/MonthCard";
@@ -13,8 +11,6 @@ import { useAuthContext } from "~/hooks/useAuthContext";
 import { getToday } from "~/utils/helpers";
 
 export function Timeline() {
-  useNavigate();
-
   const { user } = useAuthContext();
   const { currentYear } = getToday();
 
