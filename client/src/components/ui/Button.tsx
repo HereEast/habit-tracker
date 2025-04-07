@@ -33,7 +33,7 @@ export const Button = forwardRef<
   ButtonProps
 >(({ onClick, className, ...rest }, ref) => {
   const classes = cn(
-    "group/button inline-flex items-center outline-none relative justify-center leading-none w-fit transition text-base rounded-md pb-0.5 px-5",
+    "group/button inline-flex cursor-pointer items-center outline-none relative justify-center leading-none w-fit transition text-base rounded-md pb-0.5 px-5",
     styles.variant.primary,
     styles.size.base,
     rest.size && styles.size[rest.size],
